@@ -307,17 +307,16 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <p class="eyebrow">Foundation / PLG · Release Autopilot GA</p>
 <h1>Release Autopilot onboarding for trialists and self-serve customers</h1>
 <p class="lede">Working decisions, the trialist and existing-customer journeys, the constraints, and eight scopes with Current, v0, medium, and heavy mocks on real screens. Grounded in gonfalon main (Oct 20), live catfood state, the GTM decisions doc, and three rounds of persona and fidelity crits.</p>
-<div class="meta"><span>Natalie Friedman</span><span>Draft 7 · Oct 21, 2026</span><span><a href="journey-map.html">Journey map</a></span><span>Mocks are <span class="pill dir">Potential direction</span> unless marked otherwise</span></div>
+<div class="meta"><span>Natalie Friedman</span><span>Draft 8 · Oct 21, 2026</span><span><a href="journey-map.html">Journey map</a></span><span>Mocks are <span class="pill dir">Potential direction</span> unless marked otherwise</span></div>
 
 <div class="toc">
   <a href="#decisions"><span class="n">00</span>Working decisions</a>
   <a href="#trial"><span class="n">01</span>Trialist, Day 0 to 14</a>
   <a href="#existing"><span class="n">02</span>Existing customers by role</a>
-  <a href="#nth"><span class="n">03</span>Nth engineers</a>
-  <a href="#true"><span class="n">04</span>Constraints on Nov 16</a>
-  <a href="#scopes"><span class="n">05</span>Scopes and mocks</a>
-  <a href="#asks"><span class="n">06</span>Asks and open questions</a>
-  <a href="#crit"><span class="n">07</span>What the crits changed</a>
+  <a href="#true"><span class="n">03</span>Constraints on Nov 16</a>
+  <a href="#scopes"><span class="n">04</span>Scopes and mocks</a>
+  <a href="#asks"><span class="n">05</span>Asks and open questions</a>
+  <a href="#crit"><span class="n">06</span>What the crits changed</a>
 </div>
 
 <h2 id="decisions">00 · Working decisions</h2>
@@ -358,41 +357,28 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <div class="tbl-wrap"><table>
 <thead><tr><th>Moment</th><th>Owner or Admin</th><th>Writer or Maintainer</th><th>Reader or leader</th></tr></thead>
 <tbody>
-<tr><td><strong>Hears about it</strong></td><td>Needs to <em>see what it does</em>, then the four facts: included until Feb 1 and what happens then, approval required, what their team will see. Email is the surface that reaches them; Marketing likely owns the launch email (confirm with Kellye King). In-app: the banner and a dismissible card above the flags list, both with a "See how it works" visual and a CTA to Automation settings. Mocks in S5.</td><td>Hears first, cannot flip the switches. Same banner and card, with a one-click "Ask your admin" CTA that copies the request.</td><td>Needs to know where to watch and that nothing ships without a person. Same card; CTA goes to a flag's Release tab.</td></tr>
+<tr><td><strong>Hears about it</strong></td><td>Needs to <em>see what it does</em>, then the four facts: included until Feb 1 and what happens then, approval required, what their team will see. Email is the surface that reaches them; Marketing likely owns the launch email (confirm with Kellye King). In-app: the banner and a dismissible card above the flags list, both with a "See how it works" visual and a CTA to Release autopilot settings. Mocks in S5.</td><td>Hears first, cannot flip the switches. Same banner and card, with a one-click "Ask your admin" CTA that copies the request.</td><td>Needs to know where to watch and that nothing ships without a person. Same card; CTA goes to a flag's Release tab.</td></tr>
 <tr><td><strong>Sets up</strong></td><td>Decides the repo, the switches, the release policy, and the production metric. Three decisions the product has not settled: off-switch behaviour, auth holder leaving, author of record.</td><td>Maps a repo after personal GitHub auth, once the switches are on.</td><td>Not involved.</td></tr>
-<tr><td><strong>First PR</strong></td><td colspan="2">Same as the nth engineer (section 03).</td><td>Release-started email.</td></tr>
+<tr><td><strong>First PR</strong></td><td colspan="2">Check, comment, one OAuth click, review page (scope S3).</td><td>Release-started email.</td></tr>
 <tr><td><strong>Watches</strong></td><td colspan="2">The flag's Release tab; pause is one click.</td><td>Wants one place for all releases and a coverage number with a real denominator.</td></tr>
 <tr><td><strong>Expands</strong></td><td>Which PR authors are linked; a copyable invite.</td><td>Nothing until the next PR.</td><td>Per-repo coverage and automation rate.</td></tr>
 <tr><td><strong>Feb 1 and limits</strong></td><td>Keep or drop before Feb 1 with the price at current usage.</td><td>Nothing changes.</td><td>Developer at a limit: read-only mode already stops releases.</td></tr>
 </tbody></table></div>
 
-<h2 id="nth">03 · Do nth engineers (invited users) need a separate experience?</h2>
-<p><strong>No.</strong> They need a different first contact, not a separate onboarding, for three reasons:</p>
-<ul>
-<li>They did not choose anything. A bot showed up in their pull request. Onboarding they did not ask for is noise; the PR itself has to carry the explanation.</li>
-<li>They may have no LaunchDarkly seat, and they cannot change the account-wide switches either way. There is nothing in settings for them to do, so nothing should route them there.</li>
-<li>Their whole experience is four surfaces: the check, the comment, one OAuth click, and the review page. If those say what it suggests, what approving does and under whose account, that doing nothing creates nothing, that the check does not block merge, and who approves when the author has no seat, the job is done (scope S3).</li>
-</ul>
-<p>The one in-app addition is a one-time notice on their first visit after a repo they commit to is connected. It is true that rejecting has no consequence: Reject declines the proposal and nothing is created, pushed, or scheduled.</p>
-<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Invited member · first visit after a repo they commit to is connected · one-time popover, bottom left</span></div>
-<div class="app nosb" style="min-height:190px;position:relative"><div class="main"><p style="color:var(--muted)">(page content)</p></div>
-<div class="popover diff add" style="position:absolute;left:12px;bottom:12px"><span class="x">✕</span><h3>Release Autopilot is on for acme-eng/web</h3><p style="margin:0 0 8px">Sam Rivera turned it on Nov 18. When you open a pull request there, LaunchDarkly comments with a proposed flag and release plan. Nothing is created unless a member approves. Rejecting or ignoring has no consequence. You will be asked to connect GitHub once.</p><span class="btn sm pri">See how it works</span></div></div></div>
-<p class="caption"><span class="pill dir">Potential direction</span><span class="pill med">medium</span><span class="own fnd">Foundation</span>The one-time popover system (keyed per member, Shown and CTA Clicked events). The CTA opens the walkthrough (S7); there is no route to settings. Dependencies: the popover reading connected repos and the admin's name and date, which it cannot do today; otherwise the copy is generic ("an admin turned it on").</p>
-
-<h2 id="true">04 · Constraints on Nov 16</h2>
+<h2 id="true">03 · Constraints on Nov 16</h2>
 <ul>
 <li><strong>No plan check in code.</strong> Access is six dogfood flags targeted at five design-partner accounts; GA for self-serve is a targeting change. The beta promo banner targets Enterprise and Guardian plan types only.</li>
 <li><strong>Prerequisites the product cannot remove.</strong>
 <ul class="sub"><li>GitHub only. Org-level install, so a GitHub org admin. Private repos only.</li><li>One LD account per install; one project per repo.</li><li>Every PR author authorizes GitHub once.</li><li>A release policy per project, or "Policy needed" and the rollout retries for three weeks then expires.</li><li>A metric for any automatic pause; there are no auto-metrics.</li><li>Environments start when deployed code evaluates the flag; the webhook trigger is API-only.</li><li>GenAI terms accepted or BYOK for the agent.</li></ul></li>
 <li><strong>What approve does.</strong> One commit under the approving member's GitHub connection; the flag under their LD permission; the release scheduled; LD approval workflows bypassed at GA. Approval required is on by default and not changeable in the UI. Bot authorship with the member as co-author is an ask, not built.</li>
-<li><strong>GitHub is not required for the core.</strong> The flag's Release tab can create and start a release, pause, and resume. For a trialist today the Create dialog has no Create button (the default release configuration is a Release Engineering dogfood flag whose only live variation is "CATFOOD ONLY"), and without GenAI opt-in no footer at all. Nothing seeds a release policy. Trial projects have Test and Production.</li>
+<li><strong>GitHub is not required for the core.</strong> The flag's Release tab can create and start a release, pause, and resume. For a trialist today the Create dialog has no Create button, only "Customize with Vega" (the default release configuration is a Release Engineering dogfood flag whose only live variation is "CATFOOD ONLY"). Trialists are opted into GenAI by default. Nothing seeds a release policy. Trial projects have Test and Production.</li>
 <li><strong>The real screens.</strong>
 <ul class="sub">
 <li>Home is the product roadmap only (sim hero removed Oct 13): heading, four picker tiles, a numbered lane, a learning pane. All hardcoded data in a Foundation-owned package.</li>
 <li>Welcome survey: the first-action question is a five-option toggle group whose value preselects the Home lane. "Guarded release" is already a UI-only value.</li>
 <li>Flags list: five seeded example flags for trials, and a banner slot above the list where "SDK not connected" renders today.</li>
 <li>The "announcement banner" package is the customer admin's own tool. Our channels are the one-time popover (catalog empty, flag off, Shown and CTA Clicked events) and the promo banner variants in the top banner stack.</li>
-<li>Automation settings exists at /settings/release-autopilot behind enable-factory-settings. Three ways in, all behind the flag: settings rail (Configuration group), legacy settings nav, a link in the GitHub App drawer. "Map projects to repositories" is that page's installed state, not a separate page.</li>
+<li>Release autopilot settings exists at /settings/release-autopilot behind enable-factory-settings. Three ways in, all behind the flag: settings rail (Configuration group), legacy settings nav, a link in the GitHub App drawer. "Map projects to repositories" is that page's installed state, not a separate page.</li>
 <li>The flag's Release tab, its Create release dialog, and the "Flag releases" dashboard exist behind flags; the dashboard still reads a mock API.</li>
 </ul></li>
 <li><strong>Billing has no percentage construct.</strong>
@@ -402,7 +388,7 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <li><strong>Foundation's box.</strong> Audit log yes (account-level entries 30 days, environment-level unlimited); approvals and custom roles no.</li>
 </ul>
 
-<h2 id="scopes">05 · Scopes and mocks</h2>
+<h2 id="scopes">04 · Scopes and mocks</h2>
 <p>Eight scopes. Each states the problem or opportunity and how critical it is for Nov 16, then shows the <strong>Current</strong> screen from real strings, the <strong>v0</strong> (an edit to that screen, outlined as <span class="diff" style="display:inline-block;padding:0 6px;font-size:12px">change</span>, shippable by Nov 16), and <strong>medium</strong> (Dec to Jan) and <strong>heavy</strong> (Q1) only where v0 does not finish the job. Every Feb 1 sentence assumes the default-off decision in section 00. Mocks are <span class="pill dir">Potential direction</span>; Current frames are facts. Every change carries a proposed owner:</p>
 <div class="ownkey"><span><span class="own fnd">Foundation</span>our team, self-serve surfaces</span><span><span class="own emsr">Autopilot team</span>EMSR, gonfalon Autopilot code and flags</span><span><span class="own vega">Agent service</span>Vega, the GitHub-side bot</span><span><span class="own bill">Billing</span>catalog, Orb, plans</span><span><span class="own mkt">Marketing</span>launch email and web</span><span><span class="own legal">Legal</span>data-flow and terms wording</span></div>
 <h3 id="s1">S1 · Discovery: Home and the welcome survey</h3>
@@ -425,7 +411,7 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <p class="caption"><span class="pill fact">Current</span>Both screens are flag-gated to trials (enable-welcome-form, enable-new-home-page-experiment).</p>
 </div>
 <div class="size-panel" data-screen="s1" data-size="v0" hidden>
-<p class="desc">In the order a trialist meets them. First the survey: a sixth option with a New tag and a hover tooltip that says what it is (LaunchPad Tooltip on the toggle). Then Home: a hero above the roadmap in the shape of the hero that was there until Oct 13 (neutral alert, copy left, visual right, one primary CTA), plus the fifth tile and its lane. The hero CTA goes to Automation settings, which exists; the secondary goes to the sample flag.</p>
+<p class="desc">In the order a trialist meets them. First the survey: a sixth option with a New tag and a hover tooltip that says what it is (LaunchPad Tooltip on the toggle). Then Home: a hero above the roadmap in the shape of the hero that was there until Oct 13 (neutral alert, copy left, visual right, one primary CTA), plus the fifth tile and its lane. The hero CTA goes to Release autopilot settings, which exists; the secondary goes to the sample flag.</p>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/welcome · hovering the new option</span></div>
 <div class="app nosb"><div class="main" style="max-width:560px;margin:0 auto;padding-top:70px"><p style="font-weight:600">What do you want to set up first?</p><div class="row" style="gap:6px"><span class="btn sm">Guarded release</span><span class="btn sm">Feature flag</span><span class="btn sm">Experiment</span><span class="btn sm">AgentControl</span><span class="btn sm">Observability</span><span class="tip"><span class="btn sm pri diff add">Release Autopilot <span class="tag" style="background:var(--good-soft);color:var(--good);border:0;font-size:9px;margin-left:4px">New</span></span><span class="bubble">A proposed flag and release plan on every pull request. A member approves; LaunchDarkly runs the release after merge. Included in your trial.</span></span></div><div style="margin-top:18px"><span class="btn pri">Get started →</span></div></div></div></div>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/default/home?from=welcome&amp;firstAction=autopilot</span></div>
@@ -500,14 +486,14 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <p class="caption"><span class="pill dir">Potential direction</span><span class="pill heavy">heavy</span><span class="own fnd">Foundation</span><span class="own emsr">Autopilot team</span>Sample app evaluations (the SDK trial sample app pattern) and the settings skill from ai-tooling. Owner: Foundation with the Autopilot team.</p>
 </div>
 
-<!-- ===== S2 CURRENT: Automation settings + drawer as built ===== -->
+<!-- ===== S2 CURRENT: Release autopilot settings + drawer as built ===== -->
 
 
-<h3 id="s2">S2 · Setup: Automation settings and the GitHub App drawer</h3>
+<h3 id="s2">S2 · Setup: Release autopilot settings and the GitHub App</h3>
 <div class="scope-meta"><div><b>Problem or opportunity</b><p>The only setup surface is three clicks deep behind a flag no trial has, says "Factory" in four strings, names no prerequisites before the button, and says nothing about where diffs go or whose name lands on commits. Every GitHub-dependent capability starts here.</p></div><div><b>How critical for Nov 16</b><p><span class="pill gap">Critical</span> Blocks auto-flag and cleanup for everyone; the first admin's decisions happen here.</p></div></div>
 <div class="sizes" role="tablist" data-screen="s2"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0</button><button role="tab" aria-selected="false" data-size="med">Medium</button><button role="tab" aria-selected="false" data-size="heavy">Heavy</button></div>
 <div class="size-panel" data-screen="s2" data-size="cur">
-<p class="desc">Is "Map projects to repositories" a new page? No. It is the installed state of the existing Automation settings page at /settings/release-autopilot: the not-connected empty state (first frame) becomes the mapping table once the GitHub App is installed, and a member who has not personally authorized GitHub sees the sign-in state (second frame) instead of the table. The page exists for five design-partner accounts. Three ways in, all behind the same flag: the settings rail item under Configuration, the legacy settings nav item, and a link in the GitHub App drawer. Proposed changes are copy and small additions to this page, not a new one: prerequisites and data flow before the button, the approval statement, the string pass, and in medium a status strip and "Start here."</p>
+<p class="desc">Is "Map projects to repositories" a new page? No. It is the installed state of the existing Release autopilot settings page at /settings/release-autopilot: the not-connected empty state (first frame) becomes the mapping table once the GitHub App is installed, and a member who has not personally authorized GitHub sees the sign-in state (second frame) instead of the table. The page exists for five design-partner accounts. Three ways in, all behind the same flag: the settings rail item under Configuration, the legacy settings nav item, and a link in the GitHub App drawer. Proposed changes are copy and small additions to this page, not a new one: prerequisites and data flow before the button, the approval statement, the string pass, and in medium a status strip and "Start here."</p>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot · today, GitHub App not installed</span></div>
 <div class="app"><div class="sb"><div class="sec">Configuration</div><a>Applications</a><a>Relay Proxy</a><a class="on">Release autopilot</a><a>SDKs</a><div class="sec">Security</div><a>Authorization</a><a>Security</a></div>
 <div class="main"><h1 style="font-size:17px">Release autopilot settings</h1>
@@ -531,10 +517,10 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <!-- ===== S4 CURRENT: Release tab today for a trialist ===== -->
 
 <div class="size-panel" data-screen="s2" data-size="v0" hidden>
-<p class="desc">The real not-connected empty state on /settings/release-autopilot (plug badge, heading, body, docs link, primary button) with its copy changed: prerequisites and data flow before the button, the approvals and attribution sentence, the real primary CTA to the GitHub App drawer, the placeholder docs link fixed, and the remaining "Factory" strings replaced per the naming page.</p>
+<p class="desc">The real not-connected empty state on /settings/release-autopilot with its copy changed and the GitHub App's two connect steps (install, then personally authorize) brought onto this page instead of sending people to the Integrations drawer. Prerequisites and data flow come before the buttons; the approvals and attribution sentence sits under them; the placeholder docs link is fixed; the remaining "Factory" strings become "Release Autopilot." The page keeps its current name.</p>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot</span></div>
-<div class="app"><div class="sb"><div class="sec">Configuration</div><a>Applications</a><a>Relay Proxy</a><a class="on diff">Automation settings</a><a>SDKs</a><div class="sec">Security</div><a>Authorization</a><a>Security</a></div>
-<div class="main"><h1 style="font-size:17px">Automation settings</h1>
+<div class="app"><div class="sb"><div class="sec">Configuration</div><a>Applications</a><a>Relay Proxy</a><a class="on">Release autopilot</a><a>SDKs</a><div class="sec">Security</div><a>Authorization</a><a>Security</a></div>
+<div class="main"><h1 style="font-size:17px">Release autopilot settings</h1>
 <div class="empty" style="margin-top:14px"><span class="callout-ic">⇄</span><h3>Connect the GitHub App to get started</h3>
 <div class="diff" style="text-align:left;max-width:540px;margin:8px auto 12px;font-size:12.5px;padding:8px">
 <p style="margin:0 0 6px">Release Autopilot proposes a feature flag and a release plan on every pull request. A member approves on the PR; LaunchDarkly runs the release after merge. Before you start, you will need:</p>
@@ -544,16 +530,17 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <div class="row" style="padding:3px 0;align-items:flex-start"><span class="tag">4</span><span>AI terms accepted, or your own model key. Pull request diffs are read by [provider and model]; [retention]. Bring your own key to keep them with your provider.</span></div>
 </div>
 <p style="font-size:12px"><a>Read about Release Autopilot</a></p>
-<div class="row" style="justify-content:center"><span class="btn pri">Go to GitHub App integration</span><span class="btn diff add">I am not the GitHub admin</span></div>
+<div class="diff add" style="max-width:540px;margin:0 auto 12px;text-align:left;padding:8px"><div class="row between" style="padding:8px 0;border-bottom:1px solid var(--line)"><div><b>GitHub App installed</b><div style="font-size:12px;color:var(--muted)">Install the app for your LaunchDarkly account. Needs a GitHub organization admin.</div></div><div class="row"><span class="tag">Not connected</span><span class="btn sm pri">Install GitHub App ↗</span></div></div><div class="row between" style="padding:8px 0"><div><b>Your GitHub account linked</b><div style="font-size:12px;color:var(--muted)">Available once the GitHub App is installed. Every PR author does this once.</div></div><span class="tag">Not connected</span></div></div>
+<div class="row" style="justify-content:center"><span class="btn diff add">I am not the GitHub admin</span></div>
 <p class="diff" style="margin:14px auto 0;font-size:12px;color:var(--muted);max-width:60ch;padding:6px">Approval is required on every pull request. Commits are pushed under the approving member's GitHub account and can be reverted. Release Autopilot does not use your LaunchDarkly approval workflows at launch. Every flag it creates and release it starts is in the audit log under that member.</p>
 </div></div></div></div>
-<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own emsr">Autopilot team</span><span class="own fnd">Foundation</span><span class="own legal">Legal</span>The real empty state's body is a single paragraph, so the four-item list is a small component change, not copy alone. The string pass must also cover the second empty state every member sees after the App is installed ("Sign in with GitHub to manage Factory settings" and its body), the error heading, the load error, and the rail label. The bracketed model and retention words are the sentence Sam will not install without; legal and the Vega team fill them. Owner: Autopilot team's component; Foundation supplies copy. "I am not the GitHub admin" opens the copyable message shown in Medium and can be a link at v0.</p>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own emsr">Autopilot team</span><span class="own fnd">Foundation</span><span class="own legal">Legal</span>The real empty state's body is a single paragraph, so the list and the inline connect steps are a small component change (the steps already exist in the GitHub App drawer; this reuses them here). The string pass must also cover the second empty state every member sees after the App is installed ("Sign in with GitHub to manage Factory settings" and its body), the error heading, and the load error. The bracketed model and retention words are the sentence Sam will not install without; legal and the Vega team fill them. Owner: Autopilot team's component; Foundation supplies copy. "I am not the GitHub admin" opens the copyable message shown in Medium and can be a link at v0.</p>
 </div>
 
 <div class="size-panel" data-screen="s2" data-size="med" hidden>
 <p class="desc">The page keeps its real body (the pinned Account-wide row and the project-to-repo table with switches) and gains a status strip, a "Start here" recommendation on the capability a fresh account should turn on first, a "PR authors linked" count per repo, and a read-only hand-off for Writers.</p>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot</span></div>
-<div class="app nosb"><div class="main"><h1 style="font-size:17px">Automation settings</h1>
+<div class="app nosb"><div class="main"><h1 style="font-size:17px">Release autopilot settings</h1>
 <div class="row diff" style="gap:6px;margin:6px 0 12px;padding:4px"><span class="tag good">GitHub App installed · acme-eng</span><span class="tag good">Your GitHub linked</span><span class="tag acc">Approval required on every pull request</span><a style="font-size:12px">What this means</a></div>
 <h2>Map projects to repositories</h2><p>A project's automations run only on the repositories mapped to it here.</p>
 <table class="table">
@@ -566,7 +553,7 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <div class="row between" style="margin-top:12px"><span style="font-size:12px;color:var(--muted)">All changes saved</span><div class="row"><span class="btn sm">Discard changes</span><span class="btn sm pri">Save changes</span></div></div>
 </div></div></div>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot  (Writer role)</span></div>
-<div class="app nosb"><div class="main"><h1 style="font-size:17px">Automation settings</h1>
+<div class="app nosb"><div class="main"><h1 style="font-size:17px">Release autopilot settings</h1>
 <div class="card soft diff add"><h3>Your admin turns on the account-wide switches</h3><p>An Owner or Admin turns on the account-wide switches and installs the GitHub App. Send them this.</p>
 <div class="copy">Hi Sam, can you turn on Release Autopilot for us? It is included in our Foundation plan at no charge until Feb 1, 2027. Setup: app.launchdarkly.com/settings/release-autopilot. It needs the LaunchDarkly GitHub App on the acme-eng org and the account-wide switches on; I can map the "web" repo myself once that is done. Approval is required on every PR, so a person approves every flag before anything is created.</div>
 <div class="row" style="margin-top:8px"><span class="btn sm pri">Copy message</span></div></div>
@@ -577,7 +564,7 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <div class="size-panel" data-screen="s2" data-size="heavy" hidden>
 <p class="desc">Team rollout and attribution: a linked-authors table with a copyable invite, bot-authored commits with the approver as co-author, and the trust ladder as a January row once the agent can honour it.</p>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot</span></div>
-<div class="app nosb"><div class="main"><h1 style="font-size:17px">Automation settings</h1>
+<div class="app nosb"><div class="main"><h1 style="font-size:17px">Release autopilot settings</h1>
 <div class="steps">
 <div class="step done"><span class="n">✓</span><div><div class="t">GitHub connected · 2 repositories · Approval required on every pull request</div></div></div>
 <div class="step cur"><span class="n">○</span><div><div class="t">Bring your team along</div><div class="d">11 people opened pull requests on connected repos in the last 30 days. 3 have linked GitHub. Unlinked authors see the proposal but cannot approve.</div>
@@ -661,17 +648,14 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 
 <h3 id="s4">S4 · The flag's Release tab: GitHub-free Day 0 and the watching surface</h3>
 <div class="scope-meta"><div><b>Problem or opportunity</b><p>The only part of Release Autopilot that works without GitHub, and the only honest place to watch a release at GA, is a dead end for every self-serve account today: no Create button, no footer, nothing seeded.</p></div><div><b>How critical for Nov 16</b><p><span class="pill dir">High</span> Makes Day 0 possible without an org admin; four small flags plus a seed.</p></div></div>
-<div class="sizes" role="tablist" data-screen="s4"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0</button><button role="tab" aria-selected="false" data-size="med">Medium</button><button role="tab" aria-selected="false" data-size="heavy">Heavy</button></div>
+<div class="sizes" role="tablist" data-screen="s4"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="flow">Day 0 flow</button><button role="tab" aria-selected="false" data-size="v0">v0</button><button role="tab" aria-selected="false" data-size="med">Medium</button><button role="tab" aria-selected="false" data-size="heavy">Heavy</button></div>
 <div class="size-panel" data-screen="s4" data-size="cur">
-<p class="desc">Three states, all real strings. The empty state; the dialog after clicking Create release as a trialist today (a warning and no buttons); and the same dialog on a design-partner account where the default configuration exists, so the v0 changes can be read against it.</p>
+<p class="desc">Two states, all real strings: the empty state, and the dialog after clicking Create release on a design-partner account where the default configuration exists, so the v0 changes can be read against it. What a trialist gets today, step by step, is the Day 0 flow tab.</p>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/default/flags/ld-example-release-new-search/overview · today, Release tab</span></div>
 <div class="app nosb"><div class="main"><div class="row" style="gap:14px;font-size:12.5px;border-bottom:1px solid var(--line);padding-bottom:6px"><span>Targeting</span><span style="font-weight:600;color:var(--accent-ink)">Release</span><span>Variations</span><span>Monitoring</span></div>
 <div class="empty" style="margin-top:14px"><span class="callout-ic">🚀</span><h3>Create a release for this flag</h3><p>LaunchDarkly rolls this flag out across each environment automatically.</p><span class="btn pri">Create release</span></div></div></div></div>
 <ul class="probs"><li>One sentence, no picture. Does not say which environments, in what order, what starts each one, or what "automatically" means.</li><li>Does not say what will not happen (nothing changes until a release starts) or how to stop it (pause).</li><li>No safety statement: no metric means no automatic pause.</li><li>For a sample flag, nothing says it is safe to try.</li></ul>
-<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">After clicking Create release · trialist today</span></div>
-<div class="app nosb" style="background:var(--surface-2)"><div class="main" style="max-width:520px;margin:0 auto"><div class="card"><div class="row between"><h3 style="margin:0">Create flag release</h3><span class="x">✕</span></div><p>LaunchDarkly releases this flag to the environments listed below in order, following each environment's release policy.</p><div class="card soft" style="border-color:var(--warn)"><span class="tag warn">Warning</span> There isn't a default release configuration for this project yet, so there's no suggested release. Customize with Vega to set one up.</div><p style="font-size:12px;color:var(--muted);margin-top:10px">(no footer: Create is hidden without the configuration; the Vega button is hidden without GenAI opt-in)</p></div></div></div></div>
-<ul class="probs"><li>Dead end. No Create button, and without GenAI opt-in no buttons at all.</li><li>The warning tells a trialist to "customize with Vega," a button they cannot see.</li><li>The configuration it wants is a Release Engineering dogfood flag whose only live variation is "CATFOOD ONLY."</li></ul>
-<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">After clicking Create release · design-partner account today (configuration on, GenAI on)</span></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">After clicking Create release · design-partner account today (default configuration on)</span></div>
 <div class="app nosb" style="background:var(--surface-2)"><div class="main" style="max-width:520px;margin:0 auto"><div class="card"><div class="row between"><h3 style="margin:0">Create flag release</h3><span class="x">✕</span></div><p>LaunchDarkly releases this flag to the environments listed below in order, following each environment's release policy.</p>
 <div class="card soft" style="border-color:var(--warn)"><span class="tag warn">Warning</span> This release starts automatically when LaunchDarkly detects evaluations of this flag, whether or not your code is ready to release.</div>
 <ol style="padding-left:18px;font-size:12.5px"><li style="margin:6px 0"><b>Test</b><br><span style="color:var(--muted)">Follows release policy</span></li><li style="margin:6px 0"><b>Production</b><br><span style="color:var(--muted)">Progressive · 10→50→100%</span></li></ol>
@@ -681,6 +665,30 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <p class="caption"><span class="pill fact">Current</span>Real strings; tab, dialog, and trigger select are gated to design partners.</p>
 </div>
 
+<div class="size-panel" data-screen="s4" data-size="flow" hidden>
+<p class="desc">What actually happens, click by click, if a trialist tries to create a release on the sample flag today, with GenAI on by default. Each step shows the natural outcome and where it dead-ends. Then what has to be set up for the flow to finish, and why the screenshot shows every environment as "Not ready."</p>
+<div class="steps">
+<div class="step done"><span class="n">1</span><div><div class="t">Flags list → LD Example Flag: New Search Release → Release tab</div><div class="d">Works only if enable-flag-overview is on for the account. Today it is on for five design-partner accounts. <span class="tag bad">Dead end for trials until targeted</span></div></div></div>
+<div class="step done"><span class="n">2</span><div><div class="t">Empty state: "Create a release for this flag" → Create release</div><div class="d">Real. One sentence, one button.</div></div></div>
+<div class="step cur"><span class="n">3</span><div><div class="t">Dialog: warning, and only "Customize with Vega"</div><div class="d">The project has no default release configuration (a Release Engineering dogfood JSON flag; only live variation is "CATFOOD ONLY"), so the Create button is hidden. With GenAI on, the single button opens a Vega conversation seeded with "Set up an automated rollout for the flag." Vega then asks about environments and policy. For a first-time trialist that is a chat, not a click. <span class="tag bad">Dead end A: no Create button</span> <span class="tag warn">Detour: Vega conversation</span></div></div></div>
+<div class="step"><span class="n">4</span><div><div class="t">If a trial variation of the configuration existed: dialog lists Test and Production, "Follows release policy," flag-evaluation warning → Create release → "Release created"</div><div class="d">No release policy exists on a trial project, so each row reads "Follows release policy," which later resolves to "Policy needed." The warning says the release starts "when LaunchDarkly detects evaluations of this flag, whether or not your code is ready," with no alternative visible unless enable-manual-release-triggers is on. <span class="tag warn">Misleading summary</span></div></div></div>
+<div class="step"><span class="n">5</span><div><div class="t">Release tab: "No PR found" card, every environment "Not ready" (the screenshot)</div><div class="d">Every config is created with PR state "pending." The scheduler claims only active configs whose PR state is "merged," which is stamped by the GitHub App's merge event. A release created from the Release tab has no PR, so it is never claimed. Nothing will ever happen, and the UI says "Not ready" with no reason. <span class="tag bad">Dead end B: never scheduled</span></div></div></div>
+<div class="step"><span class="n">6</span><div><div class="t">If the scheduler did pick it up: Test waits on flag evaluations</div><div class="d">The trigger reads an hourly feature-monitoring view, so even a real evaluation can lag up to an hour. Nothing evaluates the sample flag, so it waits three weeks, then the tab shows "This flag release expired after 3 weeks without completing." <span class="tag bad">Dead end C: never triggered, then expired</span></div></div></div>
+<div class="step"><span class="n">7</span><div><div class="t">If the trigger fired: the releaser needs a policy for that environment</div><div class="d">"no release policy configured for environment test; will retry on next tick," forever. Nothing seeds a policy on trial projects, and the catfood default policy itself is incomplete (no stages). <span class="tag bad">Dead end D: Policy needed</span></div></div></div>
+<div class="step"><span class="n">8</span><div><div class="t">With everything in place: Test releases in minutes-long steps, Production starts after Test completes, both "Completed"</div><div class="d">Code cleanup stays "Not ready" until the flag has no targeting changes for 14 days and serves one variation; Flag archival is a button. That is the natural end of Day 0. <span class="tag good">Target outcome</span></div></div></div>
+</div>
+<div class="note warn"><p><strong>Why the screenshot shows "Not ready" on every row.</strong> "Not ready" is the tag for an environment whose automation status is still "pending" and has no release. For a release created from the Release tab, two things keep it pending for good: the scheduler only processes configs marked PR "merged," and this one has no PR ("No PR found"); and even if it were processed, each environment's default trigger is flag evaluations, which an unevaluated flag never produces. On catfood the default "All Other Environments" policy also has no stages, so Development would retry on "no release policy configured" even after a trigger. Expanding a row shows the trigger line ("Waiting on flag evaluations to start release") but not the scheduling gate, which is invisible in the UI.</p>
+<p><strong>What fixes it.</strong> Product: treat configs created without a PR as eligible for scheduling (stamp them "merged" at creation, or drop the gate for no-PR configs). Then, for the sample flag: preset Test to a manual trigger and Production to after-previous (enable-manual-release-triggers plus the releases-service migration at Live, since manual and promotion environments are released only by the releases service), seed a progressive policy with stages for Test and Production, and provide a default-release-configuration variation for trial projects so the Create button appears. For a real flag, evaluate it in the environment or use the manual trigger.</p></div>
+<div class="tbl-wrap"><table><thead><tr><th>Must be set up for Day 0 to finish</th><th>Owner</th><th>Today</th></tr></thead><tbody>
+<tr><td>enable-flag-overview on for trial and self-serve accounts</td><td><span class="own emsr">Autopilot team</span></td><td>Five design-partner accounts</td></tr>
+<tr><td>default-release-configuration variation for trial projects (Test, Production, sequential)</td><td><span class="own emsr">Autopilot team</span> with Release Engineering</td><td>Only "CATFOOD ONLY"</td></tr>
+<tr><td>No-PR release configs eligible for scheduling</td><td><span class="own emsr">Autopilot team</span></td><td>Scheduler claims merged configs only; code change</td></tr>
+<tr><td>enable-manual-release-triggers and releases-service at Live for trial accounts</td><td><span class="own emsr">Autopilot team</span></td><td>Off; manual and promotion environments return "not yet available for this account"</td></tr>
+<tr><td>Seeded progressive release policy with minutes-long steps</td><td><span class="own fnd">Foundation</span> in the Go trial seeder</td><td>Nothing seeds a policy</td></tr>
+<tr><td>GenAI on by default for trials</td><td><span class="own fnd">Foundation</span></td><td>Per Natalie, default for trialists</td></tr>
+</tbody></table></div>
+<p class="caption"><span class="pill fact">Current behaviour, code-verified</span>create_config.go sets PR state "pending"; the store's claim query comments "Only active configs whose PR has been marked merged are claimed"; flag_releaser returns "no release policy configured… will retry on next tick"; the dialog hides Create when the configuration is off; manual and promotion environments are held for the releases service.</p>
+</div>
 <div class="size-panel" data-screen="s4" data-size="v0" hidden>
 <p class="desc">Same two screens with the changes outlined and numbered. The empty state becomes a small visual of the release it will create (the two environments as a strip, each with its trigger and shape) above the one real button. The dialog keeps its real structure; what changes is the trigger per environment, the policy it reads, one added paragraph, and the fact that the Create button appears at all.</p>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Release tab · empty state · v0</span></div>
@@ -699,7 +707,7 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <li><strong>Policy summary reads a seeded policy.</strong> Today it would read "Follows release policy" and then hold the environment as "Policy needed," because nothing seeds a policy. The seed goes in the Go trial seeder next to the sample flags, with minutes-long steps so the sample finishes in a session.</li>
 <li><strong>One added paragraph.</strong> Blast radius of the first step, that pause holds and does not roll back, that no metric means no automatic pause. The dialog has no safety statement today.</li>
 <li><strong>The Create button exists.</strong> Today it is hidden because the project has no default release configuration. Needs a default-release-configuration variation for trial projects (Test, then Production, sequential).</li>
-</ol><p style="margin-top:8px">Not changed: the title, subtitle, environment list structure, the footer, the "one at a time" notice, and the Customize with Vega button (still hidden without GenAI opt-in).</p></div>
+</ol><p style="margin-top:8px">Not changed: the title, subtitle, environment list structure, the footer, the "one at a time" notice, and the Customize with Vega button.</p></div>
 <div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">After Create release · the real Release tab with the release pending</span></div>
 <div class="app nosb"><div class="main"><div class="row between"><h3 style="margin:0">Flag release</h3><span class="btn sm">Pause auto-release</span></div><div class="row between" style="margin-top:8px;font-size:12.5px"><span>▸ <b>Test</b> · Waiting on a manual start</span><span class="btn sm pri">▶ Start release</span></div><div style="margin-top:6px;font-size:12.5px">▸ <b>Production</b> · <span class="tag">Not ready</span> Waiting on the previous environment to complete</div><div style="margin-top:6px;font-size:12.5px">▸ Code cleanup <span class="tag">Not ready</span> · ▸ Flag archival <span class="tag">Not ready</span></div></div></div></div>
 <p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own emsr">Autopilot team</span><span class="own fnd">Foundation</span>Empty-state visual and the added paragraph are copy and one small component; the four dialog changes are flags and a seed. Autopilot team: enable-flag-overview, enable-manual-release-triggers, the default-release-configuration variation, releases-service Live, the dialog paragraph. Foundation: the policy seed in the Go trial seeder and routing the Home card to this flag. A trial project's environments are Test and Production.</p>
@@ -912,17 +920,17 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <h3 id="s8">S8 · Developer plan at a limit</h3>
 <div class="scope-meta"><div><b>Problem or opportunity</b><p>Developer includes Release Autopilot within 5 connections and 1K MAU, but the Autopilot-specific cap is a new limit type nobody owns. The platform's read-only mode already stops releases and policies when the platform caps are hit, so the honest v0 is one clause on the existing banner, held until the cap exists.</p></div><div><b>How critical for Nov 16</b><p><span class="pill fact">Low</span> Blocked on eng; the existing read-only mode covers the risk.</p></div></div>
 <div class="sizes" role="tablist" data-screen="s8"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0 (held)</button></div>
-<div class="size-panel" data-screen="s8" data-size="cur"><div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Developer account at a platform limit · sidebar footer · PlanUsageBanner today</span></div><div class="banner" style="background:var(--warn-soft)"><b>Account is read-only</b> of 5 Service connections, monthly usage limit reached (resets next month). <span class="btn sm pri">Upgrade to unlock</span><span class="btn sm ghost">Review usage</span></div></div><p class="caption"><span class="pill fact">Current</span>Real strings. Selective read-only already blocks flag, release, and policy changes; Automation settings are account-kind and stay editable.</p></div>
+<div class="size-panel" data-screen="s8" data-size="cur"><div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Developer account at a platform limit · sidebar footer · PlanUsageBanner today</span></div><div class="banner" style="background:var(--warn-soft)"><b>Account is read-only</b> of 5 Service connections, monthly usage limit reached (resets next month). <span class="btn sm pri">Upgrade to unlock</span><span class="btn sm ghost">Review usage</span></div></div><p class="caption"><span class="pill fact">Current</span>Real strings. Selective read-only already blocks flag, release, and policy changes; Release autopilot settings are account-kind and stay editable.</p></div>
 <div class="size-panel" data-screen="s8" data-size="v0" hidden><div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Same banner with one clause, when the Autopilot cap exists</span></div><div class="banner" style="background:var(--warn-soft)"><b>Account is read-only</b> of 5 Service connections, monthly usage limit reached (resets next month). <span class="diff add" style="padding:0 4px">Release Autopilot proposals pause too; existing flags keep working.</span> <span class="btn sm pri">Upgrade to unlock</span><span class="btn sm ghost">Review usage</span></div></div><p class="caption"><span class="pill gap">Blocked on eng</span><span class="own bill">Billing</span><span class="own fnd">Foundation</span>The banner takes no such prop today. Hold until the cap is built.</p></div>
 
 
-<h2 id="asks">06 · Asks and open questions</h2>
+<h2 id="asks">05 · Asks and open questions</h2>
 <h4>Foundation can ship alone for Nov 16</h4>
 <ol>
 <li>Home hero (PosterSimHero shape), fifth tile and lane, flag-level CTA route; survey option with a New tag.</li>
 <li>One-time popover entry (role-aware CTA in the component), trial promo banner variant, plain-text email to Owners and Admins on launch day.</li>
 <li>Plan card bullets with popover text in the catalog yaml.</li>
-<li>Settings empty-state copy and the naming-page string pass, as a PR to the Autopilot team's components; docs link once DOCS-4436 publishes.</li>
+<li>Settings empty-state copy, the inline GitHub connect steps, and the Factory-to-Release-Autopilot string pass, as a PR to the Autopilot team's components; docs link once DOCS-4436 publishes.</li>
 <li>Release policy seed with minutes-long steps in the Go trial seeder, next to the sample flags.</li>
 <li>Instrumentation with planType: hero and tile clicks, popover shown and clicked, settings reached, release created from the sample flag.</li>
 </ol>
@@ -930,6 +938,7 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <ol>
 <li>Target the six flags to the trial and self-serve segments.</li>
 <li>A default-release-configuration variation for trial projects (Test on manual start, Production after previous) and the releases-service migration at Live for those accounts.</li>
+<li>Make release configs created without a PR eligible for scheduling. Today every config is created PR "pending" and the scheduler claims only PR "merged," so a Release-tab release shows "Not ready" forever.</li>
 <li>One sentence under the review page title; confirm edited name, key, and maintainer are sent on approve.</li>
 <li>Release tab: the sample-flag paragraph and the guardrail sentence.</li>
 <li>Settings tracking adds planType; release-start notifier emits an analytics event.</li>
@@ -945,14 +954,14 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <ul>
 <li>Feb 1 default and the date we start telling existing customers (section 00).</li>
 <li>Price display before January, and whether Billing accepts two half-rate limit types metered on the same quantities as connections and MAU.</li>
-<li>Who owns the default-release-configuration variation and the policy seed; without both, Day 0 has no Create button.</li>
+<li>Who owns the default-release-configuration variation, the no-PR scheduling fix, and the policy seed; without all three, Day 0 either has no Create button or ends in "Not ready" forever.</li>
 <li>The Guardian card on the trial Plans picker after Nov 16.</li>
 <li>Model and retention sentence, cleared by legal and the Vega team.</li>
 <li>When the GitHub auth holder leaves; branch protection and required reviewers; what the account-wide off switch does to running releases.</li>
 <li>Developer cap owner.</li>
 </ul>
 
-<h2 id="crit">07 · What the crits changed</h2>
+<h2 id="crit">06 · What the crits changed</h2>
 <p>Three personas (a fintech senior engineer as the nth engineer, a VP Engineering at a two-year Foundation customer, and a LaunchDarkly designer paired with the Autopilot eng lead verifying against gonfalon) reviewed three drafts. The changes that survived:</p>
 <ul>
 <li>The three-rung trust ladder is gone; approvalRequired exists only on Auto-flag and is on by default. Two switches plus a statement.</li>
@@ -962,6 +971,7 @@ td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
 <li>Invented numbers and promises removed. Trial environments are Test and Production. Foundation has the audit log (30-day account-level window). Writers with GitHub auth can map repos.</li>
 <li>Billing is drawn in the only shape the catalog carries: the bundle selector as the opt-in pattern and the inclusions block as the "free until" slot.</li>
 <li>Every v0 is an edit to a real screen with the change outlined, and every scope shows Current first, with its problems listed under each frame.</li>
+<li>Draft 8: section on nth engineers removed (the PR experience stays as scope S3); settings keeps its current name and the GitHub connect steps move onto the page; S4 gains a Day 0 flow with the dead ends, including the no-PR scheduling gate behind the all-"Not ready" screenshot.</li>
 <li>Draft 7: survey before Home with a hover tooltip; an alternate left-to-right hero; role-specific banner and flags-list card for existing customers; the nth-engineer notice mocked in section 04; "Map projects to repositories" clarified as the installed state of the existing settings page.</li>
 </ul>
 </div>
