@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta charset="utf-8">
+<title>Release Autopilot Journey Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--ground:#f7f7fa;--surface:#fff;--ink:#1a1d2b;--ink2:#4a4f63;--muted:#6f7489;--line:#e2e4ec;--line2:#cfd3df;--blue:#3dadff;--blueD:#007ad2;--violet:#874fff;--violetD:#5427b4;--teal:#5ad8cc;--tealD:#369e94;--z1:#f5fbff;--z2:#f8f5ff;--z3:#f1fefd;--z4:#fff0fa;--anx:#ffd3a8;--know:#b3f4ef;--dec:#ffa8db;--fnd:#b3efbd;--emsr:#a8daff;--vega:#d3bdff;--yellow:#fff3df;--gray:#eceef4;--font:'IBM Plex Sans',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#13151f;--surface:#1b1e2b;--ink:#e9eaf2;--ink2:#c2c5d3;--muted:#8f93a8;--line:#2c3042;--line2:#3a3f55;--z1:#1a2230;--z2:#211d30;--z3:#17262a;--z4:#2a1c26;--yellow:#3b2e14;--gray:#232736}}
+:root[data-theme="dark"]{--ground:#13151f;--surface:#1b1e2b;--ink:#e9eaf2;--ink2:#c2c5d3;--muted:#8f93a8;--line:#2c3042;--line2:#3a3f55;--z1:#1a2230;--z2:#211d30;--z3:#17262a;--z4:#2a1c26;--yellow:#3b2e14;--gray:#232736}
+*{box-sizing:border-box}body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.45}
+.wrap{max-width:1500px;margin:0 auto;padding:36px 24px 80px}
+h1{font-size:32px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em}
+.lede{color:var(--ink2);max-width:90ch;margin:0 0 14px;font-size:15px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:13px;color:var(--ink2);margin-bottom:28px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+.zone{border:1px solid var(--line);border-radius:12px;padding:22px 24px 26px;margin:0 0 28px;overflow-x:auto}
+.zone h2{font-size:22px;font-weight:600;margin:0 0 4px}
+.zone .sub{color:var(--ink2);margin:0 0 16px;max-width:110ch}
+.grid{display:grid;gap:10px 10px;min-width:1240px}
+.grid .lane{font-weight:600;font-size:13px;color:var(--ink2);align-self:center;padding-right:6px}
+.cell{background:var(--surface);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--ink)}
+.cell.head{color:#fff;font-weight:600;border-color:transparent;position:relative}
+.z1 .head{background:var(--blue);border-color:var(--blueD)}.z2 .head{background:var(--violet);border-color:var(--violetD)}.z3 .head{background:var(--teal);border-color:var(--tealD)}
+.cell.head small{display:block;font-weight:400;opacity:.9;margin-top:2px}
+.cell.head:not(:last-child)::after{content:'›';position:absolute;right:-9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px}
+.cell.anx{background:var(--yellow)}.cell.own{background:var(--gray)}
+.sticky{border-radius:4px;padding:10px 12px;font-size:13px;color:#1a1d2b;min-height:92px}
+.s-anx{background:var(--anx)}.s-know{background:var(--know)}.s-dec{background:var(--dec)}.s-fnd{background:var(--fnd)}.s-emsr{background:var(--emsr)}.s-vega{background:var(--vega)}
+.row6{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;min-width:1240px}
+.row6 + .row6{margin-top:10px}
+.lbl{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 6px}
+.asks{display:grid;grid-template-columns:3fr 2fr 2fr;gap:18px;min-width:1240px}
+.asks .col{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;align-content:start}
+.asks .col h3{grid-column:1/-1;font-size:13px;font-weight:600;color:var(--muted);margin:0;text-transform:uppercase;letter-spacing:.05em}
+.dec{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;min-width:1240px}
+.foot{font-size:13px;color:var(--muted);margin-top:8px}
+</style>
+<div class="wrap">
+<h1>Release Autopilot onboarding journey map</h1>
+<p class="lede">Working decisions, then the trialist journey (solution-agnostic), existing customers by role, the nth engineer, decisions, and the Nov 16 asks. Mocks and evidence are in the companion brief; the trialist zone is also in FigJam.</p>
+<div class="legend"><span><i style="background:var(--fnd)"></i>Foundation alone</span><span><i style="background:var(--emsr)"></i>Small EMSR (Autopilot team)</span><span><i style="background:var(--vega)"></i>Agent service (Vega)</span><span><i style="background:var(--dec)"></i>Decision needed</span><span><i style="background:var(--anx)"></i>Anxiety</span><span><i style="background:var(--know)"></i>What they need to know</span></div>
+
+<section class="zone" style="background:var(--surface)">
+<h2>Working decisions</h2>
+<div class="row6" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+<div class="cell"><b>Marketing launch</b><br>Nov 5, 2026. Decided.</div>
+<div class="cell"><b>Product launch (sellable)</b><br>Nov 16, 2026. Trial, Developer within limits, Foundation, Enterprise add-on. Decided Oct 16.</div>
+<div class="cell"><b>Free until</b><br>Feb 1, 2027 for Foundation; charging starts then. Default on Feb 1 proposed off (open).</div>
+<div class="cell"><b>When we tell existing customers</b><br>Proposed: Plans row from Nov 16; email Jan 5 and Jan 20; keep-or-drop card from Jan 5. Open.</div>
+</div>
+</section>
+
+<section class="zone z1" style="background:var(--z1)">
+<h2>Trialist, Day 0 to Day 14</h2>
+<p class="sub">Solution-agnostic. What they are doing, what needs to happen or how they need to feel, the pages they already see (the natural intervention surfaces), and what they are anxious about. Guardian prospect trial, 14 days, Release Autopilot included.</p>
+<div class="grid" style="grid-template-columns:150px repeat(6,minmax(0,1fr))">
+<div></div>
+<div class="cell head">Day 0 · Signup<small>Sign-upper</small></div><div class="cell head">Day 0 · First run<small>Sign-upper</small></div><div class="cell head">Day 0 to 2 · Setup<small>Sign-upper or their org admin</small></div><div class="cell head">Day 1 to 5 · First PR<small>Sign-upper, then nth engineer</small></div><div class="cell head">Day 2 to 10 · Release on real code<small>Everyone</small></div><div class="cell head">Day 10 to 14 · Decision<small>Leader</small></div>
+<div class="lane">Doing</div>
+<div class="cell">Welcome survey, lands on Home, pokes at the five seeded example flags.</div>
+<div class="cell">Wants something to happen before asking anyone for anything.</div>
+<div class="cell">Finds where to turn it on, learns it needs a GitHub org admin, either installs or asks someone.</div>
+<div class="cell">Opens a pull request on the connected repo and waits to see what the bot does.</div>
+<div class="cell">Deploys, then checks whether anything moved.</div>
+<div class="cell">Decides whether to roll it out to more repos and people, and whether to buy.</div>
+<div class="lane">Needs to happen / feel</div>
+<div class="cell">Should see Release Autopilot framed and learn what it is in under a minute. "This is for teams like mine, and I can try it on one flag without my whole org."</div>
+<div class="cell">Watch a release run itself on a flag nobody depends on, with no GitHub and no code. "I know what it would do to a real flag."</div>
+<div class="cell">Prerequisites, data flow, and author of record stated before any button. "Nothing is created until a person approves."</div>
+<div class="cell">A clear result every time, including "no flag needed." What approving does and under whose name. "It ran, I understand it, I approved it."</div>
+<div class="cell">See the release progress, pause it, and know a metric is the only thing between Production and 100%. "Nobody clicked anything."</div>
+<div class="cell">A number to take to the team, and the cost in units they already pay. "I know what this costs and when."</div>
+<div class="lane">Pages they already see</div>
+<div class="cell">Welcome survey (first-action question). Home roadmap. Flags list with seeded flags and the "SDK not connected" banner. Trial banner.</div>
+<div class="cell">A flag's detail page (Targeting, Variations, Release tab once targeted). Install SDK page.</div>
+<div class="cell">Settings rail. Integrations catalog. GitHub App drawer. Their inbox, if they have to ask an admin.</div>
+<div class="cell">GitHub PR, check, bot comment. The OAuth prompt. The review page.</div>
+<div class="cell">The flag's Release tab. Release-started email. Flags list.</div>
+<div class="cell">Plans page via "Explore plans." Customize and Check out. Trial-ending emails.</div>
+<div class="lane">Anxiety</div>
+<div class="cell anx">Is this another thing to set up before I see any value?</div>
+<div class="cell anx">Is the sample a toy? Would a real flag walk Production to 100% on its own?</div>
+<div class="cell anx">I am not the GitHub org admin. Which model reads my diffs, for how long? Whose name is on the commit?</div>
+<div class="cell anx">Will a bot push to my branch as me? Does the check block merge? Did it even run?</div>
+<div class="cell anx">Nothing is watching Production. No Slack at GA; the team learns by email.</div>
+<div class="cell anx">"Free until Feb 1" sounds like a trap. What does 1.5x mean on my invoice?</div>
+</div>
+</section>
+
+<section class="zone z2" style="background:var(--z2)">
+<h2>Existing Foundation and Developer customers, by role</h2>
+<p class="sub">No Day 0. The person who hears about it is usually not the Owner, and the Owner often does not log in. Announce to whoever is in the app, hand off to an Admin or Owner, set up on one repo with the safe default, then let the PR flow do the rest. Only the account-wide switches need Admin or Owner; a Writer with GitHub auth can map a repo.</p>
+<div class="grid" style="grid-template-columns:150px repeat(6,minmax(0,1fr))">
+<div></div>
+<div class="cell head">Hears about it</div><div class="cell head">Sets up</div><div class="cell head">First PR on a connected repo</div><div class="cell head">Watches</div><div class="cell head">Expands</div><div class="cell head">Feb 1 and limits</div>
+<div class="lane">Owner or Admin</div>
+<div class="cell">Plain-text operational email on launch day (v0). One-time popover on first visit, keyed per member (v0).</div>
+<div class="cell">Settings first run: prerequisites, model and retention, approvals and attribution, then the GitHub drawer. Two switches, approval statement. One repo first (v0). Status strip, Start here (medium).</div>
+<div class="cell">Same as the nth engineer.</div>
+<div class="cell">Release tab on the flag; pause is one click (exists). Dashboard when the list API lands (medium).</div>
+<div class="cell">Copyable invite for PR authors (medium). Bot-authored commits, nudge table (heavy).</div>
+<div class="cell">Plans page: keep or drop before Feb 1; default off, pending decision. Price shown as $6 per connection and $5 per 1K MAU past the included amounts.</div>
+<div class="lane">Writer or Maintainer</div>
+<div class="cell">Same popover; the component picks the CTA by role. Writer CTA opens the hand-off message to copy (v0).</div>
+<div class="cell">Cannot flip the account-wide switches. Can map a repo once they are on, after personal GitHub auth. Read-only hand-off page (medium).</div>
+<div class="cell">Check result, 85-word comment, one OAuth click, review page (v0). First-visit panel (medium).</div>
+<div class="cell">Release tab on the flag (exists).</div>
+<div class="cell">Nothing to do until their next PR.</div>
+<div class="cell">Nothing changes for them; releases keep running if the Owner keeps it.</div>
+<div class="lane">Reader or leader</div>
+<div class="cell">Same popover; CTA goes to a flag's Release tab or settings read-only.</div>
+<div class="cell">Not involved.</div>
+<div class="cell">Release-started email (exists).</div>
+<div class="cell">Dashboard with honest zeros and "Regression checks: not configured" (medium). Weekly digest (heavy).</div>
+<div class="cell">Overview per repo: coverage, automatic rate, authors linked (heavy).</div>
+<div class="cell">Developer at a limit: the existing PlanUsageBanner "Account is read-only" already stops releases and policies; copy addition held until the cap exists.</div>
+</div>
+</section>
+
+<section class="zone z3" style="background:var(--z3)">
+<h2>The nth engineer (invited user): know, not do</h2>
+<p class="sub">They did not choose anything; a bot commented on their PR and they may have no LaunchDarkly seat. Their whole experience is one check, one comment, one OAuth click, and one review page. Nothing here sends them to settings.</p>
+<div class="row6">
+<div class="cell head">PR opened on a connected repo</div><div class="cell head">Check result, always, including "no flag needed: reason". Does not block merge.</div><div class="cell head">85-word comment: suggests, approve, do nothing; whose account the commit lands under</div><div class="cell head">First time only: connect GitHub once. No seat? A member with flag-create permission approves; you do nothing.</div><div class="cell head">Review page: why, proposed flag, release plan, now vs after merge. Approve, reject, or revert.</div><div class="cell head">Merge. Release starts when deployed code evaluates the flag. Watch or pause on the Release tab.</div>
+</div>
+<div class="lbl">Anxiety</div>
+<div class="row6">
+<div class="sticky s-anx">Another bot in my PRs. Will it comment on drafts and dependency bumps too?</div><div class="sticky s-anx">Did it even run? Today there is no result when nothing is recommended.</div><div class="sticky s-anx">Is the commit going to land under my name? I want launchdarkly[bot] as author, me as co-author.</div><div class="sticky s-anx">I do not have a seat. Who approves, and what happens if nobody does?</div><div class="sticky s-anx">If I edit the key or maintainer, is it honoured? (Edits are dropped today.) Can I skip just this PR?</div><div class="sticky s-anx">Production walks to 100% with no metric watching. Pause holds, it does not roll back.</div>
+</div>
+<div class="lbl">What they need to know</div>
+<div class="row6">
+<div class="sticky s-know">Comments land in repos X only; the popover names your admin.</div><div class="sticky s-know">"Reviewed" with a reason is success too.</div><div class="sticky s-know">Approve or do nothing. Rejecting has no consequence.</div><div class="sticky s-know">One OAuth click, once. Writers cannot change the account switches.</div><div class="sticky s-know">Revert the commit or pause the release from this page.</div><div class="sticky s-know">Watch from the flag's Release tab; email when a release starts.</div>
+</div>
+</section>
+
+<section class="zone z4" style="background:var(--z4)">
+<h2>Decisions to settle this week, and the Nov 16 asks by owner</h2>
+<div class="lbl">Decisions needed</div>
+<div class="dec">
+<div class="sticky s-dec">Feb 1 default: off, running releases finish, renewal unchanged. Needs Tim, Vince, Billing. Changes every Foundation sentence.</div>
+<div class="sticky s-dec">How the price is shown: two half-rate rows ($6 per connection, $5 per 1K MAU). Show in-product before January?</div>
+<div class="sticky s-dec">Who seeds the release policy and the default release configuration for trial projects. Without both, no Create button on Day 0.</div>
+<div class="sticky s-dec">Developer cap owner. Uncapped for Autopilot at launch; platform read-only mode already stops releases.</div>
+<div class="sticky s-dec">Guardian card on the Plans page: not sold after Nov 16 but still offered with "Get quote".</div>
+<div class="sticky s-dec">Model and retention sentence: bracketed until legal and the Vega team fill it.</div>
+<div class="sticky s-dec">When the GitHub auth holder leaves: in-flight releases, future PRs, re-authorization.</div>
+<div class="sticky s-dec">Branch protection and required reviewers: does the agent commit dismiss approvals?</div>
+<div class="sticky s-dec">Account-wide off switch: what turning Auto-release off does to running releases.</div>
+<div class="sticky s-dec">Owner and Admin email on launch day, since Owners do not log in.</div>
+</div>
+<div class="lbl">Nov 16 asks</div>
+<div class="asks">
+<div class="col"><h3>Foundation alone</h3>
+<div class="sticky s-fnd">Home fifth tile and lane (home.ts, type union, one CTA route case)</div><div class="sticky s-fnd">Welcome survey option, UI-only value</div><div class="sticky s-fnd">One-time popover entry, role-aware CTA in code</div><div class="sticky s-fnd">Trial promo banner variant</div><div class="sticky s-fnd">Plan card bullets with popover text in the catalog yaml</div><div class="sticky s-fnd">Settings empty-state copy and naming-page string pass, as a PR to the Autopilot team</div><div class="sticky s-fnd">Owner and Admin email, plain text</div><div class="sticky s-fnd">Policy seed in the Go trial seeder</div><div class="sticky s-fnd">Instrumentation with planType</div></div>
+<div class="col"><h3>Small EMSR</h3>
+<div class="sticky s-emsr">Target the six flags to trial and self-serve segments</div><div class="sticky s-emsr">default-release-configuration variation for trial projects (Test manual, Production after previous) and releases-service Live</div><div class="sticky s-emsr">Review page sentence; fix the hardcoded maintainer and dropped edits, or make fields read-only</div><div class="sticky s-emsr">Release tab sample-flag paragraph and guardrail sentence</div><div class="sticky s-emsr">Settings tracking adds planType; release-start analytics event</div></div>
+<div class="col"><h3>Agent service (Vega)</h3>
+<div class="sticky s-vega">Always post a check result, including "no flag needed" with the reason</div><div class="sticky s-vega">The 85-word comment: approve, do nothing, whose account, connect once, no seat, does not block merge</div><div class="sticky s-vega">Bot-authored commits with the approver as co-author, or the comment says "under your GitHub account"</div><div class="sticky s-vega">Agent events (PR reviewed, flag proposed, approved, declined) with repo and account</div></div>
+</div>
+</section>
+<p class="foot">Companion brief: <a href="index.html">Release Autopilot Onboarding</a>.</p>
+</div>
+</body></html>

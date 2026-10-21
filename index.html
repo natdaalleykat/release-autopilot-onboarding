@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Release Autopilot Onboarding</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"><style>
+/* Release Autopilot onboarding brief: tokens + doc + mock chrome */
+
+:root {
+  --ground: #f7f7fa;
+  --surface: #ffffff;
+  --surface-2: #f1f2f7;
+  --ink: #1a1d2b;
+  --ink-2: #4a4f63;
+  --muted: #6f7489;
+  --line: #e2e4ec;
+  --line-2: #cfd3df;
+  --accent: #405bff;
+  --accent-ink: #2d44d4;
+  --accent-soft: #e9edff;
+  --good: #1f9d55;
+  --good-soft: #e3f6ea;
+  --warn: #b86e00;
+  --warn-soft: #fff3df;
+  --bad: #d13d3d;
+  --bad-soft: #fde9e9;
+  --violet: #6d3df0;
+  --violet-soft: #efe9ff;
+  --code-bg: #f1f2f7;
+  --shadow: 0 1px 2px rgba(20, 22, 40, .06), 0 6px 20px rgba(20, 22, 40, .06);
+  --radius: 8px;
+  --font: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --app: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #13151f; --surface: #1b1e2b; --surface-2: #232736; --ink: #e9eaf2; --ink-2: #c2c5d3;
+    --muted: #8f93a8; --line: #2c3042; --line-2: #3a3f55; --accent: #7a8dff; --accent-ink: #9eacff;
+    --accent-soft: #232a4d; --good: #4fc27f; --good-soft: #17372a; --warn: #e0a042; --warn-soft: #3b2e14;
+    --bad: #f07070; --bad-soft: #3d1f1f; --violet: #a98cff; --violet-soft: #2b2447; --code-bg: #232736;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #13151f; --surface: #1b1e2b; --surface-2: #232736; --ink: #e9eaf2; --ink-2: #c2c5d3;
+  --muted: #8f93a8; --line: #2c3042; --line-2: #3a3f55; --accent: #7a8dff; --accent-ink: #9eacff;
+  --accent-soft: #232a4d; --good: #4fc27f; --good-soft: #17372a; --warn: #e0a042; --warn-soft: #3b2e14;
+  --bad: #f07070; --bad-soft: #3d1f1f; --violet: #a98cff; --violet-soft: #2b2447; --code-bg: #232736;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent-ink); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, kbd { font-family: var(--mono); font-size: .88em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+h1, h2, h3, h4 { text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: 34px; font-weight: 600; letter-spacing: -.01em; }
+h2 { font-size: 24px; font-weight: 600; letter-spacing: -.01em; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); }
+h3 { font-size: 18px; font-weight: 600; margin-top: 32px; }
+h4 { font-size: 15px; font-weight: 600; margin-top: 20px; }
+p { margin: 10px 0; max-width: 72ch; }
+ul, ol { margin: 8px 0 8px 0; padding-left: 22px; max-width: 72ch; }
+li { margin: 4px 0; }
+li > ul { margin: 2px 0; }
+strong { font-weight: 600; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 40px 28px 96px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.lede { font-size: 17px; color: var(--ink-2); max-width: 68ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--muted); font-size: 13px; margin-top: 14px; }
+.toc { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 6px 24px; margin: 20px 0 0; padding: 16px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.toc a { font-size: 14px; }
+.toc .n { color: var(--muted); font-family: var(--mono); font-size: 12px; margin-right: 8px; }
+
+/* callouts */
+.verdict { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; padding: 16px 18px; border-radius: var(--radius); background: var(--good-soft); border: 1px solid color-mix(in srgb, var(--good) 35%, transparent); margin: 22px 0; }
+.verdict .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--good); margin-top: 7px; }
+.verdict p { margin: 4px 0; max-width: none; }
+.note { padding: 12px 16px; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 var(--radius) var(--radius) 0; margin: 14px 0; }
+.note.warn { border-left-color: var(--warn); }
+.note p { margin: 4px 0; }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; margin: 14px 0 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 10px 12px; vertical-align: top; border-bottom: 1px solid var(--line); }
+th { font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--surface-2); }
+tr:last-child td { border-bottom: 0; }
+td.k { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* pills */
+.pill { display: inline-block; font-size: 11.5px; font-weight: 500; letter-spacing: .03em; padding: 2px 8px; border-radius: 999px; border: 1px solid transparent; white-space: nowrap; vertical-align: middle; }
+.pill.v0 { background: var(--good-soft); color: var(--good); border-color: color-mix(in srgb, var(--good) 40%, transparent); }
+.pill.med { background: var(--accent-soft); color: var(--accent-ink); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+.pill.heavy { background: var(--violet-soft); color: var(--violet); border-color: color-mix(in srgb, var(--violet) 40%, transparent); }
+.pill.dir { background: var(--warn-soft); color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, transparent); }
+.pill.fact { background: var(--surface-2); color: var(--ink-2); border-color: var(--line-2); }
+.pill.gap { background: var(--bad-soft); color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, transparent); }
+
+/* journey map */
+.journey { display: grid; grid-template-columns: 150px 1fr; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; margin: 16px 0 24px; }
+.journey > div { padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+.journey > div:nth-last-child(-n+2) { border-bottom: 0; }
+.journey .stage { background: var(--surface-2); font-weight: 600; font-size: 13px; }
+.journey .stage small { display: block; font-weight: 400; color: var(--muted); margin-top: 2px; }
+.journey .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.journey .row b { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 3px; }
+.journey .row span { display: block; }
+@media (max-width: 760px) { .journey { grid-template-columns: 1fr; } .journey .stage { border-bottom: 0; } .journey .row { grid-template-columns: 1fr; } }
+
+/* size switcher */
+.sizes { display: inline-flex; border: 1px solid var(--line-2); border-radius: 999px; padding: 3px; background: var(--surface); gap: 2px; margin: 18px 0 10px; }
+.sizes button { font: inherit; font-size: 13px; font-weight: 500; padding: 5px 14px; border-radius: 999px; border: 0; background: transparent; color: var(--ink-2); cursor: pointer; }
+.sizes button[aria-selected="true"] { background: var(--ink); color: var(--ground); }
+.sizes button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.size-panel[hidden] { display: none; }
+.size-panel .desc { font-size: 14px; color: var(--ink-2); margin: 6px 0 12px; max-width: 72ch; }
+
+/* ---------- mock frame (LD app chrome) ---------- */
+.frame { border: 1px solid var(--line-2); border-radius: 10px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); margin: 10px 0 8px; font-family: var(--app); font-size: 13px; color: var(--ink); }
+.frame .bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.frame .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); display: inline-block; }
+.frame .bar .url { flex: 1; font-family: var(--mono); font-size: 11.5px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 3px 10px; margin-left: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app { display: grid; grid-template-columns: 200px 1fr; min-height: 380px; }
+.app.nosb { grid-template-columns: 1fr; }
+.sb { border-right: 1px solid var(--line); padding: 12px 10px; background: var(--surface); }
+.sb .proj { font-weight: 600; font-size: 12.5px; padding: 6px 8px 10px; display: flex; align-items: center; gap: 6px; }
+.sb .proj i { width: 16px; height: 16px; border-radius: 4px; background: var(--accent); display: inline-block; }
+.sb .sec { font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); padding: 10px 8px 4px; }
+.sb a { display: block; padding: 5px 8px; border-radius: 6px; color: var(--ink-2); font-size: 12.5px; }
+.sb a.on { background: var(--accent-soft); color: var(--accent-ink); font-weight: 500; }
+.sb a.new::after { content: 'New'; float: right; font-size: 9.5px; font-weight: 600; letter-spacing: .04em; padding: 1px 5px; border-radius: 999px; background: var(--accent); color: #fff; margin-top: 2px; }
+.main { padding: 18px 22px 24px; min-width: 0; }
+.main h1 { font-family: var(--app); font-size: 20px; font-weight: 600; letter-spacing: 0; }
+.main h2 { font-family: var(--app); font-size: 15px; font-weight: 600; border: 0; margin: 18px 0 6px; padding: 0; }
+.main p { font-size: 13px; color: var(--ink-2); max-width: none; }
+.crumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.card { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 14px 16px; }
+.card + .card { margin-top: 10px; }
+.card.soft { background: var(--surface-2); }
+.card h3 { font-family: var(--app); font-size: 14px; font-weight: 600; margin: 0 0 4px; }
+.btn { display: inline-block; font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); cursor: default; }
+.btn.pri { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.sm { padding: 3px 9px; font-size: 11.5px; }
+.btn.ghost { border-color: transparent; color: var(--accent-ink); }
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 1px 7px; border-radius: 4px; background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); }
+.tag.good { background: var(--good-soft); color: var(--good); border-color: transparent; }
+.tag.warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.tag.acc { background: var(--accent-soft); color: var(--accent-ink); border-color: transparent; }
+.tag.bad { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+.tag.vio { background: var(--violet-soft); color: var(--violet); border-color: transparent; }
+.banner { display: flex; align-items: center; gap: 12px; padding: 9px 14px; font-size: 12.5px; background: var(--accent-soft); color: var(--ink); border-bottom: 1px solid var(--line); }
+.banner.dark { background: var(--ink); color: var(--ground); }
+.banner .x { margin-left: auto; color: var(--muted); }
+.banner.dark .x { color: var(--line-2); }
+.banner .btn.sm { margin-left: 6px; }
+.steps { display: grid; gap: 8px; margin-top: 10px; }
+.step { display: grid; grid-template-columns: 26px 1fr auto; gap: 12px; align-items: start; padding: 11px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.step .n { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--line-2); display: grid; place-items: center; font-size: 11.5px; font-weight: 600; color: var(--muted); }
+.step.done .n { background: var(--good); border-color: var(--good); color: #fff; }
+.step.cur .n { border-color: var(--accent); color: var(--accent-ink); }
+.step .t { font-weight: 600; font-size: 13px; }
+.step .d { color: var(--ink-2); font-size: 12.5px; margin-top: 2px; }
+.step .who { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.switch { display: inline-block; width: 30px; height: 17px; border-radius: 999px; background: var(--line-2); position: relative; vertical-align: middle; }
+.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 13px; height: 13px; border-radius: 50%; background: #fff; }
+.switch.on { background: var(--accent); }
+.switch.on::after { left: 15px; }
+.ladder { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+.ladder .opt { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; }
+.ladder .opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+.ladder .opt b { display: block; font-size: 13px; margin-bottom: 2px; }
+.ladder .opt small { color: var(--ink-2); }
+.table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.table th { font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--line); padding: 6px 8px; background: transparent; }
+.table td { padding: 8px; border-bottom: 1px solid var(--line); }
+.table tr:last-child td { border-bottom: 0; }
+.kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 10px; }
+.kpi div { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.kpi b { display: block; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.kpi small { color: var(--muted); font-size: 11.5px; }
+.empty { text-align: center; padding: 34px 20px; border: 1px dashed var(--line-2); border-radius: 10px; }
+.empty h3 { font-family: var(--app); font-size: 16px; margin: 8px 0 4px; }
+.empty p { margin: 0 auto 12px; max-width: 48ch; }
+.gh { font-family: var(--app); background: var(--surface); }
+.gh .cm { border: 1px solid var(--line); border-radius: 6px; margin: 12px 16px; }
+.gh .cm .hd { background: var(--surface-2); padding: 7px 12px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--ink-2); display: flex; gap: 8px; align-items: center; }
+.gh .cm .hd .av { width: 18px; height: 18px; border-radius: 50%; background: var(--ink); display: inline-block; }
+.gh .cm .bd { padding: 12px 14px; font-size: 13px; }
+.gh .cm .bd p { font-size: 13px; color: var(--ink); }
+.gh .check { display: flex; gap: 10px; align-items: center; padding: 8px 16px; border-top: 1px solid var(--line); font-size: 12.5px; }
+.gh .check .ic { width: 14px; height: 14px; border-radius: 50%; }
+.gh .check .ic.ok { background: var(--good); }
+.gh .check .ic.pend { background: var(--warn); }
+.gh .check .ic.neutral { border: 2px solid var(--line-2); }
+.chat { border-left: 1px solid var(--line); padding: 12px; background: var(--surface-2); font-size: 12.5px; }
+.chat .m { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
+.chat .m.me { background: var(--accent-soft); border-color: transparent; }
+.two { display: grid; grid-template-columns: 1fr 280px; }
+@media (max-width: 760px) { .app { grid-template-columns: 1fr; } .sb { display: none; } .two { grid-template-columns: 1fr; } .chat { border-left: 0; border-top: 1px solid var(--line); } .ladder { grid-template-columns: 1fr; } }
+.caption { font-size: 12.5px; color: var(--muted); margin: 0 0 18px; }
+.caption .pill { margin-right: 6px; }
+.copy { font-family: var(--mono); font-size: 12px; background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; margin-top: 8px; white-space: pre-wrap; color: var(--ink-2); }
+.callout-ic { width: 34px; height: 34px; border-radius: 8px; background: var(--accent-soft); display: inline-grid; place-items: center; color: var(--accent-ink); font-weight: 700; }
+.pr { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+@media (max-width: 760px) { .pr { grid-template-columns: 1fr; } }
+.crit { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 14px 16px; margin: 12px 0; }
+.crit h4 { margin: 0 0 6px; }
+.crit .who { color: var(--muted); font-size: 13px; }
+.crit ul { margin-top: 6px; }
+.footnote { font-size: 13px; color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) { .size-panel { animation: fade .18s ease; } @keyframes fade { from { opacity: .5; } to { opacity: 1; } } }
+
+</style></head><body><style>
+.diff { outline: 2px dashed var(--accent); outline-offset: 3px; border-radius: 6px; position: relative; }
+.diff::before { content: 'change'; position: absolute; top: -9px; right: 6px; font-size: 9.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; background: var(--accent); color: #fff; padding: 1px 6px; border-radius: 999px; font-family: var(--app); }
+.diff.add::before { content: 'new'; }
+.rm { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 18px; }
+.rm .list { display: grid; gap: 6px; }
+.rm .li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start; padding: 8px 10px; border-radius: 6px; }
+.rm .li.on { background: var(--surface-2); }
+.rm .li .n { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--line-2); display: grid; place-items: center; font-size: 11.5px; font-weight: 600; color: var(--muted); }
+.rm .li .t { font-size: 13px; font-weight: 500; }
+.rm .li .b { font-size: 11.5px; color: var(--muted); }
+.rm .sec { font-size: 11px; font-weight: 600; color: var(--muted); padding: 8px 10px 2px; }
+.rm .pane { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; min-height: 240px; }
+.rm .eyebrow { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.rm .pane h3 { font-family: var(--app); font-size: 16px; margin: 0 0 6px; }
+.rm .pane p { font-size: 13px; }
+.tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; background: var(--surface-2); padding: 8px; border-radius: 8px; margin: 12px 0 16px; }
+.tiles.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tile { display: grid; grid-template-columns: 32px 1fr; gap: 8px; align-items: center; padding: 8px; border-radius: 6px; border: 1px solid transparent; background: transparent; }
+.tile.on { background: var(--surface); border-color: var(--accent); }
+.tile i { width: 32px; height: 32px; border-radius: 6px; display: inline-block; }
+.tile b { display: block; font-size: 12.5px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tile small { display: block; font-size: 10.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.popover { position: relative; width: 340px; border: 1px solid var(--line-2); border-radius: 10px; background: var(--surface); box-shadow: var(--shadow); padding: 14px 16px; font-family: var(--app); font-size: 13px; margin: 12px 16px; }
+.popover h3 { font-family: var(--app); font-size: 14px; margin: 0 0 4px; padding-right: 20px; }
+.popover .x { position: absolute; top: 10px; right: 12px; color: var(--muted); }
+.bill { font-family: var(--app); font-size: 13px; }
+.bill table { width: 100%; border-collapse: collapse; }
+.bill th { font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 500; text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); background: transparent; }
+.bill td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.bill tr:last-child td { border-bottom: 0; }
+.bill .tot { display: flex; justify-content: space-between; padding: 10px 8px; font-weight: 600; }
+.qa { display: grid; gap: 14px; }
+.qa .q { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 14px 18px; }
+.qa .q h3 { margin: 0 0 6px; font-size: 16px; }
+.qa .q p, .qa .q li { font-size: 14px; }
+.wt-modal { border: 1px solid var(--line-2); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow); max-width: 720px; margin: 10px auto; font-family: var(--app); font-size: 13px; overflow: hidden; }
+.wt-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px 0; }
+.wt-head h3 { font-family: var(--app); font-size: 16px; font-weight: 600; margin: 0; }
+.wt-head .x { color: var(--muted); font-size: 16px; }
+.wt-stage { margin: 12px 18px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); min-height: 230px; padding: 14px; position: relative; }
+.wt-scene { display: none; }
+.wt-scene.on { display: block; }
+.wt-body { padding: 12px 18px 16px; }
+.wt-body h4 { font-family: var(--app); font-size: 14px; font-weight: 600; margin: 0 0 4px; }
+.wt-body p { font-size: 13px; color: var(--ink-2); margin: 0 0 10px; max-width: none; }
+.wt-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.wt-dots { display: flex; gap: 6px; }
+.wt-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line-2); display: inline-block; }
+.wt-dots i.on { background: var(--accent); }
+.wt-nav { display: flex; gap: 8px; }
+.wt-nav button { font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); cursor: pointer; }
+.wt-nav button.pri { background: var(--accent); border-color: var(--accent); color: #fff; }
+.wt-nav button:disabled { opacity: .5; cursor: default; }
+.wt-nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wt-step-label { position: absolute; top: 10px; right: 12px; font-size: 11px; color: var(--muted); }
+.wt-mini { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; }
+.wt-mini + .wt-mini { margin-top: 8px; }
+.wt-mini .hd { font-size: 11.5px; color: var(--muted); margin-bottom: 4px; }
+.wt-bar { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; margin-top: 6px; }
+.wt-bar > span { display: block; height: 8px; background: var(--accent); }
+.wt-env { display: grid; grid-template-columns: 90px 1fr auto; gap: 10px; align-items: center; padding: 6px 0; border-top: 1px solid var(--line); }
+.wt-env:first-of-type { border-top: 0; }
+.wt-env b { font-size: 12.5px; }
+@media (max-width: 760px) { .rm { grid-template-columns: 1fr; } .tiles, .tiles.four { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+</style>
+<style>
+.scope-meta{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin:8px 0 10px;padding:12px 16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.scope-meta b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.scope-meta p{margin:4px 0 0;font-size:14px;max-width:none}
+@media (max-width:760px){.scope-meta{grid-template-columns:1fr}}
+.sizes button[data-size="cur"][aria-selected="true"]{background:var(--ink-2)}
+.probs{margin:6px 0 18px;padding:10px 14px 10px 30px;border-left:3px solid var(--bad);background:var(--surface);border-radius:0 8px 8px 0;font-size:13.5px}
+.probs li{margin:3px 0}
+.probs::before{content:'Problems';display:block;margin:0 0 4px -16px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--bad);font-weight:600}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-items:stretch;margin:4px 0 12px}
+.flow .fn{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 10px 10px;font-size:12px;min-height:118px}
+.flow .fn:not(:last-child)::after{content:'→';position:absolute;right:-12px;top:44%;color:var(--accent);font-size:16px;font-weight:600}
+.flow .fn .ic{height:44px;border-radius:6px;margin-bottom:8px;display:grid;place-items:center;font-size:11px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft)}
+.flow .fn b{display:block;font-size:12.5px;margin-bottom:2px}
+.flow .fn span{color:var(--muted)}
+.tip{position:relative;display:inline-block}
+.tip .bubble{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);width:260px;background:var(--ink);color:var(--ground);font-size:12px;line-height:1.4;padding:8px 10px;border-radius:6px;text-align:left;font-weight:400}
+.tip .bubble::after{content:'';position:absolute;left:50%;transform:translateX(-50%);top:100%;border:6px solid transparent;border-top-color:var(--ink)}
+.sub{margin:6px 0 0 18px;padding-left:16px}
+.sub li{margin:2px 0}
+.own{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.03em;padding:1px 8px;border-radius:4px;border:1.5px solid;background:transparent;margin-right:4px;vertical-align:middle}
+.own.fnd{color:var(--good);border-color:var(--good)}.own.emsr{color:var(--accent-ink);border-color:var(--accent)}.own.vega{color:var(--violet);border-color:var(--violet)}.own.bill{color:var(--warn);border-color:var(--warn)}.own.mkt{color:#c2417c;border-color:#c2417c}.own.legal{color:var(--muted);border-color:var(--line-2)}
+.ownkey{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--ink-2);margin:10px 0 18px}
+</style>
+</style>
+<div class="wrap">
+
+<p class="eyebrow">Foundation / PLG · Release Autopilot GA</p>
+<h1>Release Autopilot onboarding for trialists and self-serve customers</h1>
+<p class="lede">Working decisions, the trialist and existing-customer journeys, the constraints, and eight scopes with Current, v0, medium, and heavy mocks on real screens. Grounded in gonfalon main (Oct 20), live catfood state, the GTM decisions doc, and three rounds of persona and fidelity crits.</p>
+<div class="meta"><span>Natalie Friedman</span><span>Draft 7 · Oct 21, 2026</span><span><a href="journey-map.html">Journey map</a></span><span>Mocks are <span class="pill dir">Potential direction</span> unless marked otherwise</span></div>
+
+<div class="toc">
+  <a href="#decisions"><span class="n">00</span>Working decisions</a>
+  <a href="#trial"><span class="n">01</span>Trialist, Day 0 to 14</a>
+  <a href="#existing"><span class="n">02</span>Existing customers by role</a>
+  <a href="#nth"><span class="n">03</span>Nth engineers</a>
+  <a href="#true"><span class="n">04</span>Constraints on Nov 16</a>
+  <a href="#scopes"><span class="n">05</span>Scopes and mocks</a>
+  <a href="#asks"><span class="n">06</span>Asks and open questions</a>
+  <a href="#crit"><span class="n">07</span>What the crits changed</a>
+</div>
+
+<h2 id="decisions">00 · Working decisions</h2>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Decision</th><th>Where we are</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Marketing launch</td><td>Nov 5, 2026 (web, blog, Control Panel virtual event). Thought-leadership campaign Nov 9.</td><td><span class="pill fact">Decided</span></td></tr>
+<tr><td>Product launch (sellable)</td><td>Nov 16, 2026. Enablement Oct 22, 23, Nov 3, 4. re:Invent Nov 30 to Dec 4.</td><td><span class="pill fact">Decided</span></td></tr>
+<tr><td>Who gets it on Nov 16</td><td>Trial (Guardian prospect trial), Developer within plan limits, Foundation, Enterprise as an invoiced add-on. Self-serve purchase opens in January.</td><td><span class="pill fact">Decided Oct 16</span></td></tr>
+<tr><td>Free until</td><td>Feb 1, 2027 for Foundation; charging starts then through Orb. Developer stays free within its caps.</td><td><span class="pill fact">Decided</span></td></tr>
+<tr><td>Price</td><td>50% uplift on service connections and MAU. In product this is two usage rows at half the platform rates: $6 per connection and $5 per 1K client-side MAU past the included 5 and 1,000 ($60 and $50 on annual). AI runs and observability not uplifted.</td><td><span class="pill fact">Rate decided</span> <span class="pill dir">Representation proposed</span></td></tr>
+<tr><td>Feb 1 default</td><td>Proposed: off. Running releases finish; renewal and billing date unchanged; the sentence appears on the Plans row from Nov 16.</td><td><span class="pill gap">Open: Tim, Vince, Billing</span></td></tr>
+<tr><td>When we tell existing customers we will charge</td><td>Proposed: the Plans row says it from Nov 16; email to Owners and Admins on Jan 5 (four weeks out) and a reminder on Jan 20; in-product keep-or-drop card from Jan 5. Nothing is decided here yet.</td><td><span class="pill gap">Open</span></td></tr>
+<tr><td>Guardian Edition</td><td>Not sold after Nov 16. Existing Guardian customers transition over a quarter, hard cutover in a year, no Autopilot included. The trial Plans picker still offers a Guardian card with "Get quote."</td><td><span class="pill fact">Decided</span> <span class="pill gap">Card open</span></td></tr>
+<tr><td>Developer cap for Autopilot</td><td>A new limit type in gonfalon, unbuilt, unowned. Platform read-only mode already stops releases and policies at 5 connections or 1K MAU.</td><td><span class="pill gap">Open</span></td></tr>
+</tbody></table></div>
+
+<h2 id="trial">01 · Trialist, Day 0 to Day 14</h2>
+<p>Solution-agnostic. What they are doing, what needs to happen or how they need to feel, the pages they already see (the natural intervention surfaces), and what they are anxious about. The Guardian prospect trial is 14 days and includes Release Autopilot.</p>
+<div class="journey">
+  <div class="stage">Day 0 · Signup<small>sign-upper</small></div>
+  <div class="row"><div><b>Doing</b><span>Welcome survey, lands on Home, pokes at the five seeded example flags.</span></div><div><b>Needs to happen / feel</b><span>Should see Release Autopilot framed and learn what it is in under a minute. "This is for teams like mine, and I can try it on one flag without my whole org."</span></div><div><b>Pages they already see</b><span>Welcome survey (first-action question). Home roadmap. Flags list with seeded flags and the "SDK not connected" banner. Trial banner.</span></div></div>
+  <div class="stage">Day 0 · First run<small>sign-upper</small></div>
+  <div class="row"><div><b>Doing</b><span>Wants something to happen before asking anyone for anything.</span></div><div><b>Needs to happen / feel</b><span>Watch a release run itself on a flag nobody depends on, with no GitHub and no code. "I know what it would do to a real flag."</span></div><div><b>Pages they already see</b><span>A flag's detail page (Targeting, Variations, and the Release tab once targeted). Install SDK page.</span></div></div>
+  <div class="stage">Day 0 to 2 · Setup<small>sign-upper or their org admin</small></div>
+  <div class="row"><div><b>Doing</b><span>Finds where to turn it on, learns it needs a GitHub org admin, either installs or asks someone.</span></div><div><b>Needs to happen / feel</b><span>Prerequisites, data flow, and author of record stated before any button. "Nothing is created until a person approves."</span></div><div><b>Pages they already see</b><span>Settings rail. Integrations catalog. The GitHub App drawer. Their inbox, if they have to ask an admin.</span></div></div>
+  <div class="stage">Day 1 to 5 · First PR<small>sign-upper, then nth engineer</small></div>
+  <div class="row"><div><b>Doing</b><span>Opens a pull request on the connected repo and waits to see what the bot does.</span></div><div><b>Needs to happen / feel</b><span>A clear result every time, including "no flag needed." What approving does and under whose name. "It ran, I understand it, I approved it."</span></div><div><b>Pages they already see</b><span>GitHub PR, check, bot comment. The OAuth prompt. The review page.</span></div></div>
+  <div class="stage">Day 2 to 10 · Release on real code<small>everyone</small></div>
+  <div class="row"><div><b>Doing</b><span>Deploys, then checks whether anything moved.</span></div><div><b>Needs to happen / feel</b><span>See the release progress, pause it, and know a metric is the only thing between Production and 100%. "Nobody clicked anything."</span></div><div><b>Pages they already see</b><span>The flag's Release tab. Release-started email. Flags list.</span></div></div>
+  <div class="stage">Day 10 to 14 · Decision<small>leader</small></div>
+  <div class="row"><div><b>Doing</b><span>Decides whether to roll it out to more repos and people, and whether to buy.</span></div><div><b>Needs to happen / feel</b><span>A number to take to the team, and the cost in units they already pay. "I know what this costs and when."</span></div><div><b>Pages they already see</b><span>Plans page via "Explore plans." Customize and Check out. Trial-ending emails.</span></div></div>
+</div>
+<p><strong>Anxieties along the way.</strong> Is this another thing to set up before I see value? Is the sample a toy? I am not the GitHub org admin. Which model reads my diffs and for how long? Whose name is on the commit? Did it even run? Does the check block merge? Nothing is watching Production. "Free until Feb 1" sounds like a trap. What does 1.5x mean on my invoice?</p>
+
+<h2 id="existing">02 · Existing Foundation and Developer customers, by role</h2>
+<p>No Day 0. The person who hears about it is usually not the Owner, and the Owner often does not log in. Only the account-wide switches need an Owner or Admin; a Writer with GitHub auth can map a repo once they are on.</p>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Moment</th><th>Owner or Admin</th><th>Writer or Maintainer</th><th>Reader or leader</th></tr></thead>
+<tbody>
+<tr><td><strong>Hears about it</strong></td><td>Needs to <em>see what it does</em>, then the four facts: included until Feb 1 and what happens then, approval required, what their team will see. Email is the surface that reaches them; Marketing likely owns the launch email (confirm with Kellye King). In-app: the banner and a dismissible card above the flags list, both with a "See how it works" visual and a CTA to Automation settings. Mocks in S5.</td><td>Hears first, cannot flip the switches. Same banner and card, with a one-click "Ask your admin" CTA that copies the request.</td><td>Needs to know where to watch and that nothing ships without a person. Same card; CTA goes to a flag's Release tab.</td></tr>
+<tr><td><strong>Sets up</strong></td><td>Decides the repo, the switches, the release policy, and the production metric. Three decisions the product has not settled: off-switch behaviour, auth holder leaving, author of record.</td><td>Maps a repo after personal GitHub auth, once the switches are on.</td><td>Not involved.</td></tr>
+<tr><td><strong>First PR</strong></td><td colspan="2">Same as the nth engineer (section 03).</td><td>Release-started email.</td></tr>
+<tr><td><strong>Watches</strong></td><td colspan="2">The flag's Release tab; pause is one click.</td><td>Wants one place for all releases and a coverage number with a real denominator.</td></tr>
+<tr><td><strong>Expands</strong></td><td>Which PR authors are linked; a copyable invite.</td><td>Nothing until the next PR.</td><td>Per-repo coverage and automation rate.</td></tr>
+<tr><td><strong>Feb 1 and limits</strong></td><td>Keep or drop before Feb 1 with the price at current usage.</td><td>Nothing changes.</td><td>Developer at a limit: read-only mode already stops releases.</td></tr>
+</tbody></table></div>
+
+<h2 id="nth">03 · Do nth engineers (invited users) need a separate experience?</h2>
+<p><strong>No.</strong> They need a different first contact, not a separate onboarding, for three reasons:</p>
+<ul>
+<li>They did not choose anything. A bot showed up in their pull request. Onboarding they did not ask for is noise; the PR itself has to carry the explanation.</li>
+<li>They may have no LaunchDarkly seat, and they cannot change the account-wide switches either way. There is nothing in settings for them to do, so nothing should route them there.</li>
+<li>Their whole experience is four surfaces: the check, the comment, one OAuth click, and the review page. If those say what it suggests, what approving does and under whose account, that doing nothing creates nothing, that the check does not block merge, and who approves when the author has no seat, the job is done (scope S3).</li>
+</ul>
+<p>The one in-app addition is a one-time notice on their first visit after a repo they commit to is connected. It is true that rejecting has no consequence: Reject declines the proposal and nothing is created, pushed, or scheduled.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Invited member · first visit after a repo they commit to is connected · one-time popover, bottom left</span></div>
+<div class="app nosb" style="min-height:190px;position:relative"><div class="main"><p style="color:var(--muted)">(page content)</p></div>
+<div class="popover diff add" style="position:absolute;left:12px;bottom:12px"><span class="x">✕</span><h3>Release Autopilot is on for acme-eng/web</h3><p style="margin:0 0 8px">Sam Rivera turned it on Nov 18. When you open a pull request there, LaunchDarkly comments with a proposed flag and release plan. Nothing is created unless a member approves. Rejecting or ignoring has no consequence. You will be asked to connect GitHub once.</p><span class="btn sm pri">See how it works</span></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill med">medium</span><span class="own fnd">Foundation</span>The one-time popover system (keyed per member, Shown and CTA Clicked events). The CTA opens the walkthrough (S7); there is no route to settings. Dependencies: the popover reading connected repos and the admin's name and date, which it cannot do today; otherwise the copy is generic ("an admin turned it on").</p>
+
+<h2 id="true">04 · Constraints on Nov 16</h2>
+<ul>
+<li><strong>No plan check in code.</strong> Access is six dogfood flags targeted at five design-partner accounts; GA for self-serve is a targeting change. The beta promo banner targets Enterprise and Guardian plan types only.</li>
+<li><strong>Prerequisites the product cannot remove.</strong>
+<ul class="sub"><li>GitHub only. Org-level install, so a GitHub org admin. Private repos only.</li><li>One LD account per install; one project per repo.</li><li>Every PR author authorizes GitHub once.</li><li>A release policy per project, or "Policy needed" and the rollout retries for three weeks then expires.</li><li>A metric for any automatic pause; there are no auto-metrics.</li><li>Environments start when deployed code evaluates the flag; the webhook trigger is API-only.</li><li>GenAI terms accepted or BYOK for the agent.</li></ul></li>
+<li><strong>What approve does.</strong> One commit under the approving member's GitHub connection; the flag under their LD permission; the release scheduled; LD approval workflows bypassed at GA. Approval required is on by default and not changeable in the UI. Bot authorship with the member as co-author is an ask, not built.</li>
+<li><strong>GitHub is not required for the core.</strong> The flag's Release tab can create and start a release, pause, and resume. For a trialist today the Create dialog has no Create button (the default release configuration is a Release Engineering dogfood flag whose only live variation is "CATFOOD ONLY"), and without GenAI opt-in no footer at all. Nothing seeds a release policy. Trial projects have Test and Production.</li>
+<li><strong>The real screens.</strong>
+<ul class="sub">
+<li>Home is the product roadmap only (sim hero removed Oct 13): heading, four picker tiles, a numbered lane, a learning pane. All hardcoded data in a Foundation-owned package.</li>
+<li>Welcome survey: the first-action question is a five-option toggle group whose value preselects the Home lane. "Guarded release" is already a UI-only value.</li>
+<li>Flags list: five seeded example flags for trials, and a banner slot above the list where "SDK not connected" renders today.</li>
+<li>The "announcement banner" package is the customer admin's own tool. Our channels are the one-time popover (catalog empty, flag off, Shown and CTA Clicked events) and the promo banner variants in the top banner stack.</li>
+<li>Automation settings exists at /settings/release-autopilot behind enable-factory-settings. Three ways in, all behind the flag: settings rail (Configuration group), legacy settings nav, a link in the GitHub App drawer. "Map projects to repositories" is that page's installed state, not a separate page.</li>
+<li>The flag's Release tab, its Create release dialog, and the "Flag releases" dashboard exist behind flags; the dashboard still reads a mock API.</li>
+</ul></li>
+<li><strong>Billing has no percentage construct.</strong>
+<ul class="sub"><li>The catalog prices flat cents per block; the only percentage anywhere is the 50% Kubernetes discount.</li><li>Plans picker: "Choose a plan," the "Add CodeControl" bundle selector, three cards.</li><li>Customize: a read-only rate table (Product, Included, Standard rate).</li><li>Check out: no line items. A collapsed plan summary, "Monthly price: Usage-based," "Due today."</li></ul></li>
+<li><strong>Known failure modes.</strong> No result when the classifier recommends nothing, so "people think it didn't run." The bot comment is "a tough blurb of text to parse." Every PR author must set up. Suggestion acceptance is 17 to 19%. Internal teams dislike the PR noise and guarded defaults without traffic. Tim expects no customer in production before January; auto-release has the most confidence, the classifier the least.</li>
+<li><strong>Not at GA.</strong> Slack notifications, approvals integration, plan authoring UI, auto-metrics, setup wizard, a recommend-only mode. The releases dashboard reads a mock API.</li>
+<li><strong>Foundation's box.</strong> Audit log yes (account-level entries 30 days, environment-level unlimited); approvals and custom roles no.</li>
+</ul>
+
+<h2 id="scopes">05 · Scopes and mocks</h2>
+<p>Eight scopes. Each states the problem or opportunity and how critical it is for Nov 16, then shows the <strong>Current</strong> screen from real strings, the <strong>v0</strong> (an edit to that screen, outlined as <span class="diff" style="display:inline-block;padding:0 6px;font-size:12px">change</span>, shippable by Nov 16), and <strong>medium</strong> (Dec to Jan) and <strong>heavy</strong> (Q1) only where v0 does not finish the job. Every Feb 1 sentence assumes the default-off decision in section 00. Mocks are <span class="pill dir">Potential direction</span>; Current frames are facts. Every change carries a proposed owner:</p>
+<div class="ownkey"><span><span class="own fnd">Foundation</span>our team, self-serve surfaces</span><span><span class="own emsr">Autopilot team</span>EMSR, gonfalon Autopilot code and flags</span><span><span class="own vega">Agent service</span>Vega, the GitHub-side bot</span><span><span class="own bill">Billing</span>catalog, Orb, plans</span><span><span class="own mkt">Marketing</span>launch email and web</span><span><span class="own legal">Legal</span>data-flow and terms wording</span></div>
+<h3 id="s1">S1 · Discovery: Home and the welcome survey</h3>
+<div class="scope-meta"><div><b>Problem or opportunity</b><p>No trialist can learn that Release Autopilot exists. Home is the roadmap with four tiles; the survey has five options; nothing on the flags list or trial banner mentions it. The hero that used to sit above the roadmap was removed Oct 13, which leaves an empty slot in exactly the right place.</p></div><div><b>How critical for Nov 16</b><p><span class="pill gap">Critical</span> Every other scope depends on someone finding it. All Foundation-owned.</p></div></div>
+<div class="sizes" role="tablist" data-screen="s1"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0</button><button role="tab" aria-selected="false" data-size="v0alt">v0 alt</button><button role="tab" aria-selected="false" data-size="med">Medium</button><button role="tab" aria-selected="false" data-size="heavy">Heavy</button></div>
+<div class="size-panel" data-screen="s1" data-size="cur">
+<p class="desc">What a trialist sees today, in the order they see it: the welcome survey, then Home. Release Autopilot appears on neither.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/welcome · today</span></div>
+<div class="app nosb"><div class="main" style="max-width:560px;margin:0 auto"><h1 style="font-size:18px">Welcome to LaunchDarkly</h1><p>Let's get you set up with a few quick questions</p><p style="font-weight:600;margin-top:14px">What do you want to set up first?</p><div class="row" style="gap:6px"><span class="btn sm pri">Guarded release</span><span class="btn sm">Feature flag</span><span class="btn sm">Experiment</span><span class="btn sm">AgentControl</span><span class="btn sm">Observability</span></div><div style="margin-top:18px"><span class="btn pri">Get started →</span></div></div></div></div>
+<ul class="probs"><li>Five options; none is Release Autopilot. This question decides what Home shows first.</li><li>No way to explain an option. Two-word labels, no tooltip.</li></ul>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/default/home?from=welcome&amp;firstAction=guarded · today</span></div>
+<div class="banner dark">LaunchDarkly trial <span class="tag" style="background:rgba(255,255,255,.16);color:#fff;border:0">14 days left ▾</span><span class="x"><span class="btn sm" style="margin-right:6px">Explore plans ↗</span>Contact sales</span></div>
+<div class="app"><div class="sb"><div class="proj"><i></i>default</div><a class="on">Home</a><a>Search</a><a>Create</a><a>Approvals</a><a>Install SDK</a><div class="sec">Features</div><a>Flags</a><a>Guarded rollouts</a><a>Segments</a><a>Contexts</a><a>Live events</a></div>
+<div class="main"><div class="crumb">Home</div><h1 style="font-size:17px">Where do you want to start?</h1><p>Pick whatever matters most today. Set up the rest over time, in any order.</p>
+<div class="tiles four"><div class="tile on"><i style="background:rgb(66,94,255)"></i><div><b>Guarded releases</b><small>Ship safely, auto-rollback</small></div></div><div class="tile"><i style="background:rgb(8,150,180)"></i><div><b>Feature flags</b><small>Control what ships, to whom</small></div></div><div class="tile"><i style="background:rgb(214,122,0)"></i><div><b>Experimentation</b><small>Measure what works</small></div></div><div class="tile"><i style="background:rgb(0,131,68)"></i><div><b>Observability</b><small>Replay, debug, fix</small></div></div></div>
+<div class="card"><div class="rm"><div class="list"><div class="li on"><span class="n">1</span><div><div class="t">Create a flag</div><div class="b">The control point for your guarded release.</div></div></div><div class="li"><span class="n">2</span><div><div class="t">Give it a metric to monitor</div><div class="b">Clicks and page views, no code needed.</div></div></div><div class="li"><span class="n">3</span><div><div class="t">Install the SDK and connect your app</div></div></div><div class="li"><span class="n">4</span><div><div class="t">Wrap your change</div></div></div><div class="li"><span class="n">5</span><div><div class="t">Start a guarded release</div></div></div></div>
+<div class="pane"><div class="eyebrow">Step 1 of 5 · Guarded releases</div><h3>Create a flag</h3><p style="font-size:12.5px">Flag key</p><div class="row"><span class="tag" style="font-family:var(--mono)">release-new-checkout</span><span class="tag">Boolean · on / off</span></div><div class="row" style="margin-top:10px"><span class="btn pri">Create flag →</span></div></div></div></div>
+</div></div></div>
+<ul class="probs"><li>Release Autopilot named nowhere: page, sidebar, trial banner.</li><li>The hero slot above the roadmap is empty since Oct 13.</li><li>Setup is three clicks away behind a flag no trial has.</li></ul>
+<p class="caption"><span class="pill fact">Current</span>Both screens are flag-gated to trials (enable-welcome-form, enable-new-home-page-experiment).</p>
+</div>
+<div class="size-panel" data-screen="s1" data-size="v0" hidden>
+<p class="desc">In the order a trialist meets them. First the survey: a sixth option with a New tag and a hover tooltip that says what it is (LaunchPad Tooltip on the toggle). Then Home: a hero above the roadmap in the shape of the hero that was there until Oct 13 (neutral alert, copy left, visual right, one primary CTA), plus the fifth tile and its lane. The hero CTA goes to Automation settings, which exists; the secondary goes to the sample flag.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/welcome · hovering the new option</span></div>
+<div class="app nosb"><div class="main" style="max-width:560px;margin:0 auto;padding-top:70px"><p style="font-weight:600">What do you want to set up first?</p><div class="row" style="gap:6px"><span class="btn sm">Guarded release</span><span class="btn sm">Feature flag</span><span class="btn sm">Experiment</span><span class="btn sm">AgentControl</span><span class="btn sm">Observability</span><span class="tip"><span class="btn sm pri diff add">Release Autopilot <span class="tag" style="background:var(--good-soft);color:var(--good);border:0;font-size:9px;margin-left:4px">New</span></span><span class="bubble">A proposed flag and release plan on every pull request. A member approves; LaunchDarkly runs the release after merge. Included in your trial.</span></span></div><div style="margin-top:18px"><span class="btn pri">Get started →</span></div></div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/default/home?from=welcome&amp;firstAction=autopilot</span></div>
+<div class="app"><div class="sb"><div class="proj"><i></i>default</div><a class="on">Home</a><a>Search</a><a>Create</a><a>Approvals</a><a>Install SDK</a><div class="sec">Features</div><a>Flags</a><a>Guarded rollouts</a><a>Segments</a></div>
+<div class="main"><div class="crumb">Home</div>
+<div class="card diff add" style="background:var(--surface-2);margin-bottom:16px"><div class="two" style="gap:18px">
+<div><div class="row" style="gap:8px"><span class="tag" style="background:var(--good-soft);color:var(--good);border:0">New</span><h3 style="margin:0;font-size:16px">Release Autopilot: a flag and a release plan on every pull request</h3></div>
+<p style="margin:8px 0 10px">Connect a GitHub repo. Release Autopilot proposes a feature flag and a release plan on each PR, a member approves, and LaunchDarkly runs the release after merge and cleans up the flag when it is done. Included in your trial.</p>
+<div class="row"><span class="btn pri">Set up Release Autopilot</span><span class="btn">Watch a release on the sample flag</span><span style="font-size:12px;color:var(--muted)">2 min, no code</span></div></div>
+<div style="border-left:1px solid var(--line);padding-left:18px"><div class="row" style="gap:6px;margin-bottom:8px"><span class="tag acc">How it works</span></div>
+<div style="display:grid;gap:6px;font-size:12px"><div class="row" style="gap:8px"><span class="n" style="width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:11px">1</span>A pull request opens on a connected repo</div><div class="row" style="gap:8px"><span class="n" style="width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:11px">2</span>It proposes a flag and a release plan</div><div class="row" style="gap:8px"><span class="n" style="width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:11px">3</span>A member approves; one revertible commit</div><div class="row" style="gap:8px"><span class="n" style="width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:11px">4</span>After merge the release runs itself, environment by environment</div><div class="row" style="gap:8px"><span class="n" style="width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:11px">5</span>A cleanup PR removes the flag; you archive it</div></div></div>
+</div></div>
+<h1 style="font-size:17px">Where do you want to start?</h1><p>Pick whatever matters most today. Set up the rest over time, in any order.</p>
+<div class="tiles"><div class="tile"><i style="background:rgb(66,94,255)"></i><div><b>Guarded releases</b><small>Ship safely, auto-rollback</small></div></div><div class="tile"><i style="background:rgb(8,150,180)"></i><div><b>Feature flags</b><small>Control what ships, to whom</small></div></div><div class="tile"><i style="background:rgb(214,122,0)"></i><div><b>Experimentation</b><small>Measure what works</small></div></div><div class="tile"><i style="background:rgb(0,131,68)"></i><div><b>Observability</b><small>Replay, debug, fix</small></div></div><div class="tile on diff add"><i style="background:rgb(109,61,240)"></i><div><b>Release Autopilot <span class="tag" style="background:var(--good-soft);color:var(--good);border:0;font-size:9px">New</span></b><small>A flag and a release plan on every PR</small></div></div></div>
+<div class="card"><div class="rm">
+<div class="list diff add">
+<div class="li on"><span class="n">1</span><div><div class="t">Watch a release run itself</div><div class="b">On a sample flag. No code, no GitHub.</div></div></div>
+<div class="li"><span class="n">2</span><div><div class="t">Connect GitHub, or send the request to your admin</div><div class="b">Needs a GitHub org admin. Private repos only.</div></div></div>
+<div class="li"><span class="n">3</span><div><div class="t">Install the SDK and connect your app</div><div class="b">One init call with your SDK key.</div></div></div>
+<div class="li"><span class="n">4</span><div><div class="t">Add a metric before your first production release</div><div class="b">Without one, a release walks to 100% on its own.</div></div></div>
+<div class="li"><span class="n">5</span><div><div class="t">Open a pull request</div><div class="b">We propose a flag and a release plan. You approve.</div></div></div>
+<div class="sec">Nice to have</div>
+<div class="li"><span class="n">✉</span><div><div class="t">Add release notifications</div><div class="b">Email now. Slack after launch.</div></div></div>
+</div>
+<div class="pane diff add"><div class="eyebrow">Step 1 of 5 · Release Autopilot</div><h3>Watch a release run itself</h3><p>Open the sample flag's Release tab and create a release. LaunchDarkly moves it through Test and Production one environment at a time, in minutes-long steps on this sample. You start the first one; the rest follow. Nothing of yours changes, because no code evaluates the sample flag.</p><div class="row" style="gap:6px;margin:6px 0 10px"><span class="tag">Progressive release</span><span class="tag">Start by hand</span><span class="tag">Pause any time</span></div><span class="btn pri">Open the sample flag ↗</span></div>
+</div></div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own fnd">Foundation</span>Survey first: add to firstActions and the guarded remap; the toggle label is a ReactNode so the New tag drops in, and LaunchPad's Tooltip wraps the button for the hover text. Hero: a new component in the deleted PosterSimHero's shape, slotted above ProductRoadmap in HomeContent.tsx; the five-step strip is text, no illustration needed. Tile and lane: home.ts plus the ProductKey union; step 1 needs one CtaRoute case and a flag-level navigator. All Foundation-owned. Hero CTA goes to /settings/release-autopilot (exists) until the checklist page in Medium.</p>
+</div>
+
+<!-- ===== S1 MEDIUM: checklist page on the Steps primitive + walkthrough from hero ===== -->
+
+<div class="size-panel" data-screen="s1" data-size="v0alt" hidden>
+<p class="desc">Alternate v0 for the Home hero: a left-to-right visual of how it actually works, five states drawn as small real-screen moments with arrows between them, copy and CTAs underneath. Same slot above the roadmap, same data cost; the visual is CSS, no illustration asset.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/default/home?from=welcome&amp;firstAction=autopilot · alternate hero</span></div>
+<div class="app nosb"><div class="main"><div class="crumb">Home</div>
+<div class="card diff add" style="background:linear-gradient(180deg,var(--surface-2),var(--surface));margin-bottom:16px;padding:18px 20px">
+<div class="row" style="gap:8px;margin-bottom:12px"><span class="tag" style="background:var(--good-soft);color:var(--good);border:0">New</span><span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600">Release Autopilot · how it works</span></div>
+<div class="flow">
+<div class="fn"><div class="ic">PR #418 opened</div><b>A pull request opens</b><span>on a connected repo. Eyes, then a result, every time.</span></div>
+<div class="fn"><div class="ic">Flag + release plan</div><b>It proposes a flag and a plan</b><span>one-sentence why, Test then Production.</span></div>
+<div class="fn"><div class="ic" style="background:var(--good-soft);color:var(--good)">Approve ✓</div><b>A member approves</b><span>one revertible commit; nothing until then.</span></div>
+<div class="fn"><div class="ic">Prod 10% → 50% → 100%</div><b>The release runs itself</b><span>after merge, when deployed code evaluates the flag.</span></div>
+<div class="fn"><div class="ic">Cleanup PR #431</div><b>It cleans up</b><span>a PR removes the flag; you archive it.</span></div>
+</div>
+<p style="margin:6px 0 10px;max-width:70ch">Release Autopilot proposes a feature flag and a release plan on every pull request, a member approves, and LaunchDarkly runs the release after merge. Included in your trial. Approval is required on every pull request.</p>
+<div class="row"><span class="btn pri">Set up Release Autopilot</span><span class="btn">Watch a release on the sample flag</span><span class="btn ghost">See the five-step walkthrough</span></div>
+</div>
+<h1 style="font-size:17px">Where do you want to start?</h1><p style="color:var(--muted)">(roadmap with the fifth tile and lane, as in v0)</p>
+</div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0 alt</span><span class="own fnd">Foundation</span>Same slot and data cost as the v0 hero; trades the right-hand visual for a horizontal five-state strip, which is also the walkthrough's five scenes (S7) in miniature. Pick one of the two heroes; the tile, lane, and survey option are common to both.</p>
+</div>
+<div class="size-panel" data-screen="s1" data-size="med" hidden>
+<p class="desc">The hero's CTA goes to a dedicated "Release Autopilot setup" page built on the SDK setup page's step primitive (numbered steps, one open at a time, check marks on completion, "Optional" tags), reusing its existing connect-a-private-repo and open-the-PR steps. The hero's visual becomes the clickable walkthrough (S7).</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/default/release-autopilot-setup · new route on the sdk-setup Steps primitive</span></div>
+<div class="app nosb"><div class="main" style="max-width:720px;margin:0 auto"><div class="row between"><span style="font-weight:600">LaunchDarkly</span><div class="row"><span class="btn sm ghost">Get support</span><span class="btn sm">Close setup</span></div></div>
+<h1 style="font-size:20px;margin-top:14px">Set up Release Autopilot</h1><p>Four steps. Nothing is created until a member approves it on a pull request.</p>
+<div class="steps">
+<div class="step cur"><span class="n">1</span><div><div class="t">Connect a private repository</div><div class="d">Install the LaunchDarkly GitHub App for your organization (needs a GitHub org admin), then pick one private repo for this project. Pull request diffs are read by [provider and model]; [retention]. Bring your own key to keep them with your provider.</div><div class="row" style="margin-top:8px"><span class="btn sm pri">Install GitHub App</span><span class="btn sm">I am not the admin: copy a message</span></div></div></div>
+<div class="step"><span class="n">2</span><div><div class="t">Install the SDK and connect your app</div><div class="d">One init call with your SDK key. Releases start when deployed code evaluates the flag.</div></div><span class="tag">Optional until your first real PR</span></div>
+<div class="step"><span class="n">3</span><div><div class="t">Add a metric for production</div><div class="d">Without a metric, a release walks to 100% on its own. With one, a guarded release pauses or rolls back on regression.</div></div><span class="tag">Optional</span></div>
+<div class="step"><span class="n">4</span><div><div class="t">Open a pull request</div><div class="d">We comment with a proposed flag and release plan. Approval is required on every pull request.</div></div></div>
+</div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill med">medium</span><span class="own fnd">Foundation</span><span class="own emsr">Autopilot team</span>New route rendering the sdk-setup Steps primitive (make it public from packages/sdk-setup/src/ui). Step 1 reuses ConnectRepoStep and the GitHub App status hook; step 2 reuses the SDK active poll; step 4 reuses OpenDraftPrStep's shape. The AgentControl welcome page was the other candidate but it is a CTA splash with no step model and AI-specific redirects. Owner: Foundation, with the Autopilot team for the repo-to-project mapping call.</p>
+</div>
+
+<!-- ===== S1 HEAVY: sample app + agent-led ===== -->
+
+<div class="size-panel" data-screen="s1" data-size="heavy" hidden>
+<p class="desc">A sample app that evaluates the sample flag, so "started on flag evaluations" is a true sentence in a trial, and an agent-led setup path once the settings skill exists.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/default/release-autopilot-setup</span></div>
+<div class="app nosb"><div class="main" style="max-width:720px;margin:0 auto"><div class="card" style="border-color:var(--accent)"><h3>That release ran itself after one click.</h3><p>The sample app evaluated the flag in Production, so the release started on its own and finished. Connect a GitHub repo and this happens on every pull request.</p><div class="row"><span class="btn pri">Connect GitHub</span><span class="btn">Set up with my coding agent</span></div></div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill heavy">heavy</span><span class="own fnd">Foundation</span><span class="own emsr">Autopilot team</span>Sample app evaluations (the SDK trial sample app pattern) and the settings skill from ai-tooling. Owner: Foundation with the Autopilot team.</p>
+</div>
+
+<!-- ===== S2 CURRENT: Automation settings + drawer as built ===== -->
+
+
+<h3 id="s2">S2 · Setup: Automation settings and the GitHub App drawer</h3>
+<div class="scope-meta"><div><b>Problem or opportunity</b><p>The only setup surface is three clicks deep behind a flag no trial has, says "Factory" in four strings, names no prerequisites before the button, and says nothing about where diffs go or whose name lands on commits. Every GitHub-dependent capability starts here.</p></div><div><b>How critical for Nov 16</b><p><span class="pill gap">Critical</span> Blocks auto-flag and cleanup for everyone; the first admin's decisions happen here.</p></div></div>
+<div class="sizes" role="tablist" data-screen="s2"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0</button><button role="tab" aria-selected="false" data-size="med">Medium</button><button role="tab" aria-selected="false" data-size="heavy">Heavy</button></div>
+<div class="size-panel" data-screen="s2" data-size="cur">
+<p class="desc">Is "Map projects to repositories" a new page? No. It is the installed state of the existing Automation settings page at /settings/release-autopilot: the not-connected empty state (first frame) becomes the mapping table once the GitHub App is installed, and a member who has not personally authorized GitHub sees the sign-in state (second frame) instead of the table. The page exists for five design-partner accounts. Three ways in, all behind the same flag: the settings rail item under Configuration, the legacy settings nav item, and a link in the GitHub App drawer. Proposed changes are copy and small additions to this page, not a new one: prerequisites and data flow before the button, the approval statement, the string pass, and in medium a status strip and "Start here."</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot · today, GitHub App not installed</span></div>
+<div class="app"><div class="sb"><div class="sec">Configuration</div><a>Applications</a><a>Relay Proxy</a><a class="on">Release autopilot</a><a>SDKs</a><div class="sec">Security</div><a>Authorization</a><a>Security</a></div>
+<div class="main"><h1 style="font-size:17px">Release autopilot settings</h1>
+<div class="empty" style="margin-top:14px"><span class="callout-ic">⇄</span><h3>Connect the GitHub App to get started</h3><p>Install the LaunchDarkly GitHub App and authorize your GitHub account before mapping repositories to projects here.</p><p style="font-size:12px"><a>Read about the GitHub App integration</a></p><span class="btn pri">Go to GitHub App integration</span></div></div></div></div>
+<ul class="probs"><li>Button before prerequisites. Org admin, private repos, release policy, AI terms or BYOK are never stated.</li><li>Silent on where diffs go and whose name lands on commits.</li><li>Docs link is a placeholder path marked TODO in code.</li><li>Title says "Release autopilot"; body and errors say "Factory."</li></ul>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot · today, installed but this member not GitHub-authorized</span></div>
+<div class="app nosb"><div class="main"><h2>Map projects to repositories</h2><p>A project's automations run only on the repositories mapped to it here.</p>
+<table class="table"><tr><td><span class="tag">Account-wide</span></td><td><span class="switch"></span> Auto-flagging ⓘ</td><td><span class="switch"></span> Auto-releasing ⓘ</td><td></td></tr></table>
+<div class="empty" style="margin-top:10px"><span class="callout-ic">🔒</span><h3>Sign in with GitHub to manage Factory settings</h3><p>Factory is connected for your account. To change account defaults and view or manage repository mappings, sign in with a GitHub account that has access to your organization's GitHub App installation.</p><span class="btn pri">Sign in with GitHub</span></div></div></div></div>
+<ul class="probs"><li>This is the state most members land on after install. It still says "Factory."</li><li>Two switches visible, disabled, unexplained. Nothing says approval is on by default or that both are off until an admin acts.</li><li>"Map projects to repositories" assumes you know a repo maps to one project.</li></ul>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/integrations/github-app/show · today</span></div>
+<div class="app nosb"><div class="main" style="max-width:560px"><h1 style="font-size:17px">GitHub App integration</h1><p>Install the LaunchDarkly GitHub App to let Factory create feature flags, start releases, and clean up code from your pull requests.</p>
+<div class="card"><div class="row between"><div><b>GitHub App installed</b><div style="font-size:12px;color:var(--muted)">Install the app for your LaunchDarkly account.</div></div><div class="row"><span class="tag">Not connected</span><span class="btn sm pri">Install GitHub App ↗</span></div></div><div class="row between" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line)"><div><b>Your GitHub account linked</b><div style="font-size:12px;color:var(--muted)">Available once the GitHub App is installed.</div></div><span class="tag">Not connected</span></div></div></div></div></div>
+<ul class="probs"><li>Does not say a GitHub org admin is required or that public repos are excluded.</li><li>Two steps, no hint that every PR author repeats step two.</li><li>Body still says "let Factory create feature flags."</li></ul>
+<p class="caption"><span class="pill fact">Current</span>Real strings throughout.</p>
+</div>
+
+<!-- ===== S3 CURRENT placeholder (filled from Slack) ===== -->
+<!-- S3CURRENT -->
+
+<!-- ===== S4 CURRENT: Release tab today for a trialist ===== -->
+
+<div class="size-panel" data-screen="s2" data-size="v0" hidden>
+<p class="desc">The real not-connected empty state on /settings/release-autopilot (plug badge, heading, body, docs link, primary button) with its copy changed: prerequisites and data flow before the button, the approvals and attribution sentence, the real primary CTA to the GitHub App drawer, the placeholder docs link fixed, and the remaining "Factory" strings replaced per the naming page.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot</span></div>
+<div class="app"><div class="sb"><div class="sec">Configuration</div><a>Applications</a><a>Relay Proxy</a><a class="on diff">Automation settings</a><a>SDKs</a><div class="sec">Security</div><a>Authorization</a><a>Security</a></div>
+<div class="main"><h1 style="font-size:17px">Automation settings</h1>
+<div class="empty" style="margin-top:14px"><span class="callout-ic">⇄</span><h3>Connect the GitHub App to get started</h3>
+<div class="diff" style="text-align:left;max-width:540px;margin:8px auto 12px;font-size:12.5px;padding:8px">
+<p style="margin:0 0 6px">Release Autopilot proposes a feature flag and a release plan on every pull request. A member approves on the PR; LaunchDarkly runs the release after merge. Before you start, you will need:</p>
+<div class="row" style="padding:3px 0;align-items:flex-start"><span class="tag">1</span><span>A GitHub organization admin to install the app. Private repositories only.</span></div>
+<div class="row" style="padding:3px 0;align-items:flex-start"><span class="tag">2</span><span>One repository to connect to one LaunchDarkly project.</span></div>
+<div class="row" style="padding:3px 0;align-items:flex-start"><span class="tag">3</span><span>A release policy on that project. <a>Create one in Release settings</a>.</span></div>
+<div class="row" style="padding:3px 0;align-items:flex-start"><span class="tag">4</span><span>AI terms accepted, or your own model key. Pull request diffs are read by [provider and model]; [retention]. Bring your own key to keep them with your provider.</span></div>
+</div>
+<p style="font-size:12px"><a>Read about Release Autopilot</a></p>
+<div class="row" style="justify-content:center"><span class="btn pri">Go to GitHub App integration</span><span class="btn diff add">I am not the GitHub admin</span></div>
+<p class="diff" style="margin:14px auto 0;font-size:12px;color:var(--muted);max-width:60ch;padding:6px">Approval is required on every pull request. Commits are pushed under the approving member's GitHub account and can be reverted. Release Autopilot does not use your LaunchDarkly approval workflows at launch. Every flag it creates and release it starts is in the audit log under that member.</p>
+</div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own emsr">Autopilot team</span><span class="own fnd">Foundation</span><span class="own legal">Legal</span>The real empty state's body is a single paragraph, so the four-item list is a small component change, not copy alone. The string pass must also cover the second empty state every member sees after the App is installed ("Sign in with GitHub to manage Factory settings" and its body), the error heading, the load error, and the rail label. The bracketed model and retention words are the sentence Sam will not install without; legal and the Vega team fill them. Owner: Autopilot team's component; Foundation supplies copy. "I am not the GitHub admin" opens the copyable message shown in Medium and can be a link at v0.</p>
+</div>
+
+<div class="size-panel" data-screen="s2" data-size="med" hidden>
+<p class="desc">The page keeps its real body (the pinned Account-wide row and the project-to-repo table with switches) and gains a status strip, a "Start here" recommendation on the capability a fresh account should turn on first, a "PR authors linked" count per repo, and a read-only hand-off for Writers.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot</span></div>
+<div class="app nosb"><div class="main"><h1 style="font-size:17px">Automation settings</h1>
+<div class="row diff" style="gap:6px;margin:6px 0 12px;padding:4px"><span class="tag good">GitHub App installed · acme-eng</span><span class="tag good">Your GitHub linked</span><span class="tag acc">Approval required on every pull request</span><a style="font-size:12px">What this means</a></div>
+<h2>Map projects to repositories</h2><p>A project's automations run only on the repositories mapped to it here.</p>
+<table class="table">
+<tr><th>Project</th><th>Repository</th><th>Auto-flag ⓘ</th><th>Auto-release ⓘ <span class="tag acc diff add" style="font-size:9.5px">Start here</span></th><th class="diff add">PR authors linked</th><th></th></tr>
+<tr><td colspan="2"><span class="tag">Account-wide</span></td><td><span class="switch"></span></td><td><span class="switch on"></span></td><td></td><td></td></tr>
+<tr><td>web</td><td>acme-eng/web ↗</td><td><span class="switch"></span></td><td><span class="switch on"></span> <a style="font-size:11px">Manage auto-release settings ↗</a></td><td>3 of 11 <a style="font-size:11px">copy invite</a></td><td><a style="font-size:11px">Remove</a></td></tr>
+<tr><td></td><td colspan="5"><a style="font-size:12px">+ Add repository</a></td></tr>
+<tr><td colspan="6"><a style="font-size:12px">+ Add project</a></td></tr>
+</table>
+<div class="row between" style="margin-top:12px"><span style="font-size:12px;color:var(--muted)">All changes saved</span><div class="row"><span class="btn sm">Discard changes</span><span class="btn sm pri">Save changes</span></div></div>
+</div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot  (Writer role)</span></div>
+<div class="app nosb"><div class="main"><h1 style="font-size:17px">Automation settings</h1>
+<div class="card soft diff add"><h3>Your admin turns on the account-wide switches</h3><p>An Owner or Admin turns on the account-wide switches and installs the GitHub App. Send them this.</p>
+<div class="copy">Hi Sam, can you turn on Release Autopilot for us? It is included in our Foundation plan at no charge until Feb 1, 2027. Setup: app.launchdarkly.com/settings/release-autopilot. It needs the LaunchDarkly GitHub App on the acme-eng org and the account-wide switches on; I can map the "web" repo myself once that is done. Approval is required on every PR, so a person approves every flag before anything is created.</div>
+<div class="row" style="margin-top:8px"><span class="btn sm pri">Copy message</span></div></div>
+</div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill med">medium</span><span class="own emsr">Autopilot team</span><span class="own fnd">Foundation</span>Status strip, "Start here" on Auto-release (the part with the fewest prerequisites and the most confidence), Writer hand-off. "PR authors linked" has no data source in gonfalon today; it needs the agent's member-to-GitHub mapping and is the one column here that is not a plausible extension yet. The pinned Account-wide row doubles as the table header, so a new column reshapes it. Owner: Autopilot team; Foundation owns the hand-off copy. The approval badge is a statement, not a control, because approvalRequired exists only on Auto-flag and is on by default.</p>
+</div>
+
+<div class="size-panel" data-screen="s2" data-size="heavy" hidden>
+<p class="desc">Team rollout and attribution: a linked-authors table with a copyable invite, bot-authored commits with the approver as co-author, and the trust ladder as a January row once the agent can honour it.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/release-autopilot</span></div>
+<div class="app nosb"><div class="main"><h1 style="font-size:17px">Automation settings</h1>
+<div class="steps">
+<div class="step done"><span class="n">✓</span><div><div class="t">GitHub connected · 2 repositories · Approval required on every pull request</div></div></div>
+<div class="step cur"><span class="n">○</span><div><div class="t">Bring your team along</div><div class="d">11 people opened pull requests on connected repos in the last 30 days. 3 have linked GitHub. Unlinked authors see the proposal but cannot approve.</div>
+<table class="table" style="margin-top:8px"><tr><td>jordan-acme</td><td><span class="tag good">Linked</span></td><td>8 PRs</td></tr><tr><td>mia-k</td><td><span class="tag warn">Not linked</span></td><td>6 PRs</td></tr><tr><td>devraj</td><td><span class="tag warn">Not linked</span></td><td>5 PRs</td></tr></table>
+<div class="row" style="margin-top:8px"><span class="btn sm pri">Copy invite</span></div></div></div>
+<div class="step"><span class="n">○</span><div><div class="t">Who signs the commits</div><div class="d">Commits are authored by launchdarkly[bot] and co-authored by the approver, so GitHub and the audit log show both.</div><div class="row" style="margin-top:6px"><span class="switch on"></span><span style="font-size:12px">Author as launchdarkly[bot]</span></div></div></div>
+<div class="step"><span class="n">○</span><div><div class="t">How much it does on its own</div><div class="d">January: Recommend only (comment, create nothing), Approve each (today), Automatic (needs a metric on production).</div></div><span class="tag vio">Roadmap</span></div>
+</div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill heavy">heavy</span><span class="own emsr">Autopilot team</span><span class="own vega">Agent service</span>Rollout and attribution controls. Owner: Autopilot team. Dependencies: GitHub-side bot author, member-to-GitHub mapping, a recommend-only behaviour in the agent. Bot-authored commits are also a v0 ask because the IC crit made it the deciding factor.</p>
+</div>
+
+
+<h3 id="s3">S3 · The nth engineer: pull request, check, comment, review page</h3>
+<div class="scope-meta"><div><b>Problem or opportunity</b><p>Suggestion acceptance is 17 to 19%. Engineers cannot tell whether it ran, cannot parse the comment, get surprised by a silent release on an existing flag, and are asked to approve a commit they cannot review. The nth engineer decides adoption and is the one person we never onboard.</p></div><div><b>How critical for Nov 16</b><p><span class="pill gap">Critical</span> Agent-side asks; copy can land without gonfalon work.</p></div></div>
+<div class="sizes" role="tablist" data-screen="s3"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0</button><button role="tab" aria-selected="false" data-size="med">Medium</button><button role="tab" aria-selected="false" data-size="heavy">Heavy</button></div>
+<div class="size-panel" data-screen="s3" data-size="cur">
+<p class="desc">What an engineer gets today on a connected repo, from the dogfood channels. The bot reacts with eyes while it analyzes and a rocket when done. Until Oct 2 a "no flag needed" result was the rocket alone; a comment was added back after "numerous requests where people thought the analysis didn't run at all, including design partners," and rocket-only has still been seen since. The comment is a one-to-two-sentence rationale, a plan block, and reply commands.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">github.com/launchdarkly/gonfalon/pull/… · today (fragments quoted by dogfooders)</span></div>
+<div class="gh">
+<div class="cm"><div class="hd"><span class="av"></span><b>launchdarkly</b> bot commented · 👀 → 🚀</div><div class="bd">
+<p><b>Already gated by the existing cognito-read-only-verb-enforcement flag.</b></p>
+<p>Rationale: Create the missing LaunchDarkly flag for the backend guard already in this PR, defaulting to false and maintained by the PR opener/claimant. Policy-controlled release enables the new question check gradually…</p>
+<p><b>Release plan on approve</b> • No new flag is created — this PR keeps using invite-members-flow-ui-redesign. • LaunchDarkly runs its release flow for that existing flag and reports what it did back on this PR.</p>
+<p>Reply with <code>@launchdarkly approve</code> to apply the plan above, or <code>@launchdarkly refine &lt;your requested changes&gt;</code> if this isn't the right one. <code>@launchdarkly help</code> for all commands.</p>
+</div></div>
+<div class="check"><span class="ic pend"></span><b>LaunchDarkly - Account connection</b><span style="color:var(--muted)">LaunchDarkly could not match @zack-winchell-ld's account to a member, so the factory cannot act…</span></div>
+<div class="check"><span class="ic neutral"></span><b>Flag suggestion</b><span style="color:var(--muted)">LaunchDarkly suggested feature-flagging this change. Reply @launchdarkly approve to accept… (fires even when the comment said no change needed)</span></div>
+</div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Reply commands today</span></div>
+<div class="app nosb"><div class="main"><div class="copy">@launchdarkly approve · approve flag · approve release · approve all · reject · plan · replan [context] · refine &lt;text&gt; · feedback &lt;accurate|inaccurate&gt; &lt;text&gt; · claim · revert · help. Quote-replies are not parsed. "If you truly want to do nothing, no reply is needed."</div></div></div></div>
+<ul class="probs"><li>Unreadable: "a pretty tough blurb of text to parse" (Carmen Quan). "Too much PR noise, with a high interaction cost" (Ari Salem).</li><li>Invisible: "no flag needed" was emoji-only until Oct 2, still seen since. Auto-flag off fails silently. "We kept refreshing… it was just emojis" (Tom Cook).</li><li>Silent release: approve on an existing flag releases it. A local Cursor agent approved for one engineer (Alex Engelberg).</li><li>Unreviewable: "approving a code change that I can't review" (Joe Karayusuf).</li><li>Wrong defaults: guarded without traffic; parallel plans "take about 6 days" (Drew Inglis).</li><li>Author of record is the engineer. Bot authorship not built.</li><li>Checks: made required, then unrequired after 4 of 289 PRs hit it. Named checks exist on the catfood app only.</li><li>Fixed Oct 18: maintainer defaults to "Select maintainer," not a hardcoded team.</li></ul>
+<p class="caption"><span class="pill fact">Current</span>Fragments and quotes from #dogfood-release-autopilot, #proj-release-autopilot-eng, and #ask-release-autopilot, Aug 28 to Oct 20.</p>
+</div>
+
+<div class="size-panel" data-screen="s3" data-size="v0" hidden>
+<p class="desc">Three asks to the agent team, no gonfalon UI: the check always reports a terse result, including "no flag needed, here is why"; the comment is the 85-word version the IC crit wrote; one sentence under the review page title. The review page shown is the real one (Proposed flag, Release plan, What happens, Conversation).</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">github.com/acme-eng/web/pull/418</span></div>
+<div class="gh">
+<div class="cm diff"><div class="hd"><span class="av"></span><b>launchdarkly</b> bot commented 1 minute ago</div><div class="bd">
+<p><b>Release Autopilot</b> suggests flag <code>checkout-address-autocomplete</code> for this PR (changes checkout for all users).</p>
+<p><b>Approve:</b> one revertible commit to this branch under your GitHub account. After merge: staging, then production 10% → 50% → 100% over 18h, each environment starting when your deployed code evaluates the flag. No metric on production, so it will not pause on its own.</p>
+<p><b>Do nothing:</b> nothing is created. This check does not block merge.</p>
+<p><a>Review in LaunchDarkly</a>. First time asks you to connect GitHub once. No LaunchDarkly seat? A member who has one approves; you do nothing.</p>
+</div></div>
+<div class="check diff"><span class="ic ok"></span><b>LaunchDarkly / Release Autopilot</b><span style="color:var(--muted)">Flag suggested. Awaiting approval. Does not block merge.</span><a style="margin-left:auto">Details</a></div>
+</div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">github.com/acme-eng/web/pull/419</span></div>
+<div class="gh"><div class="check diff"><span class="ic ok"></span><b>LaunchDarkly / Release Autopilot</b><span style="color:var(--muted)">Reviewed. No flag needed: test-only change.</span><a style="margin-left:auto">Details</a></div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/review/acme-eng/web/pull/418</span></div>
+<div class="two"><div class="main"><div class="crumb">acme-eng/web · PR #418</div><h1 style="font-size:17px">Review</h1><p class="diff" style="padding:4px">Approve the flag to push one commit to this pull request now. Approve the release to run it after merge. Revert the commit or pause the release from this page.</p>
+<h2>Proposed flag</h2><div class="card"><div class="row between"><div><b>Checkout address autocomplete</b><div style="font-size:12px;color:var(--muted)">checkout-address-autocomplete · Maintainer: Jordan Lee</div></div><div class="row"><span class="btn sm">Reject</span><span class="btn sm pri">Approve</span></div></div><p style="margin-top:6px;font-size:12px"><a>Why is a flag suggested?</a></p></div>
+<h2>Release plan</h2><div class="card"><p style="margin:0 0 6px">Sequential rollout after merge. Expand an environment to see its release shape.</p><div class="row between"><div>▸ <b>staging</b> · Progressive rollout: 10% → 50% → 100% · Release policy: Progressive default</div></div><div class="row between" style="margin-top:4px"><div>▸ <b>production</b> · Progressive rollout: 10% → 50% → 100% · Release policy: Progressive default</div><div class="row"><span class="btn sm">Reject</span><span class="btn sm pri">Approve</span></div></div></div>
+<h2>What happens</h2><div class="card soft"><div class="row" style="gap:6px"><span class="tag acc">Now</span>Create the flag in LaunchDarkly · Push a commit to this pull request that wraps the change in the flag</div><div class="row" style="gap:6px;margin-top:4px"><span class="tag">After merge</span>Approve the release plan so LaunchDarkly rolls it out</div></div>
+</div><div class="chat"><b style="font-size:12px">Conversation</b><div class="m" style="margin-top:8px">I suggested a flag because this changes the checkout form for every user and there is no existing flag around it.</div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own vega">Agent service</span><span class="own emsr">Autopilot team</span>Comment and check live in the Vega service (ask). The comment is drawn as the product behaves today: the commit lands under the approving engineer's GitHub account. Bot authorship with the engineer as co-author is the open ask; when it lands, the Approve line changes in this comment, the settings footer, the email, and the walkthrough together. The commit preview link exists only in Medium. The review page sentence is a small gonfalon change; the real page also has a Revert link, omitted here. Greg Yeutter's setup guide documents a reply command (@launchdarkly approve); omitted here until the agent team confirms it ships. Bug to file: the review page shows a hardcoded Guardian team as maintainer and drops edited name, key, and maintainer on approve; until fixed, render those fields read-only.</p>
+</div>
+
+<div class="size-panel" data-screen="s3" data-size="med" hidden>
+<p class="desc">A first-visit panel for members who have never approved, reusing the What happens strings, an honest guardrail tag on the release plan, and a commit preview link. Dismisses after the first approval.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/review/acme-eng/web/pull/418</span></div>
+<div class="two"><div class="main"><div class="crumb">acme-eng/web · PR #418</div><h1 style="font-size:17px">Review</h1>
+<div class="card diff add" style="border-color:var(--accent);background:var(--accent-soft)"><div class="row between"><h3>First time here? Three things.</h3><a style="font-size:12px">Dismiss</a></div><p>1. Approving the flag pushes one commit to your pull request under your GitHub account. Revert it from this page.<br>2. Approving the release schedules it for after merge. Each environment starts when your deployed code evaluates the flag.<br>3. Nothing is created until a member approves here. Release Autopilot does not use your LaunchDarkly approval workflows at launch.</p></div>
+<p class="diff add" style="font-size:12px;padding:4px">Approved by Jordan Lee · Oct 22, 2026 9:14 AM · PR #418 · This record stays on this page after merge.</p>
+<h2>Proposed flag</h2><div class="card"><div class="row between"><div><b>Checkout address autocomplete</b><div style="font-size:12px;color:var(--muted)">checkout-address-autocomplete · Maintainer: Jordan Lee</div></div><div class="row"><span class="btn sm">Reject</span><span class="btn sm pri">Approve</span></div></div><p style="margin-top:6px;font-size:12px"><a>Why is a flag suggested?</a> · <a class="diff add">Preview the commit</a></p></div>
+<h2>Release plan</h2><div class="card"><div class="row between"><div>▸ <b>staging</b> · Immediate · ▸ <b>production</b> · Progressive 10% → 50% → 100% · Release policy: Progressive default</div><div class="row"><span class="btn sm">Reject</span><span class="btn sm pri">Approve</span></div></div><div class="row diff add" style="gap:6px;margin-top:8px;font-size:12px;padding:4px"><span class="tag warn">Regression checks: not configured</span><span>Add a metric in Release settings to pause on regression.</span></div></div>
+</div><div class="chat"><b style="font-size:12px">Conversation</b><div class="m" style="margin-top:8px">I suggested a flag because this changes the checkout form for every user and there is no existing flag around it.</div><div class="m me">Why staging before production?</div><div class="m">The project's release policy orders environments staging, then production. You can change the order in Release settings.</div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill med">medium</span><span class="own emsr">Autopilot team</span><span class="own fnd">Foundation</span>First-visit panel (the one-time popover's per-member dismissal hook is reusable for the "has approved before" state), guardrail tag, commit preview, and an approval record line that stays after merge, which is the evidence a Foundation customer can hand an auditor. Owner: Autopilot team. Foundation supplies copy and the instrumentation spec.</p>
+</div>
+
+<div class="size-panel" data-screen="s3" data-size="heavy" hidden>
+<p class="desc">Approve or skip from the GitHub check details without leaving GitHub, per-PR opt-out via label, personal defaults. The LD review page stays for edits and chat.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">github.com/acme-eng/web/pull/418/checks</span></div>
+<div class="gh"><div class="cm"><div class="hd"><span class="av"></span><b>LaunchDarkly / Release Autopilot</b> · check details</div><div class="bd">
+<div class="row between"><div><b>Flag</b> checkout-address-autocomplete · <a>preview commit</a></div><span class="btn sm pri">Approve flag (needs your LaunchDarkly access)</span></div>
+<div class="row between" style="margin-top:8px"><div><b>Release</b> staging → production 10/50/100 over 18h · no metric on production</div><span class="btn sm pri">Approve release</span></div>
+<div class="row between" style="margin-top:8px"><div><b>Skip this PR</b> adds label <code>autopilot:skip</code></div><span class="btn sm">Skip</span></div>
+</div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill heavy">heavy</span><span class="own vega">Agent service</span>GitHub-native approval and opt-out. Owner: Autopilot team. Dependencies: a Checks requested-action handler and label handling in the agent.</p>
+</div>
+
+
+<h3 id="s4">S4 · The flag's Release tab: GitHub-free Day 0 and the watching surface</h3>
+<div class="scope-meta"><div><b>Problem or opportunity</b><p>The only part of Release Autopilot that works without GitHub, and the only honest place to watch a release at GA, is a dead end for every self-serve account today: no Create button, no footer, nothing seeded.</p></div><div><b>How critical for Nov 16</b><p><span class="pill dir">High</span> Makes Day 0 possible without an org admin; four small flags plus a seed.</p></div></div>
+<div class="sizes" role="tablist" data-screen="s4"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0</button><button role="tab" aria-selected="false" data-size="med">Medium</button><button role="tab" aria-selected="false" data-size="heavy">Heavy</button></div>
+<div class="size-panel" data-screen="s4" data-size="cur">
+<p class="desc">Three states, all real strings. The empty state; the dialog after clicking Create release as a trialist today (a warning and no buttons); and the same dialog on a design-partner account where the default configuration exists, so the v0 changes can be read against it.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/default/flags/ld-example-release-new-search/overview · today, Release tab</span></div>
+<div class="app nosb"><div class="main"><div class="row" style="gap:14px;font-size:12.5px;border-bottom:1px solid var(--line);padding-bottom:6px"><span>Targeting</span><span style="font-weight:600;color:var(--accent-ink)">Release</span><span>Variations</span><span>Monitoring</span></div>
+<div class="empty" style="margin-top:14px"><span class="callout-ic">🚀</span><h3>Create a release for this flag</h3><p>LaunchDarkly rolls this flag out across each environment automatically.</p><span class="btn pri">Create release</span></div></div></div></div>
+<ul class="probs"><li>One sentence, no picture. Does not say which environments, in what order, what starts each one, or what "automatically" means.</li><li>Does not say what will not happen (nothing changes until a release starts) or how to stop it (pause).</li><li>No safety statement: no metric means no automatic pause.</li><li>For a sample flag, nothing says it is safe to try.</li></ul>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">After clicking Create release · trialist today</span></div>
+<div class="app nosb" style="background:var(--surface-2)"><div class="main" style="max-width:520px;margin:0 auto"><div class="card"><div class="row between"><h3 style="margin:0">Create flag release</h3><span class="x">✕</span></div><p>LaunchDarkly releases this flag to the environments listed below in order, following each environment's release policy.</p><div class="card soft" style="border-color:var(--warn)"><span class="tag warn">Warning</span> There isn't a default release configuration for this project yet, so there's no suggested release. Customize with Vega to set one up.</div><p style="font-size:12px;color:var(--muted);margin-top:10px">(no footer: Create is hidden without the configuration; the Vega button is hidden without GenAI opt-in)</p></div></div></div></div>
+<ul class="probs"><li>Dead end. No Create button, and without GenAI opt-in no buttons at all.</li><li>The warning tells a trialist to "customize with Vega," a button they cannot see.</li><li>The configuration it wants is a Release Engineering dogfood flag whose only live variation is "CATFOOD ONLY."</li></ul>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">After clicking Create release · design-partner account today (configuration on, GenAI on)</span></div>
+<div class="app nosb" style="background:var(--surface-2)"><div class="main" style="max-width:520px;margin:0 auto"><div class="card"><div class="row between"><h3 style="margin:0">Create flag release</h3><span class="x">✕</span></div><p>LaunchDarkly releases this flag to the environments listed below in order, following each environment's release policy.</p>
+<div class="card soft" style="border-color:var(--warn)"><span class="tag warn">Warning</span> This release starts automatically when LaunchDarkly detects evaluations of this flag, whether or not your code is ready to release.</div>
+<ol style="padding-left:18px;font-size:12.5px"><li style="margin:6px 0"><b>Test</b><br><span style="color:var(--muted)">Follows release policy</span></li><li style="margin:6px 0"><b>Production</b><br><span style="color:var(--muted)">Progressive · 10→50→100%</span></li></ol>
+<div class="row" style="margin-top:10px;justify-content:flex-end"><span class="btn">Customize with Vega</span><span class="btn pri">Create release</span></div></div></div></div></div>
+<ul class="probs"><li>Every environment defaults to the flag-evaluation trigger. On a flag nothing evaluates, the release waits three weeks, then expires.</li><li>The trigger select exists only behind enable-manual-release-triggers; without it there is no way to start by hand.</li><li>"Follows release policy" when no policy matches means the environment is held as "Policy needed" after creation, not before.</li><li>Nothing about blast radius, pause, or the missing metric.</li></ul>
+<div class="note"><p><strong>Jobs the empty state and dialog have to do</strong> for a first-time user, in order: say what a release is here (environments, in order, each with a shape); say what starts each environment and what "automatically" means; say what will not happen until it starts; say how to stop it and that pausing holds; say whether anything is watching (no metric, no automatic pause); and make the first click obvious and safe, especially on the sample flag. Today the empty state does the first job in one sentence and none of the others.</p></div>
+<p class="caption"><span class="pill fact">Current</span>Real strings; tab, dialog, and trigger select are gated to design partners.</p>
+</div>
+
+<div class="size-panel" data-screen="s4" data-size="v0" hidden>
+<p class="desc">Same two screens with the changes outlined and numbered. The empty state becomes a small visual of the release it will create (the two environments as a strip, each with its trigger and shape) above the one real button. The dialog keeps its real structure; what changes is the trigger per environment, the policy it reads, one added paragraph, and the fact that the Create button appears at all.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Release tab · empty state · v0</span></div>
+<div class="app nosb"><div class="main"><div class="row" style="gap:14px;font-size:12.5px;border-bottom:1px solid var(--line);padding-bottom:6px"><span>Targeting</span><span style="font-weight:600;color:var(--accent-ink)">Release</span><span>Variations</span><span>Monitoring</span></div>
+<div class="empty" style="margin-top:14px"><span class="callout-ic">🚀</span><h3>Create a release for this flag</h3><p>LaunchDarkly rolls this flag out across each environment automatically.</p>
+<div class="diff add" style="max-width:520px;margin:10px auto 12px;padding:10px;text-align:left"><div class="flow" style="grid-template-columns:1fr 1fr;margin:0 0 8px"><div class="fn" style="min-height:0"><div class="ic" style="height:30px">Test</div><b>Progressive 10% → 50% → 100%</b><span>Starts when you click Start release</span></div><div class="fn" style="min-height:0"><div class="ic" style="height:30px">Production</div><b>Progressive 10% → 50% → 100%</b><span>Starts after Test completes</span></div></div><p style="font-size:12.5px;margin:0">This is the sample flag: no code evaluates it, so nothing changes for your users. Each step lasts two minutes here. Pausing holds the current step. No metric is connected, so it will not pause on its own.</p></div>
+<span class="btn pri">Create release</span></div></div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">After clicking Create release · v0 · numbered changes</span></div>
+<div class="app nosb" style="background:var(--surface-2)"><div class="main" style="max-width:520px;margin:0 auto"><div class="card"><div class="row between"><h3 style="margin:0">Create flag release</h3><span class="x">✕</span></div><p>LaunchDarkly releases this flag to the environments listed below in order, following each environment's release policy.</p>
+<ol style="padding-left:18px;font-size:12.5px"><li style="margin:6px 0"><b>Test</b> · Release trigger: <span class="tag diff" style="padding-right:22px">On manual start<span style="position:absolute;right:-2px;top:-10px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;display:grid;place-items:center">1</span></span><br><span style="color:var(--muted)" class="diff">Progressive · 10→50→100% <span style="display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;margin-left:6px">2</span></span></li><li style="margin:6px 0"><b>Production</b> · Release trigger: <span class="tag diff">After previous environment completes</span><br><span style="color:var(--muted)">Progressive · 10→50→100%</span></li></ol>
+<p style="font-size:12px">Environments release one at a time, in the order shown.</p>
+<p class="diff add" style="font-size:12px;padding:4px">Each step lasts two minutes on this sample policy. The first step serves the new variation to 10% of contexts in that environment; everyone else keeps today's rules. Pausing by hand holds the current percentage and does not roll back; automatic rollback needs a guarded release with a metric. No metric is connected, so this release will not pause on its own. <span style="display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;margin-left:4px">3</span></p>
+<div class="row" style="margin-top:10px;justify-content:flex-end"><span class="btn">Customize with Vega</span><span class="btn pri diff">Create release <span style="display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#fff;color:var(--accent);font-size:10px;margin-left:4px">4</span></span></div></div></div></div></div>
+<div class="note"><p><strong>What changed, and why</strong></p><ol style="margin:4px 0 0;padding-left:20px;font-size:14px">
+<li><strong>Triggers preset to manual for Test and after-previous for Production.</strong> Today every environment defaults to flag evaluations, and nothing evaluates the sample flag, so the release would never start. Needs enable-manual-release-triggers and the releases-service migration at Live for trial accounts.</li>
+<li><strong>Policy summary reads a seeded policy.</strong> Today it would read "Follows release policy" and then hold the environment as "Policy needed," because nothing seeds a policy. The seed goes in the Go trial seeder next to the sample flags, with minutes-long steps so the sample finishes in a session.</li>
+<li><strong>One added paragraph.</strong> Blast radius of the first step, that pause holds and does not roll back, that no metric means no automatic pause. The dialog has no safety statement today.</li>
+<li><strong>The Create button exists.</strong> Today it is hidden because the project has no default release configuration. Needs a default-release-configuration variation for trial projects (Test, then Production, sequential).</li>
+</ol><p style="margin-top:8px">Not changed: the title, subtitle, environment list structure, the footer, the "one at a time" notice, and the Customize with Vega button (still hidden without GenAI opt-in).</p></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">After Create release · the real Release tab with the release pending</span></div>
+<div class="app nosb"><div class="main"><div class="row between"><h3 style="margin:0">Flag release</h3><span class="btn sm">Pause auto-release</span></div><div class="row between" style="margin-top:8px;font-size:12.5px"><span>▸ <b>Test</b> · Waiting on a manual start</span><span class="btn sm pri">▶ Start release</span></div><div style="margin-top:6px;font-size:12.5px">▸ <b>Production</b> · <span class="tag">Not ready</span> Waiting on the previous environment to complete</div><div style="margin-top:6px;font-size:12.5px">▸ Code cleanup <span class="tag">Not ready</span> · ▸ Flag archival <span class="tag">Not ready</span></div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own emsr">Autopilot team</span><span class="own fnd">Foundation</span>Empty-state visual and the added paragraph are copy and one small component; the four dialog changes are flags and a seed. Autopilot team: enable-flag-overview, enable-manual-release-triggers, the default-release-configuration variation, releases-service Live, the dialog paragraph. Foundation: the policy seed in the Go trial seeder and routing the Home card to this flag. A trial project's environments are Test and Production.</p>
+</div>
+<div class="size-panel" data-screen="s4" data-size="med" hidden>
+<p class="desc">The watching state on a real flag after a PR-driven release, with the honest trigger sentence and the guardrail sentence; the dashboard first-run once the list API replaces the mock, keeping the dashboard's own four category toggles above a setup-status list. The dashboard is titled "Flag releases" under a "Factory" nav section today; "Releases" is the proposed rename from the naming page, not the current label.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/web/flags/checkout-address-autocomplete/overview</span></div>
+<div class="app nosb"><div class="main"><div class="row" style="gap:14px;font-size:12.5px;border-bottom:1px solid var(--line);padding-bottom:6px"><span>Targeting</span><span style="font-weight:600;color:var(--accent-ink)">Release</span><span>Variations</span></div>
+<div class="card" style="margin-top:10px"><div class="row" style="gap:8px">⇄ <a>PR #418</a> <span class="tag good">Merged</span></div></div>
+<div class="row between" style="margin-top:12px"><h2 style="margin:0">Flag release</h2><span class="btn sm">Pause auto-release</span></div>
+<div class="card"><div class="row between"><div>▾ <b>staging</b></div><span class="tag good">Completed</span></div><div style="font-size:12px;margin-top:6px">Detected flag evaluations · Oct 22 2026 9:14 AM<br>Released from Off to On (immediate release)</div></div>
+<div class="card"><div class="row between"><div>▾ <b>production</b></div><span class="tag acc">In progress</span></div><div style="font-size:12px;margin-top:6px">Detected flag evaluations · Oct 22 2026 10:02 AM<br>Release from Off to On (progressive release) · 50% On · 50% Off · est. 6:02 PM<br><span class="diff add tag warn" style="margin-top:6px">Regression checks: not configured</span> <span style="color:var(--muted)">Connect a metric to pause on regression.</span></div></div>
+<div class="card"><div class="row between"><div>▸ Code cleanup</div><span class="tag">Not ready</span></div></div>
+<div class="card"><div class="row between"><div>▸ Flag archival</div><span class="tag">Not ready</span></div></div>
+</div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/web/factory/releases · when the list API is real</span></div>
+<div class="app nosb"><div class="main"><div class="row between"><h1 style="font-size:17px">Flag releases <span class="tag diff" style="font-size:10px">proposed: Releases</span></h1><span class="btn sm">Manage release plans</span></div>
+<div class="row" style="gap:6px;margin:8px 0"><span class="tag">Regressions 0</span><span class="tag">Blocked 0</span><span class="tag">Paused 0</span><span class="tag">In progress 0</span></div>
+<div class="empty diff add"><h3>No releases yet</h3><p>Releases appear here after an approved pull request is merged and its flag is evaluated by your deployed code.</p><div style="text-align:left;max-width:420px;margin:0 auto 12px;font-size:12.5px"><div class="row" style="padding:3px 0"><span class="tag good">Done</span>GitHub App installed</div><div class="row" style="padding:3px 0"><span class="tag good">Done</span>2 repositories connected to this project</div><div class="row" style="padding:3px 0"><span class="tag warn">Waiting</span>First pull request on a connected repository</div><div class="row" style="padding:3px 0"><span class="tag warn">Not configured</span>Regression checks. <a>Add a metric</a></div></div></div>
+</div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill med">medium</span><span class="own emsr">Autopilot team</span>Guardrail sentence on the Release tab (Autopilot team), dashboard first-run once the API lands (Brad Simantel's dashboard), nav folded into the Releases section.</p>
+</div>
+
+<div class="size-panel" data-screen="s4" data-size="heavy" hidden>
+<p class="desc">A sample app that evaluates the sample flag for the trialist, so "started on flag evaluations" is a true sentence in a trial, and the GitHub hand-off appears at the moment the release completes. Plus the leader overview with coverage and automation rate per repo.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/default/flags/ld-example-release-new-search/overview</span></div>
+<div class="app nosb"><div class="main"><h2 style="margin:0 0 8px">Flag release</h2>
+<div class="card"><div class="row between"><div><b>Test</b></div><span class="tag good">Completed · started manually</span></div></div>
+<div class="card"><div class="row between"><div><b>Production</b></div><span class="tag good">Completed · started on flag evaluations from the sample app</span></div></div>
+<div class="card" style="border-color:var(--accent);margin-top:10px"><h3>That release ran itself after one click.</h3><p>Connect a GitHub repo and Release Autopilot proposes a flag and this release plan on every pull request. A member approves; nothing is created until they do.</p><div class="row"><span class="btn pri">Connect GitHub</span><span class="btn">Not the admin? Copy a message</span></div></div>
+</div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/web/releases/overview</span></div>
+<div class="app nosb"><div class="main"><h1 style="font-size:17px">Overview</h1><p>Last 30 days across 4 connected repositories.</p>
+<div class="kpi"><div><b class="num">61%</b><small>of PRs that needed a flag got one (14 of 23 proposals approved)</small></div><div><b class="num">88%</b><small>of releases fully automatic after approval</small></div><div><b class="num">2</b><small>guarded releases rolled back on a metric regression</small></div><div><b class="num">0</b><small>production releases without a human approval</small></div></div>
+<table class="table" style="margin-top:14px"><tr><th>Repository</th><th>Coverage</th><th>Automatic</th></tr><tr><td>acme-eng/web</td><td class="num">74%</td><td class="num">91%</td></tr><tr><td>acme-eng/api</td><td class="num">52%</td><td class="num">85%</td></tr></table>
+<div class="row" style="margin-top:12px"><span class="btn sm">Email this weekly to…</span><span class="btn sm ghost">Export audit log (30 days on Foundation)</span></div>
+</div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill heavy">heavy</span><span class="own fnd">Foundation</span><span class="own emsr">Autopilot team</span>Sample app evaluations and the hand-off; leader overview and digest. Owner: Foundation for the sample app pattern; Autopilot team for the overview ("Factory insights" is on the post-GA list).</p>
+</div>
+
+
+<h3 id="s5">S5 · Existing Foundation and Developer customers hear about it</h3>
+<div class="scope-meta"><div><b>Problem or opportunity</b><p>Foundation and Developer accounts get it included on Nov 16 and hear nothing in product. The popover catalog is empty, the beta banner targets Enterprise and Guardian, and Owners do not log in.</p></div><div><b>How critical for Nov 16</b><p><span class="pill dir">High</span> Cheap, Foundation-owned, and the only path to the install base.</p></div></div>
+<div class="sizes" role="tablist" data-screen="s5"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0</button><button role="tab" aria-selected="false" data-size="med">Medium</button><button role="tab" aria-selected="false" data-size="heavy">Heavy</button></div>
+<div class="size-panel" data-screen="s5" data-size="cur">
+<p class="desc">What an existing Foundation customer sees about Release Autopilot today: nothing. The one-time popover catalog is empty and its system flag is off. The promo banner's factory-beta variant targets Enterprise and Guardian plan types only.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Enterprise or Guardian account · today · promo variant factory-beta-2026</span></div>
+<div class="banner dark">LaunchDarkly for the AI software factory <span class="btn sm" style="margin-left:8px">Get early access ↗</span><span class="x">✕</span></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Foundation or Developer account · today</span></div>
+<div class="app nosb" style="min-height:80px"><div class="main"><p style="color:var(--muted)">(nothing)</p></div></div></div>
+<ul class="probs"><li>The only in-app mention sends Enterprise and Guardian to an early-access form.</li><li>Foundation and Developer get it included Nov 16 and hear nothing.</li><li>Owners who do not log in hear nothing from any banner. Email reaches them; nobody owns it yet.</li><li>Nothing shows what it looks like. The demo is a 20-minute internal Loom.</li></ul>
+<p class="caption"><span class="pill fact">Current</span>Popover catalog empty, system flag off; promo variant factory-beta-2026 targets Enterprise and Guardian plan types.</p>
+</div>
+
+<!-- ===== S6 CURRENT: Plans, Customize, Check out as built ===== -->
+
+<div class="size-panel" data-screen="s5" data-size="v0" hidden>
+<p class="desc">Two in-app surfaces, each with role-specific copy and CTAs, plus the launch-day email. The banner uses the promo banner slot in the top banner stack. The card uses the slot above the flags list where "SDK not connected" renders today, is dismissible per member, and carries a "See how it works" affordance into the walkthrough (S7). Email to Owners and Admins likely belongs to Marketing; confirm.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Foundation · Owner or Admin · top banner</span></div>
+<div class="banner dark diff add">New: Release Autopilot. A proposed flag and release plan on every pull request, approved by a member. Included in Foundation at no charge until Feb 1, 2027. <span class="btn sm" style="margin-left:8px">Set up</span><span class="btn sm ghost" style="color:#fff">See how it works</span><span class="x">✕</span></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Foundation · Writer or Maintainer · top banner</span></div>
+<div class="banner dark diff add">New: Release Autopilot. A proposed flag and release plan on every pull request. An Owner or Admin turns it on; included at no charge until Feb 1, 2027. <span class="btn sm" style="margin-left:8px">Ask your admin</span><span class="btn sm ghost" style="color:#fff">See how it works</span><span class="x">✕</span></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Foundation · Reader or leader · top banner</span></div>
+<div class="banner dark diff add">New: Release Autopilot. Every release your team runs through it shows on the flag's Release tab, and nothing ships without a member's approval. <span class="btn sm ghost" style="color:#fff;margin-left:8px">See how it works</span><span class="x">✕</span></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/projects/web/flags · Owner or Admin · dismissible card above the list</span></div>
+<div class="app"><div class="sb"><div class="proj"><i></i>web</div><div class="sec">Features</div><a class="on">Flags</a><a>Segments</a><a>Contexts</a></div>
+<div class="main"><div class="row between"><h1 style="font-size:17px">Flags</h1><span class="btn sm pri">Create flag</span></div>
+<div class="card diff add" style="margin:12px 0"><div class="two" style="gap:16px"><div><div class="row" style="gap:8px"><span class="tag" style="background:var(--good-soft);color:var(--good);border:0">New</span><h3 style="margin:0">Release Autopilot is included in your plan</h3></div><p style="margin:6px 0 10px">Every pull request on a connected repo gets a proposed flag and release plan. A member approves; LaunchDarkly runs the release after merge. At no charge until Feb 1, 2027; if you do nothing it turns off then. Setup needs a GitHub org admin.</p><div class="row"><span class="btn sm pri">Set up Release Autopilot</span><span class="btn sm">See how it works</span><a style="font-size:12px;margin-left:6px">Dismiss</a></div></div>
+<div class="flow" style="grid-template-columns:repeat(5,minmax(0,1fr));gap:6px"><div class="fn" style="min-height:70px;padding:6px"><div class="ic" style="height:26px;font-size:9.5px">PR opens</div></div><div class="fn" style="min-height:70px;padding:6px"><div class="ic" style="height:26px;font-size:9.5px">Flag + plan</div></div><div class="fn" style="min-height:70px;padding:6px"><div class="ic" style="height:26px;font-size:9.5px;background:var(--good-soft);color:var(--good)">Approve</div></div><div class="fn" style="min-height:70px;padding:6px"><div class="ic" style="height:26px;font-size:9.5px">Release runs</div></div><div class="fn" style="min-height:70px;padding:6px"><div class="ic" style="height:26px;font-size:9.5px">Cleanup</div></div></div></div></div>
+<div class="row" style="gap:8px;margin-top:8px"><span class="btn sm">All environments ▾</span><span style="font-size:12px;color:var(--muted)">Search flags by name, description or key</span></div>
+<table class="table" style="margin-top:8px"><tr><td>checkout-address-autocomplete</td><td><span class="switch on"></span></td></tr><tr><td>order-history-pagination</td><td><span class="switch on"></span></td></tr></table>
+</div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Same card · Writer or Maintainer</span></div>
+<div class="app nosb"><div class="main"><div class="card diff add"><div class="row" style="gap:8px"><span class="tag" style="background:var(--good-soft);color:var(--good);border:0">New</span><h3 style="margin:0">Release Autopilot is included in your plan</h3></div><p style="margin:6px 0 10px">Every pull request on a connected repo gets a proposed flag and release plan you approve on the PR. An Owner or Admin turns it on and installs the GitHub App; once the switches are on you can connect a repo yourself.</p><div class="row"><span class="btn sm pri">Ask your admin</span><span class="btn sm">See how it works</span><a style="font-size:12px;margin-left:6px">Dismiss</a></div></div></div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Same card · Reader or leader</span></div>
+<div class="app nosb"><div class="main"><div class="card diff add"><div class="row" style="gap:8px"><span class="tag" style="background:var(--good-soft);color:var(--good);border:0">New</span><h3 style="margin:0">Release Autopilot is included in your plan</h3></div><p style="margin:6px 0 10px">When your team turns it on, every release it runs shows on the flag's Release tab, with the pull request, who approved, and each environment's progress. Nothing ships without a member's approval.</p><div class="row"><span class="btn sm">See how it works</span><span class="btn sm ghost">Open a flag's Release tab</span><a style="font-size:12px;margin-left:6px">Dismiss</a></div></div></div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Email to Owners and Admins · launch day · likely Marketing-owned, confirm</span></div>
+<div class="app nosb"><div class="main" style="max-width:560px;margin:0 auto"><div class="card"><div style="font-size:12px;color:var(--muted)">Subject: Release Autopilot is now included in your Foundation plan</div><p style="margin-top:8px">If your team ships with coding agents, Release Autopilot proposes a feature flag and a release plan on every pull request, and runs the release after merge.</p><ul style="font-size:12.5px;padding-left:18px"><li>Included at no charge until Feb 1, 2027. If you do nothing it turns off then; nothing else on your bill or renewal changes.</li><li>A member approves every proposal. Commits are pushed under the approver's GitHub account and can be reverted.</li><li>At launch it does not use LaunchDarkly approval workflows. Every action is in your audit log under the approving member (environment changes kept indefinitely, account changes 30 days).</li><li>Needs a GitHub org admin to install the app and an Owner or Admin to turn on the switches. Private repos only. Diffs are read by [provider and model]; [retention]. Bring your own key to keep them with your provider.</li></ul><div class="row"><span class="btn pri">Set up Release Autopilot</span><span class="btn">See how it works</span></div></div></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own fnd">Foundation</span><span class="own mkt">Marketing</span><span class="own legal">Legal</span>Banner: a promo banner variant (heading, CTA, link, three events) with the copy chosen by the member's role in the component, since the dogfood context has plan type but not role. Card: a new dismissible component in the flags list banner slot (per-member dismissal via the one-time system's hook), with the five-state strip as its visual and "See how it works" opening the walkthrough. Email: plain text through the operational path; Marketing likely owns the launch email, confirm with Kellye King before building ours. All Foundation-owned. The Feb 1 sentence depends on the default-off decision.</p>
+</div>
+<div class="size-panel" data-screen="s5" data-size="med" hidden>
+<p class="desc">Owners often do not log in, so the same facts go by plain-text operational email to Owners and Admins on launch day (promoted to v0 after the leader crit), and a one-time popover greets invited members on their first visit after Nov 16 with what they need to know and nothing to do.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Email to Owners and Admins · Foundation</span></div>
+<div class="app nosb"><div class="main" style="max-width:560px;margin:0 auto"><div class="card"><div style="font-size:12px;color:var(--muted)">Subject: Release Autopilot is now included in your Foundation plan</div><p style="margin-top:8px">Your team is shipping more changes with coding agents. Release Autopilot proposes a feature flag and a release plan on every pull request, and runs the release after merge.</p><ul style="font-size:12.5px;padding-left:18px"><li>Included at no charge until Feb 1, 2027. If you do nothing it turns off then; nothing else on your bill or renewal changes. From Feb 1 it is $6 per service connection and $5 per 1K client-side MAU past the amounts your plan already includes.</li><li>A member approves every proposal. Commits are pushed under the approver's GitHub account and can be reverted.</li><li>At launch it does not use LaunchDarkly approval workflows. Every action is in your audit log under the approving member: environment changes kept indefinitely, account changes 30 days.</li><li>Needs a GitHub org admin to install the app and an Owner or Admin to turn on the account-wide switches. Private repos only. Diffs are read by [provider and model]; [retention]. Bring your own key to keep them with your provider.</li></ul><span class="btn pri">Set up Release Autopilot</span></div></div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Invited member · first visit · one-time popover</span></div>
+<div class="app nosb" style="min-height:170px;position:relative"><div class="popover diff add" style="position:absolute;left:12px;bottom:12px"><span class="x">✕</span><h3>Release Autopilot is on for acme-eng/web</h3><p style="margin:0 0 8px">Sam Rivera turned it on. When you open a pull request there, LaunchDarkly comments with a proposed flag and release plan. Nothing is created unless a member approves; rejecting or ignoring has no consequence. You will be asked to connect GitHub once.</p><span class="btn sm">Open a flag's Release tab</span></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill med">medium</span><span class="own fnd">Foundation</span>Owner email and an invited-member popover keyed per member. The popover needs a ctaLink, so the button opens a flag's Release tab rather than closing. Owner: Foundation. Dependencies: the Feb 1 default decision; legal wording for the data-flow bullet; the popover reading connected repos and the admin's name, which it cannot do today.</p>
+</div>
+
+<div class="size-panel" data-screen="s5" data-size="heavy" hidden>
+<p class="desc">State-aware recommendation on the popover and settings: an account with 400 flags and 60 stale ones is pointed at auto-cleanup first; an account with a release policy and no GitHub is pointed at the Release tab; an account with GitHub installed is pointed at mapping a repo.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Foundation account with flag debt · popover</span></div>
+<div class="app nosb" style="min-height:170px;position:relative"><div class="popover" style="position:absolute;left:12px;bottom:12px"><span class="x">✕</span><h3>61 of your flags have served one variation for 90 days</h3><p style="margin:0 0 8px">Release Autopilot can open cleanup pull requests for them. Connect GitHub once; you approve each PR.</p><span class="btn sm pri">Start with cleanup</span></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill heavy">heavy</span><span class="own fnd">Foundation</span><span class="own emsr">Autopilot team</span>Recommendation from account state (stale-flag count, GitHub status, release policy presence). Owner: Foundation with the Autopilot team.</p>
+</div>
+
+
+<h3 id="s6">S6 · Billing: the in-app Plans page, Customize, and Check out</h3>
+<div class="scope-meta"><div><b>Problem or opportunity</b><p>Nothing says it is included or what it costs after Feb 1; "free until" reads as a trap without a stated default; the Guardian card offers a package that stops being sold; Check out has no row to put a line item on.</p></div><div><b>How critical for Nov 16</b><p><span class="pill dir">High</span> The Feb 1 trust problem is set on Nov 16 by what the Plans page says.</p></div></div>
+<div class="sizes" role="tablist" data-screen="s6"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0</button><button role="tab" aria-selected="false" data-size="med">Medium</button><button role="tab" aria-selected="false" data-size="heavy">Heavy</button></div>
+<div class="size-panel" data-screen="s6" data-size="cur">
+<p class="desc">The real self-serve flow for a trialist. "Choose a plan" with the Account ID row and the "Add CodeControl" bundle selector, three cards, then a read-only rate table, then a Check out page with no line items.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/billing/plans · today</span></div>
+<div class="app nosb"><div class="main"><div class="row between"><h1 style="font-size:17px">Choose a plan</h1><span style="font-size:12px;color:var(--muted)">Account ID 6502…eb90 ⧉</span></div>
+<div class="card soft" style="margin:10px 0"><div class="row" style="gap:10px"><span class="switch on"></span><div><b>Add CodeControl</b><div style="font-size:12px;color:var(--muted)">Feature flagging and experimentation</div></div></div></div>
+<div class="pr">
+<div class="card"><h3>Developer <span class="tag">Plan after trial</span></h3><div style="font-size:12.5px;color:var(--ink-2)">One platform for features and agents. Free to start.</div><div style="font-size:20px;font-weight:600;margin-top:6px">Free</div><div style="font-size:12px;color:var(--muted)">No credit card required</div><span class="btn sm" style="margin:8px 0">Select plan</span></div>
+<div class="card" style="border-color:var(--accent)"><h3>Foundation <span class="tag acc">Most popular</span></h3><div style="font-size:12.5px;color:var(--ink-2)">Ship features and agents to production. Scale both without hitting a ceiling.</div><div style="font-size:20px;font-weight:600;margin-top:6px">Pay-as-you-go</div><div style="font-size:12px;color:var(--muted)">Billed monthly, or save annually</div><div class="row" style="gap:6px;margin:8px 0"><span class="btn sm pri">Select plan</span><span class="btn sm ghost">Calculator</span></div></div>
+<div class="card"><h3>Guardian</h3><div style="font-size:12.5px;color:var(--ink-2)">Monitor and guard everything you ship: features and agents.</div><div style="font-size:20px;font-weight:600;margin-top:6px">Custom pricing</div><div style="font-size:12px;color:var(--muted)">Contact us for customized plans</div><span class="btn sm" style="margin:8px 0">Get quote</span></div>
+</div><p style="font-size:12px;margin-top:10px"><a>Compare all features ↗</a></p></div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Customize plan · Check out · today</span></div>
+<div class="app nosb"><div class="main bill"><div class="two" style="gap:14px"><div class="card"><h3 style="margin:0">Foundation Plan</h3><div style="font-size:12.5px;color:var(--muted)">Price based on monthly usage</div><h2 style="margin-top:12px">Usage and rates by product</h2><table><tr><th>Product</th><th>Included</th><th>Standard rate</th></tr><tr><td>Service connections</td><td>5/mo</td><td>$12.00 each</td></tr><tr><td>Client-side MAU</td><td>1K/mo</td><td>$10.00/1K</td></tr><tr><td>AI runs</td><td>5K/mo</td><td>$5.00/1K</td></tr></table></div>
+<div class="card"><div class="tot"><span>Monthly price</span><span>Usage-based</span></div><p style="font-size:12px;color:var(--muted)">Additional usage billed monthly at standard rates.</p><div class="tot"><span>Due today:</span><span>$0.00</span></div><span class="btn pri" style="display:block;text-align:center;margin-top:10px">Confirm subscription</span></div></div></div></div></div>
+<ul class="probs"><li>Nothing says it is included or what it costs after Feb 1.</li><li>Guardian card still sells a package that ends Nov 16.</li><li>Check out has no line items; "included until Feb 1" needs a sentence, not a row.</li><li>No per-product opt-in in Customize; the only switch is the picker's bundle selector.</li></ul>
+<p class="caption"><span class="pill fact">Current</span>Catalog-driven cards and real strings.</p>
+</div>
+
+<div class="size-panel" data-screen="s6" data-size="v0" hidden>
+<p class="desc">One feature bullet per card in the catalog yaml, with the info popover the cards already support. No price, because self-serve purchase opens in January and the pricing page treatment is undecided. The Guardian card is a separate decision: Guardian Edition stops being sold on Nov 16, and this card still offers it.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/billing/plans · trialist</span></div>
+<div class="app nosb"><div class="main"><div class="row between"><h1 style="font-size:17px">Choose a plan</h1><span style="font-size:12px;color:var(--muted)">Account ID 6502…eb90 ⧉</span></div>
+<div class="card soft" style="margin:10px 0"><div class="row" style="gap:10px"><span class="switch on"></span><div><b>Add CodeControl</b><div style="font-size:12px;color:var(--muted)">Feature flagging and experimentation</div></div></div></div>
+<div class="pr">
+<div class="card"><h3>Developer <span class="tag">Plan after trial</span></h3><div style="font-size:12.5px;color:var(--ink-2)">One platform for features and agents. Free to start.</div><div style="font-size:20px;font-weight:600;margin-top:6px">Free</div><div style="font-size:12px;color:var(--muted)">No credit card required</div><span class="btn sm" style="margin:8px 0">Select plan</span><div style="font-size:11px;font-weight:600;color:var(--muted);margin-top:6px">CodeControl</div><ul style="font-size:12px;padding-left:16px;margin:4px 0"><li>Unlimited seats</li><li>Unlimited feature flags</li><li>30 idiomatic SDKs</li><li>5K session replays and errors</li><li>10M logs and traces</li><li>A/B tests and experiments</li><li class="diff add">Release Autopilot within plan limits ⓘ</li></ul><div style="font-size:11px;font-weight:600;color:var(--muted);margin-top:6px">AgentControl</div><ul style="font-size:12px;padding-left:16px;margin:4px 0"><li>Unlimited playgrounds</li><li>5,000 AI runs</li><li>14 days data retention</li></ul></div>
+<div class="card" style="border-color:var(--accent)"><h3>Foundation <span class="tag acc">Most popular</span></h3><div style="font-size:12.5px;color:var(--ink-2)">Ship features and agents to production. Scale both without hitting a ceiling.</div><div style="font-size:20px;font-weight:600;margin-top:6px">Pay-as-you-go</div><div style="font-size:12px;color:var(--muted)">Billed monthly, or save annually</div><div class="row" style="gap:6px;margin:8px 0"><span class="btn sm pri">Select plan</span><span class="btn sm ghost">Calculator</span></div><div style="font-size:11px;font-weight:600;color:var(--muted);margin-top:6px">CodeControl</div><ul style="font-size:12px;padding-left:16px;margin:4px 0"><li>Everything in Developer, plus:</li><li>Unlimited projects</li><li>User, account, device targeting</li><li>Scalable observability usage</li><li>Scalable experimentation usage</li><li>Single sign on</li><li class="diff add">Release Autopilot, included at no charge until Feb 1, 2027 ⓘ</li></ul><div style="font-size:11px;font-weight:600;color:var(--muted);margin-top:6px">AgentControl</div><ul style="font-size:12px;padding-left:16px;margin:4px 0"><li>Usage-based pricing past 5,000 AI runs/mo</li><li>30 days data retention</li></ul></div>
+<div class="card"><h3>Guardian</h3><div style="font-size:12.5px;color:var(--ink-2)">Monitor and guard everything you ship: features and agents.</div><div style="font-size:20px;font-weight:600;margin-top:6px">Custom pricing</div><div style="font-size:12px;color:var(--muted)">Contact us for customized plans</div><span class="btn sm" style="margin:8px 0">Get quote</span><div style="font-size:11px;font-weight:600;color:var(--muted);margin-top:6px">CodeControl</div><ul style="font-size:12px;padding-left:16px;margin:4px 0"><li>Everything in Foundation, plus:</li><li>Advanced user targeting</li><li>Release automation</li><li>Workflows, scheduling, &amp; approvals</li><li>SAML / SCIM</li></ul><div class="diff" style="font-size:11px;color:var(--warn);padding:4px;margin-top:6px">Decision: Guardian Edition is not sold after Nov 16. The Enterprise plan in the catalog has checkout unavailable, so swapping this card is availability and transition work, not a bullet.</div></div>
+</div>
+<p style="font-size:12px;margin-top:10px"><a>Compare all features ↗</a></p></div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Feature popover on the Foundation bullet</span></div>
+<div class="app nosb" style="min-height:120px"><div class="popover diff add" style="margin:12px"><p style="margin:0 0 8px">A proposed flag and release plan on every pull request, approved by a member before anything is created. Included in Foundation at no charge until Feb 1, 2027. From then, $6 per service connection and $5 per 1K client-side MAU past the amounts your plan already includes. If you do nothing it turns off on Feb 1 and nothing else on your bill changes.</p><a style="font-size:12px">Learn more</a></div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own fnd">Foundation</span><span class="own bill">Billing</span>Feature bullets with tooltip text in foundation2023-v3.yaml, developer2025-v2.yaml, and the Guardian overrides in bundles.yaml; the catalog renders the info popover as text plus a "Learn more" link, with no heading. The popover states the price because the leader crit called withholding a known number the trap; it depends on the pricing-page-treatment decision. Owner: Foundation with Billing's yaml review. Dependencies: the Feb 1 default decision; what to do with the Guardian card.</p>
+</div>
+
+<div class="size-panel" data-screen="s6" data-size="med" hidden>
+<p class="desc">January: the opt-in uses the pattern that exists, a bundle selector on the Plans page like "Add CodeControl," which swaps Foundation v3 for a v5 that carries two more limit types. Customize then shows those two rows in the real rate table, and the "What's included" block carries a time-boxed inclusion line, the same slot the retired "Try AgentControl free" promo used. Check out gets one sentence under "Monthly price," because the Review page has no line items to add to.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/billing/plans · bundle selector</span></div>
+<div class="app nosb"><div class="main"><div class="row between"><h1 style="font-size:17px">Choose a plan</h1><span style="font-size:12px;color:var(--muted)">Account ID 6502…eb90 ⧉</span></div>
+<div class="card soft diff add" style="margin:10px 0"><div class="row" style="gap:10px"><span class="switch on"></span><div><b>Add Release Autopilot</b><div style="font-size:12px;color:var(--muted)">$0 until Feb 1, 2027. From Feb 1, $6 per service connection and $5 per 1K client-side MAU past what your plan includes, on the same usage counts you already pay for. Your renewal date and other rates do not change. Off on Feb 1 unless you keep it on.</div></div></div></div>
+<p style="font-size:12px;color:var(--muted)">(cards as in v0)</p></div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/billing/plans/customize</span></div>
+<div class="app nosb"><div class="main bill"><h1 style="font-size:17px">Customize plan</h1>
+<div class="two" style="gap:14px"><div>
+<div class="card"><h3 style="margin:0">Foundation Plan</h3><div style="font-size:12.5px;color:var(--muted)">Price based on monthly usage</div>
+<h2 style="margin-top:12px">What's included:</h2><p>Built-in monthly usage, plus <b>100K experimentation MAU.</b> <span class="diff add" style="padding:0 3px"><b>Release Autopilot included.</b> No charges for Release Autopilot through Feb 1, 2027.</span></p>
+<div class="row" style="gap:6px;margin:8px 0"><span class="btn sm pri">Billed monthly</span><span class="btn sm">Billed annually</span></div>
+<h2>Usage and rates by product</h2>
+<table><tr><th>Product</th><th>Included</th><th>Standard rate ⓘ</th></tr>
+<tr><td>Service connections</td><td>5/mo</td><td>$12.00 each</td></tr>
+<tr><td>Client-side MAU</td><td>1K/mo</td><td>$10.00/1K</td></tr>
+<tr><td>AI runs</td><td>5K/mo</td><td>$5.00/1K</td></tr>
+<tr><td>Session replays</td><td>5K/mo</td><td>$3.50/1K*</td></tr>
+<tr><td>Errors</td><td>5K/mo</td><td>$0.30/1K*</td></tr>
+<tr class="diff add"><td>Release Autopilot connections</td><td>5/mo</td><td>$6.00 each</td></tr>
+<tr class="diff add"><td>Release Autopilot MAU</td><td>1K/mo</td><td>$5.00/1K</td></tr>
+</table><p style="font-size:11.5px;color:var(--muted)">*Save more with higher usage.</p></div>
+</div><div><div class="card"><div class="tot"><span>Monthly price</span><span>Usage-based</span></div><p style="font-size:12px;color:var(--muted)">Additional usage billed monthly at standard rates.</p><span class="btn pri" style="display:block;text-align:center">Continue to checkout →</span><span class="btn" style="display:block;text-align:center;margin-top:6px">Cancel</span></div></div></div>
+</div></div></div>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/billing/plans/review</span></div>
+<div class="app nosb"><div class="main bill"><h1 style="font-size:17px">Check out</h1>
+<div class="two" style="gap:14px"><div>
+<div class="card"><div class="row between"><b>Your Foundation plan</b><span>▾</span></div><div style="font-size:12px;color:var(--muted);margin-top:4px">Service connections 5/mo; Client-side MAU 1K/mo; AI runs 5K/mo; Session replays 5K/mo; Errors 5K/mo; Traces 10M/mo; Logs 10M/mo<span class="diff add">; Release Autopilot connections 5/mo; Release Autopilot MAU 1K/mo</span></div></div>
+<div class="card"><div class="row between"><b>Billing contact</b><a style="font-size:12px">Edit</a></div><div style="font-size:12px;color:var(--muted)">Priya Shah · Acme · priya@acme.com</div></div>
+<div class="card"><div class="row between"><b>Payment method</b><a style="font-size:12px">Edit</a></div><div style="font-size:12px;color:var(--muted)">Visa •••• 4242 · 08/2029</div></div>
+</div><div><div class="card"><div class="tot"><span>Monthly price</span><span>Usage-based</span></div><p style="font-size:12px;color:var(--muted)">Additional usage billed monthly at standard rates. <span class="diff add" style="padding:0 3px">Release Autopilot adds $0.00 to this bill until Feb 1, 2027. From Feb 1 it is billed with your plan, on your existing billing date, at $6 per service connection and $5 per 1K client-side MAU past the included amounts. Turn it off any time; the charge stops at the next billing cycle.</span></p>
+<div class="tot"><span>Due today:</span><span>$0.00</span></div><div class="row between" style="font-size:12px"><span>Next payment:</span><span>Usage-based</span></div>
+<p style="font-size:11.5px;margin-top:10px">To complete your purchase you must accept the following:</p><div style="font-size:11.5px">☑ I agree to the <a>subscription terms</a>, including automatic renewals.<br>☑ I understand and agree to the <a>automatic overage charge authorization</a>.</div>
+<span class="btn pri" style="display:block;text-align:center;margin-top:10px">Confirm subscription</span></div></div></div>
+</div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill med">medium</span><span class="own fnd">Foundation</span><span class="own bill">Billing</span>A bundle selector on the picker (the real opt-in pattern), a Foundation v5 version with two limit types (Release Autopilot connections, Release Autopilot MAU) at half the platform rates and the same included tiers, the inclusions line in Customize (the retired promo string's slot), the plan summary subtext (automatic once the limits exist), and one sentence in the price summary. Annual shows $60 and $50 when that interval is selected. Owner: Foundation with Billing. Dependencies: Orb phase 2 (the v5 version, opt-in, removal, and metering the two rows on the same quantities as Hosts and MAU, which the one-usage-price-per-limit model does not do today), the pricing page treatment decision, and whether the rate appears in-product before January.</p>
+</div>
+
+<div class="size-panel" data-screen="s6" data-size="heavy" hidden>
+<p class="desc">Before Feb 1, the Plans page shows the computed monthly price at current usage next to what Release Autopilot did, with a keep-or-drop decision and the default stated.</p>
+<div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">app.launchdarkly.com/settings/billing/plans · January 2027 · Foundation customer</span></div>
+<div class="app nosb"><div class="main bill"><div class="card"><div class="row between"><div><b>Release Autopilot</b> <span class="tag acc">Included at no charge until Feb 1, 2027</span><div style="font-size:12px;color:var(--muted);margin-top:4px">At your current usage (9 connections, 2,400 MAU) it would be $31 per month from Feb 1: 4 connections past the included 5 at $6, and 1.4K MAU past the included 1K at $5. Billed monthly with your subscription. Your renewal date does not change.</div></div><div class="row"><span class="btn">Turn off before Feb 1</span><span class="btn pri">Keep Release Autopilot</span></div></div>
+<p style="font-size:12px;margin-top:8px">If you do nothing, Release Autopilot turns off on Feb 1. Running releases finish. Nothing else on your bill changes.</p>
+<div class="kpi"><div><b class="num">38</b><small>releases run automatically since Nov 16</small></div><div><b class="num">57%</b><small>of PRs that needed a flag got one</small></div><div><b class="num">1</b><small>guarded release rolled back on a metric regression</small></div><div><b class="num">0</b><small>production releases without a human approval</small></div></div></div>
+</div></div></div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill heavy">heavy</span><span class="own fnd">Foundation</span><span class="own bill">Billing</span>Computed price at current usage next to value. The example uses the included tiers (5 connections, 1K MAU) and the half rates. Owner: Foundation with Billing. Dependencies: usage read on the Plans page, Orb add-on, cancel flow.</p>
+</div>
+
+
+<h3 id="s7">S7 · The walkthrough: what Release Autopilot is like, in five clicks</h3>
+<div class="scope-meta"><div><b>Problem or opportunity</b><p>There is no in-product way to see the whole flow before setting anything up; the demo is a 20-minute internal Loom. A five-scene click-through, every sentence true to GA, serves S1 (the hero's visual) and S5 (the popover's "How it works").</p></div><div><b>How critical for Nov 16</b><p><span class="pill med">Medium</span> Not blocking; one plain modal, no video. v0 does the job, so no medium or heavy.</p></div></div>
+<div class="sizes" role="tablist" data-screen="s7"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0</button></div>
+<div class="size-panel" data-screen="s7" data-size="cur"><p class="desc">Nothing in product. The closest things are the Feature preview dialog (an enrollment switch per preview, not a walkthrough) and the AgentControl welcome page's five-image auto-advancing carousel.</p><p class="caption"><span class="pill fact">Current</span>No walkthrough exists.</p></div>
+<div class="size-panel" data-screen="s7" data-size="v0" hidden>
+<p class="desc">A LaunchPad modal opened from the Home hero, the settings empty state, or the popover. Click Next to step through it here.</p>
+<div class="wt-modal" data-wt>
+  <div class="wt-head"><h3>What Release Autopilot does</h3><span class="x">✕</span></div>
+  <div class="wt-stage"><span class="wt-step-label" data-wt-label>1 of 5</span>
+    <div class="wt-scene on" data-wt-scene="0"><div class="wt-mini"><div class="hd">github.com · acme-eng/web · Pull request #418</div><b>Add address autocomplete to checkout</b><div style="color:var(--muted);margin-top:2px">3 files changed · opened by jordan-acme</div></div><div class="wt-mini" style="border-color:var(--accent)"><div class="hd">launchdarkly[bot] · check</div><span class="tag good">Reviewed</span> Flag suggested. Awaiting approval. Does not block merge.</div></div>
+    <div class="wt-scene" data-wt-scene="1"><div class="wt-mini"><div class="hd">launchdarkly[bot] · comment</div><p style="margin:0 0 6px"><b>Suggests flag</b> <code>checkout-address-autocomplete</code> (changes checkout for all users).</p><p style="margin:0 0 6px"><b>Approve:</b> one revertible commit to this branch under your GitHub account. After merge: staging, then production 10% → 50% → 100%, each starting when your deployed code evaluates the flag.</p><p style="margin:0"><b>Do nothing:</b> nothing is created.</p></div></div>
+    <div class="wt-scene" data-wt-scene="2"><div class="wt-mini"><div class="hd">app.launchdarkly.com · Review · acme-eng/web PR #418</div><div class="row between"><div><b>Proposed flag</b> checkout-address-autocomplete</div><span class="tag good">Approved</span></div><div class="row between" style="margin-top:6px"><div><b>Release plan</b> staging → production, sequential after merge</div><span class="tag good">Approved</span></div></div><div class="wt-mini"><div class="hd">What happens</div><span class="tag acc">Now</span> Create the flag · push a commit wrapping the change<br><span class="tag" style="margin-top:4px">After merge</span> Release starts once the change deploys, beginning with staging</div></div>
+    <div class="wt-scene" data-wt-scene="3"><div class="wt-mini"><div class="hd">Flag release · checkout-address-autocomplete</div><div class="wt-env"><b>staging</b><div>Immediate release<div class="wt-bar"><span style="width:100%"></span></div></div><span class="tag good">Completed</span></div><div class="wt-env"><b>production</b><div>Progressive 10% → 50% → 100%<div class="wt-bar"><span style="width:50%"></span></div></div><span class="tag acc">In progress · 50%</span></div><div style="margin-top:8px;color:var(--muted)">Started when deployed code evaluated the flag. <span class="tag warn">Regression checks: not configured</span> Pause any time from this tab.</div></div></div>
+    <div class="wt-scene" data-wt-scene="4"><div class="wt-mini"><div class="hd">Later, once the flag has served one variation everywhere for 14 days</div><div class="wt-env"><b>production</b><div>Serving one variation everywhere</div><span class="tag good">Completed</span></div><div class="wt-env"><b>Code cleanup</b><div>Pull request #431 removes the flag from code. You approve and merge it.</div><span class="tag acc">Eligible</span></div><div class="wt-env"><b>Flag archival</b><div>Archive from this tab once the cleanup PR merges</div><span class="tag">Not ready</span></div></div></div>
+  </div>
+  <div class="wt-body">
+    <div data-wt-copy="0"><h4>A pull request opens</h4><p>Release Autopilot reviews every pull request on a connected repository and reports a result, including "no flag needed." It does not block merge.</p></div>
+    <div data-wt-copy="1" hidden><h4>It proposes a flag and a release plan</h4><p>The comment says what it suggests, what happens if you approve, whose account the commit lands under, and that nothing happens if you don't.</p></div>
+    <div data-wt-copy="2" hidden><h4>A member approves</h4><p>Approving the flag pushes one revertible commit to the branch. Approving the release schedules it for after merge. Approval is required on every pull request. Release Autopilot does not use your LaunchDarkly approval workflows at launch.</p></div>
+    <div data-wt-copy="3" hidden><h4>The release runs itself</h4><p>After merge, each environment starts when your deployed code evaluates the flag and follows the project's release policy. Connect a metric and it pauses on regression. Pause by hand any time.</p></div>
+    <div data-wt-copy="4" hidden><h4>It cleans up after itself</h4><p>Once the flag has no targeting changes for 14 days and serves one variation everywhere, a cleanup pull request removes it from code; you merge it, then archive the flag from the Release tab. Every step is in the audit log under the approving member.</p></div>
+    <div class="wt-foot"><div class="wt-dots"><i class="on"></i><i></i><i></i><i></i><i></i></div><div class="wt-nav"><button data-wt-prev disabled>Back</button><button class="pri" data-wt-next>Next</button></div></div>
+  </div>
+</div>
+<p class="caption"><span class="pill dir">Potential direction</span><span class="pill v0">v0</span><span class="own fnd">Foundation</span>Five scenes, each a real screen state, no video, and every sentence true to GA: "reports a result" and "does not block merge" are the agent-team asks in section 09, cleanup is a pull request a person merges, and archival is a button at GA (auto-archival is beta). Entry points: Home tile (A heavy), settings empty state "How it works," popover "How it works." Owner: Foundation. The Feature preview dialog shell could host it but its Switch does not apply, so a plain modal is cleaner.</p>
+</div>
+
+<h3 id="s8">S8 · Developer plan at a limit</h3>
+<div class="scope-meta"><div><b>Problem or opportunity</b><p>Developer includes Release Autopilot within 5 connections and 1K MAU, but the Autopilot-specific cap is a new limit type nobody owns. The platform's read-only mode already stops releases and policies when the platform caps are hit, so the honest v0 is one clause on the existing banner, held until the cap exists.</p></div><div><b>How critical for Nov 16</b><p><span class="pill fact">Low</span> Blocked on eng; the existing read-only mode covers the risk.</p></div></div>
+<div class="sizes" role="tablist" data-screen="s8"><button role="tab" aria-selected="true" data-size="cur">Current</button><button role="tab" aria-selected="false" data-size="v0">v0 (held)</button></div>
+<div class="size-panel" data-screen="s8" data-size="cur"><div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Developer account at a platform limit · sidebar footer · PlanUsageBanner today</span></div><div class="banner" style="background:var(--warn-soft)"><b>Account is read-only</b> of 5 Service connections, monthly usage limit reached (resets next month). <span class="btn sm pri">Upgrade to unlock</span><span class="btn sm ghost">Review usage</span></div></div><p class="caption"><span class="pill fact">Current</span>Real strings. Selective read-only already blocks flag, release, and policy changes; Automation settings are account-kind and stay editable.</p></div>
+<div class="size-panel" data-screen="s8" data-size="v0" hidden><div class="frame"><div class="bar"><i></i><i></i><i></i><span class="url">Same banner with one clause, when the Autopilot cap exists</span></div><div class="banner" style="background:var(--warn-soft)"><b>Account is read-only</b> of 5 Service connections, monthly usage limit reached (resets next month). <span class="diff add" style="padding:0 4px">Release Autopilot proposals pause too; existing flags keep working.</span> <span class="btn sm pri">Upgrade to unlock</span><span class="btn sm ghost">Review usage</span></div></div><p class="caption"><span class="pill gap">Blocked on eng</span><span class="own bill">Billing</span><span class="own fnd">Foundation</span>The banner takes no such prop today. Hold until the cap is built.</p></div>
+
+
+<h2 id="asks">06 · Asks and open questions</h2>
+<h4>Foundation can ship alone for Nov 16</h4>
+<ol>
+<li>Home hero (PosterSimHero shape), fifth tile and lane, flag-level CTA route; survey option with a New tag.</li>
+<li>One-time popover entry (role-aware CTA in the component), trial promo banner variant, plain-text email to Owners and Admins on launch day.</li>
+<li>Plan card bullets with popover text in the catalog yaml.</li>
+<li>Settings empty-state copy and the naming-page string pass, as a PR to the Autopilot team's components; docs link once DOCS-4436 publishes.</li>
+<li>Release policy seed with minutes-long steps in the Go trial seeder, next to the sample flags.</li>
+<li>Instrumentation with planType: hero and tile clicks, popover shown and clicked, settings reached, release created from the sample flag.</li>
+</ol>
+<h4>Small asks to the Autopilot team</h4>
+<ol>
+<li>Target the six flags to the trial and self-serve segments.</li>
+<li>A default-release-configuration variation for trial projects (Test on manual start, Production after previous) and the releases-service migration at Live for those accounts.</li>
+<li>One sentence under the review page title; confirm edited name, key, and maintainer are sent on approve.</li>
+<li>Release tab: the sample-flag paragraph and the guardrail sentence.</li>
+<li>Settings tracking adds planType; release-start notifier emits an analytics event.</li>
+</ol>
+<h4>Asks to the agent service</h4>
+<ol>
+<li>Always post a check result, including "no flag needed" with the reason, and never fail silently when auto-flagging is off.</li>
+<li>The 85-word comment: suggests, approve, do nothing; whose account the commit lands under; connect once; no seat means a member approves; does not block merge. Approving on an existing flag must say it will release it.</li>
+<li>Bot-authored commits with the approver as co-author, or the comment says "under your GitHub account."</li>
+<li>Agent events: PR reviewed, flag proposed, approved, declined, with repo and account.</li>
+</ol>
+<h4>Open questions</h4>
+<ul>
+<li>Feb 1 default and the date we start telling existing customers (section 00).</li>
+<li>Price display before January, and whether Billing accepts two half-rate limit types metered on the same quantities as connections and MAU.</li>
+<li>Who owns the default-release-configuration variation and the policy seed; without both, Day 0 has no Create button.</li>
+<li>The Guardian card on the trial Plans picker after Nov 16.</li>
+<li>Model and retention sentence, cleared by legal and the Vega team.</li>
+<li>When the GitHub auth holder leaves; branch protection and required reviewers; what the account-wide off switch does to running releases.</li>
+<li>Developer cap owner.</li>
+</ul>
+
+<h2 id="crit">07 · What the crits changed</h2>
+<p>Three personas (a fintech senior engineer as the nth engineer, a VP Engineering at a two-year Foundation customer, and a LaunchDarkly designer paired with the Autopilot eng lead verifying against gonfalon) reviewed three drafts. The changes that survived:</p>
+<ul>
+<li>The three-rung trust ladder is gone; approvalRequired exists only on Auto-flag and is on by default. Two switches plus a statement.</li>
+<li>Every safety claim is written to the code: pause only with a metric, environments start on flag evaluation, approvals bypassed at launch, commits under the approving member, revertible. Manual pause holds; guarded auto-rollback needs a metric.</li>
+<li>Author of record is the IC's deciding factor; bot authorship is a v0 ask with a stated fallback, and the sentence is identical on the settings page, the comment, the review page, the email, and the walkthrough.</li>
+<li>Owners do not log in, so the hand-off and the launch-day email are primary. "Included until Feb 1" needs a stated default. Hidden beats fake for the dashboard.</li>
+<li>Invented numbers and promises removed. Trial environments are Test and Production. Foundation has the audit log (30-day account-level window). Writers with GitHub auth can map repos.</li>
+<li>Billing is drawn in the only shape the catalog carries: the bundle selector as the opt-in pattern and the inclusions block as the "free until" slot.</li>
+<li>Every v0 is an edit to a real screen with the change outlined, and every scope shows Current first, with its problems listed under each frame.</li>
+<li>Draft 7: survey before Home with a hover tooltip; an alternate left-to-right hero; role-specific banner and flags-list card for existing customers; the nth-engineer notice mocked in section 04; "Map projects to repositories" clarified as the installed state of the existing settings page.</li>
+</ul>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.sizes').forEach(function(group){
+    var screen = group.getAttribute('data-screen');
+    group.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var size = btn.getAttribute('data-size');
+        group.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-selected', b === btn ? 'true' : 'false'); });
+        document.querySelectorAll('.size-panel[data-screen="'+screen+'"]').forEach(function(p){ p.hidden = p.getAttribute('data-size') !== size; });
+      });
+    });
+  });
+  document.querySelectorAll('[data-wt]').forEach(function(m){
+    var i=0, n=5;
+    var scenes=m.querySelectorAll('[data-wt-scene]'), copies=m.querySelectorAll('[data-wt-copy]'), dots=m.querySelectorAll('.wt-dots i');
+    var prev=m.querySelector('[data-wt-prev]'), next=m.querySelector('[data-wt-next]'), label=m.querySelector('[data-wt-label]');
+    function show(){ scenes.forEach(function(s,k){ s.classList.toggle('on', k===i); }); copies.forEach(function(c,k){ c.hidden = k!==i; }); dots.forEach(function(d,k){ d.classList.toggle('on', k===i); }); label.textContent=(i+1)+' of '+n; prev.disabled = i===0; next.textContent = i===n-1 ? 'Set up Release Autopilot' : 'Next'; }
+    prev.addEventListener('click', function(){ if(i>0){ i--; show(); } });
+    next.addEventListener('click', function(){ if(i<n-1){ i++; show(); } });
+    show();
+  });
+})();
+</script></body></html>
