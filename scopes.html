@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Release Autopilot Onboarding Scopes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--ground:#f7f7fa;--surface:#fff;--surface2:#f1f2f7;--ink:#1a1d2b;--ink2:#4a4f63;--muted:#6f7489;--line:#e2e4ec;--line2:#cfd3df;--accent:#405bff;--accentI:#2d44d4;--accentS:#e9edff;--good:#1f9d55;--goodS:#e3f6ea;--warn:#b86e00;--warnS:#fff3df;--bad:#d13d3d;--badS:#fde9e9;--violet:#6d3df0;--violetS:#efe9ff;--font:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#13151f;--surface:#1b1e2b;--surface2:#232736;--ink:#e9eaf2;--ink2:#c2c5d3;--muted:#8f93a8;--line:#2c3042;--line2:#3a3f55;--accent:#7a8dff;--accentI:#9eacff;--accentS:#232a4d;--good:#4fc27f;--goodS:#17372a;--warn:#e0a042;--warnS:#3b2e14;--bad:#f07070;--badS:#3d1f1f;--violet:#a98cff;--violetS:#2b2447}}
+:root[data-theme="dark"]{--ground:#13151f;--surface:#1b1e2b;--surface2:#232736;--ink:#e9eaf2;--ink2:#c2c5d3;--muted:#8f93a8;--line:#2c3042;--line2:#3a3f55;--accent:#7a8dff;--accentI:#9eacff;--accentS:#232a4d;--good:#4fc27f;--goodS:#17372a;--warn:#e0a042;--warnS:#3b2e14;--bad:#f07070;--badS:#3d1f1f;--violet:#a98cff;--violetS:#2b2447}
+*{box-sizing:border-box}body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55}
+.wrap{max-width:900px;margin:0 auto;padding:40px 28px 96px}
+a{color:var(--accentI);text-decoration:none}a:hover{text-decoration:underline}
+h1{font-size:32px;font-weight:600;letter-spacing:-.01em;margin:0 0 8px;text-wrap:balance}
+h2{font-size:22px;font-weight:600;margin:52px 0 10px;padding-top:22px;border-top:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:28px 0 6px}
+p{margin:8px 0;max-width:74ch}
+ul{margin:6px 0;padding-left:22px;max-width:74ch}li{margin:4px 0}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin:10px 0 24px}
+.tier{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 9px;border-radius:999px;margin-right:8px;vertical-align:middle}
+.must{background:var(--badS);color:var(--bad)}.should{background:var(--accentS);color:var(--accentI)}.could{background:var(--violetS);color:var(--violet)}
+.own{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:4px;border:1.5px solid;margin-left:4px;vertical-align:middle}
+.o-fnd{color:var(--good);border-color:var(--good)}.o-emsr{color:var(--accentI);border-color:var(--accent)}.o-vega{color:var(--violet);border-color:var(--violet)}.o-bill{color:var(--warn);border-color:var(--warn)}.o-mkt{color:#c2417c;border-color:#c2417c}
+.scope{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:18px 22px 16px;margin:14px 0 22px}
+.scope h3{margin:0 0 10px;font-size:18px}
+.scope dl{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;margin:0}
+.scope dt{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;padding-top:3px}
+.scope dd{margin:0;max-width:none}
+.scope dd ul{margin:0;padding-left:18px;max-width:none}
+.scope dd p{margin:0 0 4px;max-width:none}
+@media (max-width:640px){.scope dl{grid-template-columns:1fr}}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:4px 20px;padding:14px 18px;background:var(--surface);border:1px solid var(--line);border-radius:10px;margin:0 0 10px;font-size:14px}
+.journey{display:grid;grid-template-columns:170px 1fr;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden;margin:16px 0}
+.journey>div{padding:12px 14px;border-bottom:1px solid var(--line);font-size:14px}
+.journey>div:nth-last-child(-n+2){border-bottom:0}
+.journey .st{background:var(--surface2);font-weight:600;font-size:13px}.journey .st small{display:block;font-weight:400;color:var(--muted)}
+.journey .r{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.journey .r b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:3px}
+@media (max-width:760px){.journey{grid-template-columns:1fr}.journey .r{grid-template-columns:1fr}}
+.note{padding:12px 16px;border-left:3px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0;margin:14px 0}
+.note p{max-width:none}
+code{font-family:var(--mono);font-size:.88em;background:var(--surface2);padding:1px 5px;border-radius:4px}
+</style></head><body>
+<div class="wrap">
+<p class="eyebrow">Foundation / PLG · Release Autopilot GA · Nov 16, 2026</p>
+<h1>Release Autopilot onboarding scopes</h1>
+<p>This is the scoping doc for the self-serve side of the Release Autopilot launch: trialists, Foundation and Developer customers, and the engineers who meet it in a pull request. It sits on top of the <a href="index.html">brief</a>, which has the mocks and the evidence, and the <a href="journey-map.html">journey map</a>. Everything here is grounded in what is actually in gonfalon main and what the GTM leaders have decided, so when I say something is a dead end today I mean I checked the code.</p>
+<div class="meta"><span>Natalie Friedman</span><span>Oct 22, 2026</span><span>Owners: <span class="own o-fnd">Foundation</span><span class="own o-emsr">Autopilot team</span><span class="own o-vega">Agent service</span><span class="own o-bill">Billing</span><span class="own o-mkt">Marketing</span></span></div>
+
+<div class="toc">
+<a href="#approach">The approach: a mile wide, an inch deep</a>
+<a href="#decisions">Working decisions</a>
+<a href="#must">Must for Nov 16</a>
+<a href="#should">Should, Dec into Jan</a>
+<a href="#could">Could, Q1</a>
+<a href="#journey">End to end, what must be solved</a>
+</div>
+
+<h2 id="approach">The approach: a mile wide, an inch deep</h2>
+<p>We believe the onboarding fails at its weakest link, not its shallowest one. A trialist who can't find Release Autopilot never reaches the setup page, an admin who installs the GitHub App and then watches a release sit at "Not ready" forever never invites the team, and an engineer who can't tell whether the bot ran declines the next suggestion. Any one of those breaks the whole journey, and polishing one of them doesn't rescue the others.</p>
+<p>So for Nov 16 we're proposing the thinnest honest touch on every surface the journey passes through, rather than a deep experience on one or two. That means a survey option and a hero on Home, prerequisites and the GitHub steps on the settings page, a Day 0 release that actually runs, a PR comment that reports a result every time, a banner and a card that tell existing customers it's included, and one bullet on the Plans card that says what happens on Feb 1. Each is a copy or data change to a screen that exists, so each one is small, and together they make the journey complete.</p>
+<p>Depth comes in December and January, informed by what the instrumentation tells us about where people actually stall. Tim expects no customer to run this in production before January anyway, so we have the time, provided every surface says something true on Nov 16.</p>
+
+<h2 id="decisions">Working decisions</h2>
+<ul>
+<li>Marketing launch is Nov 5. Product launch, meaning sellable, is Nov 16. Both decided.</li>
+<li>On Nov 16 it's available to trials (the Guardian prospect trial), Developer within its plan limits, Foundation, and Enterprise as an invoiced add-on. Self-serve purchase opens in January. Decided Oct 16.</li>
+<li>Foundation gets it at no charge until Feb 1, 2027, and charging starts then through Orb. Decided.</li>
+<li>The price is a 50% uplift on service connections and MAU. In product the catalog can only carry that as two usage rows at half the platform rates, so $6 per connection and $5 per 1K client-side MAU past the included 5 and 1,000. Rate decided, representation proposed.</li>
+<li>What happens on Feb 1 to an account that set it up and never chose is not decided. We're proposing default off, running releases finish, renewal and billing date unchanged, and that sentence on the Plans page from Nov 16. Needs Tim, Vince, and Billing.</li>
+<li>When we tell existing customers we'll charge is not decided either. We're proposing the Plans row from Nov 16, an email to Owners and Admins on Jan 5 and Jan 20, and a keep-or-drop card in product from Jan 5. Marketing probably owns the email, which we need to confirm.</li>
+</ul>
+
+<h2 id="must">Must for Nov 16</h2>
+<p>These are the scopes without which the journey has a hole in it. All of them are edits to screens that exist today.</p>
+
+<div class="scope"><h3><span class="tier must">Must</span>1 · Turn it on for self-serve, and measure it <span class="own o-emsr">Autopilot team</span><span class="own o-fnd">Foundation</span></h3>
+<dl>
+<dt>Problem</dt><dd>Nothing about Release Autopilot is visible to any trial, Foundation, or Developer account today, because access is six dogfood flags targeted at five design-partner accounts, and there is no plan or entitlement check anywhere in the code.</dd>
+<dt>For who</dt><dd>Every self-serve account, and us, since without instrumentation we can't see where the journey stalls.</dd>
+<dt>Existing surface</dt><dd>The flags <code>enable-factory-settings</code>, <code>enable-flag-overview</code>, <code>enable-release-autopilot-review-page</code>, <code>enable-manual-release-triggers</code>, the scheduler flag, and <code>enable-release-coordinator-webhook</code> (already on for everyone). The releases dashboard flag stays off because the dashboard still reads a mock API.</dd>
+<dt>Problems to address</dt><dd><ul><li>Targeting has to move to plan-type segments for trial, Developer, and Foundation.</li><li>There is no self-serve funnel instrumentation. Settings tracking has no plan type, and the release-start notifier emits no analytics event.</li><li>The Developer cap for Autopilot is a new limit type nobody owns. The platform's read-only mode already stops releases at 5 connections or 1K MAU, so we can live without it for launch, but it needs an owner.</li></ul></dd>
+<dt>Requirements</dt><dd><ul><li>The five flags above targeted to the trial and self-serve segments on Nov 16.</li><li>Events with plan type for: survey option chosen, hero and tile clicked, settings reached, GitHub installed, repo mapped, release created from the sample flag, first PR commented, first approval, first release started.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier must">Must</span>2 · Discovery on Day 0: the welcome survey and Home <span class="own o-fnd">Foundation</span></h3>
+<dl>
+<dt>Problem</dt><dd>A trialist cannot learn that Release Autopilot exists. The survey has five options and none is it, and Home is the four-tile roadmap with the hero slot empty since the sim hero was removed on Oct 13.</dd>
+<dt>For who</dt><dd>The sign-upper on Day 0, who is usually the person with intent and the account Owner.</dd>
+<dt>Existing surface</dt><dd>The welcome survey's "What do you want to set up first?" toggle group, where "Guarded release" is already a UI-only value that preselects a Home lane. The Home roadmap, whose tiles, lanes, and learning pane are all data in a Foundation-owned package, and the empty slot above it.</dd>
+<dt>Problems to address</dt><dd><ul><li>No option on the one question that decides what Home shows first, and no way to explain an option.</li><li>Nothing on Home names it, so the only path to setup is three clicks deep behind a flag.</li><li>The hero slot is empty.</li></ul></dd>
+<dt>Requirements</dt><dd><ul><li>A sixth survey option, "Release Autopilot," with a New tag and a hover tooltip that says what it is, wired the same way as "Guarded release."</li><li>A hero above the roadmap with a New badge, one sentence on what it does, a visual of the whole flow (PR, proposal, approval, release, cleanup), and two CTAs: set it up, and watch a release on the sample flag.</li><li>A fifth tile and lane, with the lane ordered so the GitHub step comes second (it can stall for days on an org admin) and the metric step is core, not "nice to have."</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier must">Must</span>3 · Setup: the Release Autopilot settings page <span class="own o-emsr">Autopilot team</span><span class="own o-fnd">Foundation</span></h3>
+<dl>
+<dt>Problem</dt><dd>The only setup surface puts the button before the prerequisites, says nothing about where diffs go or whose name lands on commits, still says "Factory" in four strings, and sends people to a separate Integrations drawer to connect GitHub.</dd>
+<dt>For who</dt><dd>The first admin, who makes the decisions nobody else can: which repo, whether auto-flag is on, whether auto-release is on and under which policy, and whether a metric guards production.</dd>
+<dt>Existing surface</dt><dd><code>/settings/release-autopilot</code>, reachable from the settings rail and the GitHub App drawer. "Map projects to repositories" is this page's installed state, not a separate page.</dd>
+<dt>Problems to address</dt><dd><ul><li>Prerequisites are never stated: a GitHub org admin, private repos only, a release policy on the project, AI terms or BYOK.</li><li>Silent on the model that reads diffs, its retention, author of record, and the fact that LaunchDarkly approval workflows are bypassed at launch.</li><li>Four "Factory" strings and a placeholder docs link marked TODO.</li><li>The GitHub connect steps live in a drawer on another page.</li></ul></dd>
+<dt>Requirements</dt><dd><ul><li>Prerequisites and the data-flow sentence above the first button, with the model and retention words filled in by legal and the Vega team.</li><li>The two GitHub steps (install the app, authorize your account) inline on this page.</li><li>One statement of the trust default: approval is required on every pull request, commits are pushed under the approving member's GitHub account and can be reverted, approval workflows are not used at launch, every action is in the audit log.</li><li>The string pass to the naming page, and a real docs link.</li><li>An "I am not the GitHub admin" affordance that copies a request.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier must">Must</span>4 · A Day 0 release that actually runs <span class="own o-emsr">Autopilot team</span><span class="own o-fnd">Foundation</span></h3>
+<dl>
+<dt>Problem</dt><dd>The one part of Release Autopilot that works without GitHub, creating a release from a flag's Release tab, is a dead end for every self-serve account, and even on catfood a release created there sits at "Not ready" forever.</dd>
+<dt>For who</dt><dd>The trialist on Day 0 who wants to see something happen before asking anyone for anything, and anyone later who wants to watch a release.</dd>
+<dt>Existing surface</dt><dd>The flag's Release tab, its Create flag release dialog, Start release, and Pause auto-release.</dd>
+<dt>Problems to address</dt><dd><ul><li>No Create button, because the project has no default release configuration and the only live variation of that flag is "CATFOOD ONLY."</li><li>A release created from the tab is never scheduled. It is stored with PR state "pending," and the scheduler only claims configs stamped "merged" by the GitHub App, so with no PR the stamp never arrives. This is why the screenshot shows "No PR found" and every environment "Not ready."</li><li>Every environment defaults to the flag-evaluation trigger, which never fires on a flag nothing evaluates, so a release waits three weeks and expires.</li><li>Nothing seeds a release policy, so auto-release reads "Policy needed."</li><li>The empty state is one sentence with no picture, no safety statement, and nothing that says the sample flag is safe to try.</li></ul></dd>
+<dt>Requirements</dt><dd><ul><li>Configs created without a PR are eligible for scheduling.</li><li>A default-release-configuration variation for trial projects (Test, then Production, sequential), the manual-trigger flag and the releases-service migration at Live for those accounts, and a seeded progressive policy with minutes-long steps so the sample finishes in a session.</li><li>Test on manual start and Production after previous for the sample flag.</li><li>The empty state shows the two environments it will create with their triggers and shapes, says that nothing changes for users on the sample flag, that pausing holds, and that no metric means no automatic pause.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier must">Must</span>5 · The pull request: a result every time, and a comment you can read in 20 seconds <span class="own o-vega">Agent service</span><span class="own o-emsr">Autopilot team</span></h3>
+<dl>
+<dt>Problem</dt><dd>Suggestion acceptance is 17 to 19%. Engineers can't tell whether it ran, can't parse the comment, get surprised when approving on an existing flag silently releases it, and are asked to approve a commit they can't review.</dd>
+<dt>For who</dt><dd>The nth engineer, who did not choose any of this, may have no LaunchDarkly seat, and decides adoption. They don't need separate onboarding, they need the PR itself to explain what is happening.</dd>
+<dt>Existing surface</dt><dd>The GitHub check, the bot comment, the one-time OAuth prompt, and the review page at <code>/review/{owner}/{repo}/pull/{n}</code>.</dd>
+<dt>Problems to address</dt><dd><ul><li>"No flag needed" was emoji-only until Oct 2 and has been seen since, and auto-flag being off fails silently.</li><li>The comment is a rationale, a plan block, and eleven reply commands. "A pretty tough blurb of text to parse."</li><li>Approving on an existing flag releases it without saying so.</li><li>The commit lands under the engineer's account; bot authorship isn't built.</li><li>The review page has no sentence saying what the two approve buttons do, and it drops edited name, key, and maintainer on approve.</li></ul></dd>
+<dt>Requirements</dt><dd><ul><li>Always post a check result, including "no flag needed" with the reason, and never fail silently.</li><li>A comment of roughly 85 words: what it suggests, what approving does and under whose account, that doing nothing creates nothing, that the check does not block merge, that first-timers connect GitHub once, and that a member approves when the author has no seat. Approving on an existing flag must say it will release it.</li><li>Bot-authored commits with the approver as co-author, or the comment says "under your GitHub account."</li><li>One sentence under the review page title, and either honour the edits or make the fields read-only.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier must">Must</span>6 · Existing Foundation and Developer customers hear about it <span class="own o-fnd">Foundation</span><span class="own o-mkt">Marketing</span></h3>
+<dl>
+<dt>Problem</dt><dd>Foundation and Developer accounts get Release Autopilot included on Nov 16 and hear nothing. The in-product popover catalog is empty, the beta banner targets Enterprise and Guardian plan types, and Owners who don't log in hear nothing from any banner.</dd>
+<dt>For who</dt><dd>Owners and Admins, who need to see what it does and then make the setup decisions; Writers and Maintainers, who hear first and can't flip the switches; Readers and leaders, who need to know where to watch.</dd>
+<dt>Existing surface</dt><dd>The promo banner slot in the top banner stack, the slot above the flags list where "SDK not connected" renders for trials, the one-time popover system, and email.</dd>
+<dt>Problems to address</dt><dd><ul><li>No in-product mention for the plans that get it included.</li><li>Nothing shows what it looks like; the demo is a 20-minute internal Loom.</li><li>Nobody owns the launch email to Owners and Admins, which is the only surface that reaches people who don't log in.</li><li>The same message is wrong for all three roles.</li></ul></dd>
+<dt>Requirements</dt><dd><ul><li>A banner and a dismissible card above the flags list, each with role-specific copy and CTAs: Owners and Admins get "Set up," Writers get "Ask your admin" (which copies the request), Readers get "Open a flag's Release tab," and everyone gets "See how it works."</li><li>The card carries a small visual of the five-step flow.</li><li>A launch-day email to Owners and Admins with the four facts: what it does, included until Feb 1 and what happens then, approval required, what the team will see. Confirm with Kellye King whether Marketing owns it.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier must">Must</span>7 · The Plans page says it's included, and what Feb 1 means <span class="own o-fnd">Foundation</span><span class="own o-bill">Billing</span></h3>
+<dl>
+<dt>Problem</dt><dd>Nothing in the self-serve billing flow says Release Autopilot is included or what it costs after Feb 1, and "free until" reads as a trap to a leader unless the default is stated. The trial picker also still sells a Guardian card that ends on Nov 16.</dd>
+<dt>For who</dt><dd>The leader deciding on Day 10 to 14, and every Foundation Owner approaching Feb 1.</dd>
+<dt>Existing surface</dt><dd>The catalog-driven plan cards ("Choose a plan," three cards with feature bullets and an info popover), Customize's read-only rate table, and Check out, which has no line items.</dd>
+<dt>Problems to address</dt><dd><ul><li>No bullet, no price, no Feb 1 sentence anywhere.</li><li>Check out has no row to put a line item on, so the sentence has to live in the price summary.</li><li>The Guardian card offers a package that stops being sold, and Enterprise has checkout unavailable in the catalog.</li></ul></dd>
+<dt>Requirements</dt><dd><ul><li>A feature bullet on the Developer and Foundation cards with popover text that states the Feb 1 date, the default, and the price past the included amounts.</li><li>A decision on the Guardian card before Nov 16.</li><li>Every Feb 1 sentence waits on the default decision.</li></ul></dd>
+</dl></div>
+
+<h2 id="should">Should, December into January</h2>
+<p>These deepen the surfaces that v0 only touches, and most of them depend on something landing first: the dashboard's list API, the one-time popover reading connected repos, or Orb phase 2.</p>
+
+<div class="scope"><h3><span class="tier should">Should</span>8 · A setup checklist page <span class="own o-fnd">Foundation</span><span class="own o-emsr">Autopilot team</span></h3>
+<dl>
+<dt>Problem</dt><dd>Setup is four things on three pages (GitHub, settings, SDK, metric), and nothing tracks where someone is.</dd>
+<dt>For who</dt><dd>The first admin, especially one who installs GitHub on Day 0 and comes back on Day 2.</dd>
+<dt>Existing surface</dt><dd>The SDK setup page's step primitive, which already has a connect-a-private-repo step and an open-the-PR step with completion checks. The AgentControl welcome page was the other candidate, but it's a CTA splash with no step model.</dd>
+<dt>Problems to address</dt><dd><ul><li>No single place that shows which prerequisites are done.</li><li>The hero's CTA has nowhere better to go than the settings page.</li></ul></dd>
+<dt>Requirements</dt><dd><ul><li>A new route on the existing step primitive with four steps: connect a private repository or send the request to your admin, install the SDK, add a metric for production, open a pull request. Completion read from the GitHub status hook and the SDK active poll.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier should">Should</span>9 · First-visit help on the review page, and an approval record <span class="own o-emsr">Autopilot team</span></h3>
+<dl>
+<dt>Problem</dt><dd>A member who has never approved doesn't know what the two buttons do, and a leader has no record to hand an auditor after merge.</dd>
+<dt>For who</dt><dd>First-time approvers, and Foundation Owners who will be asked for SOC 2 evidence.</dd>
+<dt>Existing surface</dt><dd>The review page. The one-time popover's per-member dismissal hook is reusable for "has approved before."</dd>
+<dt>Requirements</dt><dd><ul><li>A dismissible first-visit panel with three facts, reusing the "What happens" strings.</li><li>A "Regression checks: not configured" tag on the release plan when no metric is attached.</li><li>An approval record line (who, when, PR) that stays on the page after merge.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier should">Should</span>10 · The one-time notice for invited members <span class="own o-fnd">Foundation</span></h3>
+<dl>
+<dt>Problem</dt><dd>An engineer invited after Release Autopilot is on learns about it from a bot in their PR with no context.</dd>
+<dt>For who</dt><dd>Invited members whose repos are connected. They don't need onboarding, they need to know it's on, who turned it on, and that rejecting has no consequence.</dd>
+<dt>Existing surface</dt><dd>The one-time popover system, keyed per member.</dd>
+<dt>Requirements</dt><dd><ul><li>On first visit after a repo they commit to is connected: the repo, who turned it on and when, that nothing is created unless a member approves, that rejecting or ignoring has no consequence, and that they'll connect GitHub once. CTA to the walkthrough, no route to settings.</li><li>Depends on the popover reading connected repos and the admin's name, which it can't today.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier should">Should</span>11 · The releases dashboard first run, once its API is real <span class="own o-emsr">Autopilot team</span></h3>
+<dl>
+<dt>Problem</dt><dd>The dashboard reads a mock API and has no first-run state, so for self-serve it stays hidden at launch and the flag's Release tab carries the watching job.</dd>
+<dt>For who</dt><dd>Leaders who want one place for all releases and a coverage number with a real denominator.</dd>
+<dt>Requirements</dt><dd><ul><li>Hidden until the list API lands. Then a first-run state that keeps the four category toggles, shows setup status, and says "Regression checks: not configured" where true.</li><li>Coverage counted as flags proposed and approved over PRs the agent reviewed, never all merged PRs.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier should">Should</span>12 · Billing in product for January: the opt-in and the rows <span class="own o-fnd">Foundation</span><span class="own o-bill">Billing</span></h3>
+<dl>
+<dt>Problem</dt><dd>Self-serve purchase opens in January and there's no way to opt in or see the rows.</dd>
+<dt>Existing surface</dt><dd>The bundle selector on the picker ("Add CodeControl"), the Customize rate table, the inclusions block that carried the retired "Try AgentControl free" string, and the Check out price summary.</dd>
+<dt>Requirements</dt><dd><ul><li>A bundle selector, "Add Release Autopilot," that swaps Foundation v3 for a v5 carrying two limit types at half the platform rates ($6 per connection, $5 per 1K MAU; $60 and $50 on annual).</li><li>An inclusions line in Customize, the two rows in the rate table, and one sentence in the Check out summary.</li><li>Billing will raise three things: metering the two rows on the same quantities as connections and MAU, keeping the Kubernetes discount off them, and Feb 1 being a plan-version transition.</li><li>Emails to Owners and Admins on Jan 5 and Jan 20 saying charging starts Feb 1, pending the Marketing conversation.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier should">Should</span>13 · The five-click walkthrough <span class="own o-fnd">Foundation</span></h3>
+<dl>
+<dt>Problem</dt><dd>There is no in-product way to see the whole flow before setting anything up.</dd>
+<dt>Existing surface</dt><dd>None; a plain LaunchPad modal. It's the "See how it works" target for the hero, the card, the settings page, and the invited-member notice.</dd>
+<dt>Requirements</dt><dd><ul><li>Five scenes, each a real screen state: PR opens, proposal, approval, release runs, cleanup. Every sentence true to GA, so cleanup is a PR a person merges and archival is a button.</li></ul></dd>
+</dl></div>
+
+<h2 id="could">Could, Q1</h2>
+
+<div class="scope"><h3><span class="tier could">Could</span>14 · A sample app that evaluates the sample flag <span class="own o-fnd">Foundation</span></h3>
+<dl>
+<dt>Problem</dt><dd>On Day 0 "started on flag evaluations" is never a true sentence, because nothing evaluates the sample flag.</dd>
+<dt>Requirements</dt><dd><ul><li>The SDK trial's sample-app pattern evaluating the sample flag in Production, so the release starts on its own, with the GitHub hand-off at the moment the release completes.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier could">Could</span>15 · Team rollout and attribution controls <span class="own o-emsr">Autopilot team</span><span class="own o-vega">Agent service</span></h3>
+<dl>
+<dt>Problem</dt><dd>"Every PR author has to set up," and security teams push back on commits raised under an engineer's name. Neither has a surface.</dd>
+<dt>Requirements</dt><dd><ul><li>A table of PR authors on connected repos and whether they've linked GitHub, with a copyable invite.</li><li>A setting for commits authored by launchdarkly[bot] with the approver as co-author.</li><li>A recommend-only mode, once the agent can honour it.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier could">Could</span>16 · The leader's overview and the Feb 1 keep-or-drop card <span class="own o-emsr">Autopilot team</span><span class="own o-fnd">Foundation</span><span class="own o-bill">Billing</span></h3>
+<dl>
+<dt>Problem</dt><dd>Leaders have no number to take to their team, and no place to decide before Feb 1 with the price at their usage.</dd>
+<dt>Requirements</dt><dd><ul><li>An overview with coverage, automation rate, and "production releases without a human approval" (which should be zero), plus a weekly email to the people who asked.</li><li>A Plans page card from Jan 5 that computes the monthly price at current usage, states the default, and offers keep or drop.</li></ul></dd>
+</dl></div>
+
+<div class="scope"><h3><span class="tier could">Could</span>17 · Agent-led setup, and the Developer cap <span class="own o-fnd">Foundation</span><span class="own o-bill">Billing</span></h3>
+<dl>
+<dt>Problem</dt><dd>There's no settings skill yet, so "set up with my coding agent" would be a dead control, and the Developer cap for Autopilot is a new limit type nobody owns.</dd>
+<dt>Requirements</dt><dd><ul><li>The settings skill in ai-tooling, then a button on the checklist page.</li><li>The limit type, then one clause on the existing read-only banner.</li></ul></dd>
+</dl></div>
+
+<h2 id="journey">End to end: what must be solved at each stage</h2>
+<p>The same journey as the map, read against the musts. The left column is what the person is doing, the middle is what has to be true for them to continue, and the right is the inch-deep thing we ship on Nov 16 to make it true. If the right column is empty, the stage is covered by what already exists.</p>
+<div class="journey">
+<div class="st">Day 0 · Signup<small>Sign-upper</small></div><div class="r"><div><b>Doing</b>Welcome survey, lands on Home.</div><div><b>Must be solved</b>Sees Release Autopilot framed and learns what it is in under a minute.</div><div><b>Nov 16</b>Survey option with a tooltip. Home hero with the five-step visual, the fifth tile and lane. (Scope 2)</div></div>
+<div class="st">Day 0 · First run<small>Sign-upper</small></div><div class="r"><div><b>Doing</b>Wants something to happen before asking anyone for anything.</div><div><b>Must be solved</b>Watches a release run itself on a flag nobody depends on, with no GitHub and no code.</div><div><b>Nov 16</b>The Release tab works: Create button, no-PR scheduling, manual start on Test, seeded policy, honest empty state. (Scope 4)</div></div>
+<div class="st">Day 0 to 2 · Setup<small>Sign-upper or their org admin</small></div><div class="r"><div><b>Doing</b>Finds where to turn it on, learns it needs a GitHub org admin.</div><div><b>Must be solved</b>Prerequisites, data flow, and author of record stated before any button. Nothing is created until a person approves.</div><div><b>Nov 16</b>Settings page copy, GitHub steps inline, "I am not the admin." (Scope 3)</div></div>
+<div class="st">Day 1 to 5 · First PR<small>Sign-upper, then nth engineer</small></div><div class="r"><div><b>Doing</b>Opens a pull request and waits to see what the bot does.</div><div><b>Must be solved</b>A clear result every time, including "no flag needed." What approving does and under whose name.</div><div><b>Nov 16</b>Always a check result, the 85-word comment, the review page sentence. (Scope 5)</div></div>
+<div class="st">Day 2 to 10 · Release on real code<small>Everyone</small></div><div class="r"><div><b>Doing</b>Deploys, then checks whether anything moved.</div><div><b>Must be solved</b>Sees progress, can pause, knows a metric is the only thing between Production and 100%.</div><div><b>Nov 16</b>Release tab exists; the guardrail sentence is the only addition. (Scope 4)</div></div>
+<div class="st">Day 10 to 14 · Decision<small>Leader</small></div><div class="r"><div><b>Doing</b>Decides whether to roll it out and whether to buy.</div><div><b>Must be solved</b>Knows what it costs, when, and what happens if they do nothing.</div><div><b>Nov 16</b>Plans card bullet and popover with the Feb 1 sentence. (Scope 7)</div></div>
+<div class="st">Existing customer · hears<small>Owner, Writer, Reader</small></div><div class="r"><div><b>Doing</b>Mid-work, in the flags list or not logged in at all.</div><div><b>Must be solved</b>Sees what it does and the four facts, with the right CTA for their role.</div><div><b>Nov 16</b>Role-specific banner and flags-list card, launch-day email. (Scope 6)</div></div>
+<div class="st">Everyone · measured<small>Us</small></div><div class="r"><div><b>Doing</b></div><div><b>Must be solved</b>We can see where people stall by plan type.</div><div><b>Nov 16</b>Flag targeting and the funnel events. (Scope 1)</div></div>
+</div>
+<div class="note"><p>The inch-deep version of every stage is a copy or data change to a screen that exists, plus one real fix (no-PR scheduling) and a handful of flags and a seed. That is the whole Nov 16 ask. Scopes 8 through 17 are how we go deep in December and January, in the order the instrumentation tells us to.</p></div>
+</div>
+</body></html>
